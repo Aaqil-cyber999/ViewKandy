@@ -277,6 +277,16 @@ The Playwright suite starts its own dev server on port **3100** (override with `
 npx playwright install chromium
 ```
 
+If the Playwright browser download is blocked, reuse an installed Chrome or Edge instead:
+
+```bash
+# macOS/Linux
+PLAYWRIGHT_CHANNEL=chrome npm run test:e2e
+
+# Windows PowerShell
+$env:PLAYWRIGHT_CHANNEL="chrome"; npm run test:e2e
+```
+
 Coverage includes:
 
 - **Unit:** distance/bearing/formatting, opening-hours parsing, budget estimates, route optimiser, itinerary generator, ICS/Markdown export, search ranking/filters, Zod validation, admin HMAC auth, weather codes/advice, seed-data honesty, Google Places normalisation/fallback, Overpass parsing/fallback and Street View URL generation.
@@ -289,8 +299,8 @@ Local verification (2026-11-12):
 | --- | --- |
 | `npm run typecheck` | Pass |
 | `npm run test` | **168 tests in 16 files — pass** |
-| `npm run build` | Pass — 24 routes generated |
-| `npm run test:e2e` | See the latest run; requires the Chromium download above |
+| `npm run build` | Pass — 32 routes generated |
+| `npm run test:e2e` | **21 tests in 2 projects — pass** (desktop + mobile, system Chrome via `PLAYWRIGHT_CHANNEL=chrome`) |
 
 The seed-honesty test fails the suite if anyone adds invented hours, fees, phones, ratings, photos or verification state to `data/seed/places.json`.
 

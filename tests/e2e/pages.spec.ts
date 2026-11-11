@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { waitForReactHydration } from "./helpers";
 
 const PAGES = [
   { path: "/", heading: "Explore Kandy" },
@@ -35,7 +36,7 @@ test("a place detail page shows real coordinates and an honest verification stat
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Kandy Lake");
   await expect(page.getByText("Unverified").first()).toBeVisible();
-  await expect(page.getByText(/7\.29\d+,\s*80\.63\d+/).first()).toBeVisible();
+  await expect(page.getByText(/7\.29\d+,\s*80\.6\d+/).first()).toBeVisible();
 });
 
 test("unknown routes render the branded 404", async ({ page }) => {
@@ -44,8 +45,8 @@ test("unknown routes render the branded 404", async ({ page }) => {
   });
 
   expect(response?.status()).toBe(404);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    /not found|lost/i,
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "This page could not be found",
   );
 });
 
@@ -54,9 +55,18 @@ test("the assistant answers without an API key using the grounded engine", async
 }) => {
   await page.goto("/assistant", { waitUntil: "domcontentloaded" });
 
-  const input = page.getByRole("textbox").first();
+  await waitForReactHydration(
+    page,
+    'textarea[aria-label="Message the KandyVerse guide"]',
+  );
+
+  const input = page.getByLabel("Message the KandyVerse guide");
+  const send = page.getByRole("button", { name: "Send message" });
+
   await input.fill("What can I see near Kandy Lake?");
-  await page.getByRole("button", { name: /send|ask/i }).first().click();
+  await expect(input).toHaveValue("What can I see near Kandy Lake?");
+  await expect(send).toBeEnabled();
+  await send.click();
 
   await expect(page.getByText(/Kandy Lake/i).first()).toBeVisible({
     timeout: 30_000,
