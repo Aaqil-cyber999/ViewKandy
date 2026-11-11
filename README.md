@@ -130,6 +130,7 @@ npm run start            # serve the production build
 npm run check            # typecheck + unit/component tests
 npm run icons            # regenerate PWA PNG icons (dependency-free)
 npm run db:check         # read-only database diagnostics
+npm run integrations:check # read-only live status of every external integration
 ```
 
 ---
@@ -150,12 +151,22 @@ Copy `.env.example` to `.env.local`. Secrets are server-only unless prefixed wit
 | `ADMIN_SESSION_SECRET` | Optional | Pins the HMAC session secret. Defaults to a hash of the password |
 | `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Optional | Browser key for Google Photorealistic 3D Tiles. Restrict by HTTP referrer |
 | `GOOGLE_MAPS_SERVER_API_KEY` | Optional | Server key for the Google Routes **and Places (New)** APIs. Restrict by API/IP. Never expose it |
-| `OVERPASS_ENDPOINT` | Optional | Overrides the default `https://overpass-api.de/api/interpreter` endpoint |
+| `OVERPASS_ENDPOINT` | Optional | First Overpass endpoint to try; the adapter falls back to `overpass-api.de` and `overpass.osm.ch` |
 | `NEXT_PUBLIC_CESIUM_ION_TOKEN` | Optional | Enables Cesium World Terrain and terrain sampling |
 | `OPENAI_API_KEY` | Optional | Enables the conversational AI assistant |
 | `OPENAI_MODEL` | Optional | Defaults to `gpt-4.1-mini` |
 
-Live Google Places is enabled only when `GOOGLE_MAPS_SERVER_API_KEY` is set. Overpass works without a key but depends on the public endpoint being reachable; both integrations fail closed with an explicit warning.
+Live Google Places is enabled only when `GOOGLE_MAPS_SERVER_API_KEY` is set. Overpass works without a key; the adapter tries the configured endpoint, then the public `overpass-api.de` and `overpass.osm.ch` mirrors, and fails closed with an explicit warning. Both integrations fail closed with an explicit warning.
+
+### Integration health check
+
+Run:
+
+```bash
+npm run integrations:check
+```
+
+This is read-only and never prints secrets. It checks the Postgres/PostGIS catalogue, Supabase Auth, OpenAI, a live Overpass query, Google key presence, Cesium ion and the admin login. `[warn]` means an optional integration is not configured; `[fail]` means a configured integration is unreachable and exits non-zero. Google live calls are skipped to avoid billing.
 
 ### Admin login
 

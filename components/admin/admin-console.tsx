@@ -406,18 +406,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
     [places],
   );
 
-  if (!session) {
-    return (
-      <div className="mx-auto flex min-h-[60vh] max-w-md items-center px-4 py-16">
-        <div className="w-full text-center text-sm text-slate-400">
-          <Loader2 className="mx-auto h-6 w-6 animate-spin text-accent" />
-          <p className="mt-3">Checking admin session…</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!session.authenticated) {
+  if (!session || !session.authenticated) {
     return (
       <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
         <div className="mb-6 text-center">
@@ -431,7 +420,14 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
           </p>
         </div>
 
-        {!session.configured ? (
+        {!session ? (
+          <Card>
+            <CardContent className="flex items-center justify-center gap-2 py-8 text-sm text-slate-400">
+              <Loader2 className="h-4 w-4 animate-spin text-accent" />
+              Checking admin session…
+            </CardContent>
+          </Card>
+        ) : !session.configured ? (
           <Card>
             <CardContent className="space-y-3">
               <p className="flex items-center gap-2 text-sm font-medium text-amber">

@@ -114,6 +114,16 @@ function unavailable(warning: string): OsmServicesResult {
   return { source: "unavailable", services: [], warning };
 }
 
+function overpassEndpoints(): string[] {
+  const configured = process.env.OVERPASS_ENDPOINT?.trim();
+  const endpoints = [
+    configured,
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.osm.ch/api/interpreter",
+  ].filter((endpoint): endpoint is string => Boolean(endpoint));
+  return [...new Set(endpoints)];
+}
+
 function buildQuery(center: LatLng, radius: number): string {
   const around = `around:${radius},${center.lat.toFixed(5)},${center.lng.toFixed(5)}`;
   return [
@@ -136,49 +146,51 @@ export async function fetchNearbyOsmServices(
   const hit = cache.get(cacheKey);
   if (hit && Date.now() - hit.at < CACHE_MS) return hit.data;
 
-  const endpoint = process.env.OVERPASS_ENDPOINT || "https://overpass-api.de/api/interpreter";
   const contact = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
-        "User-Agent": `KandyVerse/1.0 (+${contact})`,
-      },
-      body: new URLSearchParams({ data: buildQuery(center, radius) }).toString(),
-      signal: AbortSignal.timeout(9000),
-      cache: "no-store",
-    });
+  for (const endpoint of overpassEndpoints()) {
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+          "User-Agent": `KandyVerse/1.0 (+${contact})`,
+        },
+        body: new URLSearchParams({ data: buildQuery(center, radius) }).toString(),
+        signal: AbortSignal.timeout(9000),
+        cache: "no-store",
+      });
 
-    if (!response.ok) {
-      console.error(`[overpass] Overpass returned ${response.status}`);
-      return unavailable("Live OpenStreetMap services are unavailable right now.");
+      if (!response.ok) {
+        console.error(`[overpass] ${endpoint} returned ${response.status}`);
+        continue;
+      }
+
+      const parsed = overpassResponseSchema.safeParse(await response.json());
+      if (!parsed.success) {
+        console.error(`[overpass] ${endpoint} returned an unexpected response shape`);
+        continue;
+      }
+
+      const services = (parsed.data.elements ?? [])
+        .map((element) => normalizeOsmElement(element, center))
+        .filter((service): service is OsmService => service !== null)
+        .sort((a, b) => a.distanceMeters - b.distanceMeters)
+        .slice(0, 30);
+
+      const result: OsmServicesResult = {
+        source: "openstreetmap",
+        services,
+        fetchedAt: new Date().toISOString(),
+        license: "ODbL",
+      };
+      cache.set(cacheKey, { at: Date.now(), data: result });
+      return result;
+    } catch (error) {
+      console.error(`[overpass] ${endpoint} failed:`, error);
     }
-
-    const parsed = overpassResponseSchema.safeParse(await response.json());
-    if (!parsed.success) {
-      console.error("[overpass] unexpected response shape");
-      return unavailable("Live OpenStreetMap services could not be read.");
-    }
-
-    const services = (parsed.data.elements ?? [])
-      .map((element) => normalizeOsmElement(element, center))
-      .filter((service): service is OsmService => service !== null)
-      .sort((a, b) => a.distanceMeters - b.distanceMeters)
-      .slice(0, 30);
-
-    const result: OsmServicesResult = {
-      source: "openstreetmap",
-      services,
-      fetchedAt: new Date().toISOString(),
-      license: "ODbL",
-    };
-    cache.set(cacheKey, { at: Date.now(), data: result });
-    return result;
-  } catch (error) {
-    console.error("[overpass] fetch failed:", error);
-    return unavailable("Live OpenStreetMap services are unavailable right now.");
   }
+
+  return unavailable("Live OpenStreetMap services are unavailable right now.");
 }
