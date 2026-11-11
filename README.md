@@ -184,7 +184,7 @@ npm run db:check
 What each step does:
 
 - `db:bootstrap` — idempotently creates the `extensions` schema, enables PostGIS, puts `extensions` on the connection role's `search_path` (needed by the generated `geography` column), and prepares the storage bucket.
-- `db:migrate` — applies `drizzle/0000_open_hiroim.sql` (six tables, checks, indexes, RLS policies, GIST index and the generated PostGIS `location` column).
+- `db:migrate` — applies `drizzle/0000_open_hiroim.sql` (six tables, checks, indexes, RLS policies, GIST index and the generated PostGIS `location` column) through Drizzle's programmatic migrator. `db:generate` still uses `drizzle-kit`.
 - `db:seed` — upserts `data/seed/*.json` through Drizzle. Seeding is safe to re-run.
 
 Schema changes:
@@ -301,6 +301,7 @@ Local verification (2026-11-12):
 | `npm run test` | **168 tests in 16 files — pass** |
 | `npm run build` | Pass — 32 routes generated |
 | `npm run test:e2e` | **21 tests in 2 projects — pass** (desktop + mobile, system Chrome via `PLAYWRIGHT_CHANNEL=chrome`) |
+| `npm run db:setup` / `db:check` | Pass — Supabase Postgres 17.11, PostGIS 3.3.7, 12 categories and 34 places seeded |
 
 The seed-honesty test fails the suite if anyone adds invented hours, fees, phones, ratings, photos or verification state to `data/seed/places.json`.
 
@@ -398,8 +399,7 @@ types/                    Shared TypeScript types
 - **Live Google Places and Overpass paths were not exercised with real credentials/network during development.** The adapters, API routes, UI and unit tests are implemented with explicit fallbacks, but a deployment must validate them with restricted keys and a reachable Overpass endpoint. Google Places requires billing to be enabled.
 - **Street View is a deep link, not an embedded panorama.** This avoids exposing a billed key in the browser and avoids showing a panorama that may not exist for a coordinate.
 - **Google Photorealistic 3D Tiles coverage for Kandy is unverified.** The fallback globe + procedural massing is the primary experience and is labelled illustrative.
-- **No live API keys were available during development.** Google Routes, Google Places, OpenAI and Supabase Auth paths are implemented with fallbacks but their live responses were not exercised in this environment.
-- **The Supabase database was not reachable during development** (the supplied credential failed authentication). The Drizzle schema, migration, seed and diagnostics are implemented and tested locally, but a live `db:setup`/`db:check` must be run with a valid connection string.
+- **No live Google, OpenAI or Supabase Auth keys were available during development.** Google Routes, Google Places, OpenAI and Supabase Auth paths are implemented with fallbacks but their live responses were not exercised in this environment. The Postgres/PostGIS database has been provisioned and seeded.
 - **Admin auth is a single editorial role**, not a multi-user RBAC system. Do not expose `/admin` as a public account system.
 - **Account saves require Supabase Auth + RLS.** Local favourites, pins and itineraries work without an account.
 - **The planner is a deterministic estimate**, not live traffic. It uses straight-line distance, a detour factor and conservative speeds; it does not know road closures, events or queues.
@@ -412,12 +412,11 @@ types/                    Shared TypeScript types
 ## Next phase
 
 1. **Validate live integrations** with restricted Google Places/Routes keys and a production Overpass endpoint; add contract tests for upstream error shapes.
-2. **Production database verification:** run `db:setup`/`db:check` against Supabase, confirm RLS with anon/authenticated roles, the generated `geography` column and the GIST index.
-3. **Real editorial media:** credited, licensed photography through Supabase Storage with alt text and licence metadata.
-4. **Multi-user editorial RBAC** with invite-only accounts, per-action audit trails and review queues.
-5. **Offline itinerary packs:** cache a selected plan and its place records for genuine offline use.
-6. **Observability:** structured request logs, error tracking, rate-limit metrics and uptime checks for weather/routes/Overpass.
-7. **Performance budget:** Cesium bundle splitting, WebGL capability tiers and Lighthouse CI on mobile.
+2. **Real editorial media:** credited, licensed photography through Supabase Storage with alt text and licence metadata.
+3. **Multi-user editorial RBAC** with invite-only accounts, per-action audit trails and review queues.
+4. **Offline itinerary packs:** cache a selected plan and its place records for genuine offline use.
+5. **Observability:** structured request logs, error tracking, rate-limit metrics and uptime checks for weather/routes/Overpass.
+6. **Performance budget:** Cesium bundle splitting, WebGL capability tiers and Lighthouse CI on mobile.
 
 ---
 

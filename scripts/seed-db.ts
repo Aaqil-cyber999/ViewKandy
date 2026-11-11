@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { categories, places } from "../lib/db/schema";
@@ -16,7 +17,7 @@ if (!url) {
 
 function readSeed(name: string): unknown {
   return JSON.parse(
-    readFileSync(new URL(`../data/seed/${name}`, import.meta.url), "utf8"),
+    readFileSync(resolve(process.cwd(), "data", "seed", name), "utf8"),
   ) as unknown;
 }
 
@@ -39,65 +40,69 @@ const pool = new Pool({
 
 const db = drizzle(pool);
 
-try {
-  for (const category of parsedCategories) {
-    const row = {
-      id: category.id,
-      slug: category.slug,
-      name: category.name,
-      description: category.description,
-      color: category.color,
-      icon: category.icon,
-      order: category.order,
-    };
-    await db
-      .insert(categories)
-      .values(row)
-      .onConflictDoUpdate({ target: categories.id, set: row });
-  }
-  console.log(`[db:seed] upserted ${parsedCategories.length} categories`);
+async function main() {
+  try {
+    for (const category of parsedCategories) {
+      const row = {
+        id: category.id,
+        slug: category.slug,
+        name: category.name,
+        description: category.description,
+        color: category.color,
+        icon: category.icon,
+        order: category.order,
+      };
+      await db
+        .insert(categories)
+        .values(row)
+        .onConflictDoUpdate({ target: categories.id, set: row });
+    }
+    console.log(`[db:seed] upserted ${parsedCategories.length} categories`);
 
-  for (const place of parsedPlaces) {
-    const row = {
-      id: place.id,
-      slug: place.slug,
-      name: place.name,
-      categorySlug: place.category,
-      summary: place.summary,
-      description: place.description,
-      lat: place.lat,
-      lng: place.lng,
-      address: place.address,
-      website: place.website,
-      phone: place.phone,
-      openingHours: place.openingHours,
-      entryFeeLkr: place.entryFeeLkr === null ? null : String(place.entryFeeLkr),
-      estimatedVisitMinutes: place.estimatedVisitMinutes,
-      accessibility: place.accessibility,
-      tags: place.tags,
-      indoor: place.indoor,
-      bestTime: place.bestTime,
-      practicalNotes: place.practicalNotes,
-      verificationStatus: place.verification.status,
-      verificationSource: place.verification.source,
-      verificationSourceUrl: place.verification.sourceUrl,
-      lastVerifiedAt: place.verification.lastVerifiedAt
-        ? new Date(place.verification.lastVerifiedAt)
-        : null,
-      locationAccuracy: place.locationAccuracy,
-      featured: place.featured,
-      priority: place.priority,
-    };
-    const { id, ...updatable } = row;
-    await db
-      .insert(places)
-      .values(row)
-      .onConflictDoUpdate({ target: places.id, set: updatable });
+    for (const place of parsedPlaces) {
+      const row = {
+        id: place.id,
+        slug: place.slug,
+        name: place.name,
+        categorySlug: place.category,
+        summary: place.summary,
+        description: place.description,
+        lat: place.lat,
+        lng: place.lng,
+        address: place.address,
+        website: place.website,
+        phone: place.phone,
+        openingHours: place.openingHours,
+        entryFeeLkr: place.entryFeeLkr === null ? null : String(place.entryFeeLkr),
+        estimatedVisitMinutes: place.estimatedVisitMinutes,
+        accessibility: place.accessibility,
+        tags: place.tags,
+        indoor: place.indoor,
+        bestTime: place.bestTime,
+        practicalNotes: place.practicalNotes,
+        verificationStatus: place.verification.status,
+        verificationSource: place.verification.source,
+        verificationSourceUrl: place.verification.sourceUrl,
+        lastVerifiedAt: place.verification.lastVerifiedAt
+          ? new Date(place.verification.lastVerifiedAt)
+          : null,
+        locationAccuracy: place.locationAccuracy,
+        featured: place.featured,
+        priority: place.priority,
+      };
+      const { id, ...updatable } = row;
+      await db
+        .insert(places)
+        .values(row)
+        .onConflictDoUpdate({ target: places.id, set: updatable });
+    }
+    console.log(`[db:seed] upserted ${parsedPlaces.length} places (all unverified by design)`);
+  } catch (error) {
+    console.error("[db:seed] failed:", error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+  } finally {
+    await pool.end().catch(() => undefined);
   }
-  console.log(`[db:seed] upserted ${parsedPlaces.length} places (all unverified by design)`);
-} catch (error) {
-  console.error("[db:seed] failed:", error instanceof Error ? error.message : error);
-  process.exitCode = 1;
-} finally {
-  await pool.end().catch(() => undefined);
 }
+
+void main();
