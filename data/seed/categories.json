@@ -1,0 +1,110 @@
+[
+  {
+    "id": "cat-heritage",
+    "slug": "heritage",
+    "name": "Heritage & History",
+    "description": "Palaces, colonial landmarks and living history.",
+    "color": "#f59e0b",
+    "icon": "landmark",
+    "order": 1
+  },
+  {
+    "id": "cat-religious",
+    "slug": "religious",
+    "name": "Sacred Sites",
+    "description": "Temples, churches and places of worship.",
+    "color": "#fbbf24",
+    "icon": "flame",
+    "order": 2
+  },
+  {
+    "id": "cat-nature",
+    "slug": "nature",
+    "name": "Nature & Gardens",
+    "description": "Forest reserves, gardens and green escapes.",
+    "color": "#34d399",
+    "icon": "trees",
+    "order": 3
+  },
+  {
+    "id": "cat-viewpoint",
+    "slug": "viewpoint",
+    "name": "Viewpoints",
+    "description": "Hills, rooftops and the best angles on Kandy.",
+    "color": "#38bdf8",
+    "icon": "mountain",
+    "order": 4
+  },
+  {
+    "id": "cat-museum",
+    "slug": "museum",
+    "name": "Museums",
+    "description": "Collections that explain Kandy's story.",
+    "color": "#a78bfa",
+    "icon": "building",
+    "order": 5
+  },
+  {
+    "id": "cat-experience",
+    "slug": "experience",
+    "name": "Experiences",
+    "description": "Walks, performances and things to do.",
+    "color": "#2dd4bf",
+    "icon": "ticket",
+    "order": 6
+  },
+  {
+    "id": "cat-food",
+    "slug": "food",
+    "name": "Food & Drink",
+    "description": "Rice and curry, hoppers, cafés and tea.",
+    "color": "#fb7185",
+    "icon": "utensils",
+    "order": 7
+  },
+  {
+    "id": "cat-hotel",
+    "slug": "hotel",
+    "name": "Stay",
+    "description": "Hotels and guesthouses in and around the city.",
+    "color": "#818cf8",
+    "icon": "bed",
+    "order": 8
+  },
+  {
+    "id": "cat-shopping",
+    "slug": "shopping",
+    "name": "Shopping",
+    "description": "Markets, malls and local craft.",
+    "color": "#e879f9",
+    "icon": "bag",
+    "order": 9
+  },
+  {
+    "id": "cat-transport",
+    "slug": "transport",
+    "name": "Transport",
+    "description": "Rail, bus and onward connections.",
+    "color": "#94a3b8",
+    "icon": "train",
+    "order": 10
+  },
+  {
+    "id": "cat-health",
+    "slug": "health",
+    "name": "Health & Safety",
+    "description": "Hospitals, pharmacies and practical help.",
+    "color": "#f87171",
+    "icon": "cross",
+    "order": 11
+  },
+  {
+    "id": "cat-services",
+    "slug": "services",
+    "name": "Services",
+    "description": "ATMs, toilets, parking and city services.",
+    "color": "#60a5fa",
+    "icon": "info",
+    "order": 12
+  }
+]

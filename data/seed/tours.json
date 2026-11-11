@@ -1,0 +1,267 @@
+[
+  {
+    "id": "tour-60",
+    "slug": "kandy-in-60-seconds",
+    "title": "Kandy in 60 Seconds",
+    "subtitle": "A cinematic flyover of the city's essential silhouette.",
+    "description": "Five camera moves from the lake to the hills. The fastest way to understand how Kandy is laid out before you start exploring.",
+    "theme": "overview",
+    "difficulty": "easy",
+    "durationSeconds": 75,
+    "coverTone": "cyan",
+    "stops": [
+      {
+        "placeSlug": "kandy-lake",
+        "dwellSeconds": 12,
+        "range": 900,
+        "pitch": -34,
+        "headline": "The lake at the centre",
+        "note": "Kandy was built around water and the palace. Everything radiates from here."
+      },
+      {
+        "placeSlug": "temple-of-the-sacred-tooth-relic",
+        "dwellSeconds": 14,
+        "range": 260,
+        "pitch": -28,
+        "headline": "The sacred precinct",
+        "note": "The Temple of the Tooth sits inside the old royal palace grounds."
+      },
+      {
+        "placeSlug": "bahirawakanda-buddha-statue",
+        "dwellSeconds": 13,
+        "range": 700,
+        "pitch": -24,
+        "headline": "Above the city",
+        "note": "The white Buddha watches over the western ridge."
+      },
+      {
+        "placeSlug": "rajapihilla-viewpoint",
+        "dwellSeconds": 13,
+        "range": 620,
+        "pitch": -20,
+        "headline": "The postcard view",
+        "note": "Lake, temple and hills in one frame."
+      },
+      {
+        "placeSlug": "udawattakele-forest-reserve",
+        "dwellSeconds": 13,
+        "range": 1200,
+        "pitch": -32,
+        "headline": "The green edge",
+        "note": "Forest reserve and the ridge that frames the valley."
+      }
+    ]
+  },
+  {
+    "id": "tour-sacred",
+    "slug": "sacred-kandy",
+    "title": "Sacred Kandy",
+    "subtitle": "Temples, monasteries and the living ritual of the city.",
+    "description": "Follow the Buddhist geography of Kandy from the Temple of the Tooth to the two great monastic chapters and the hilltop Buddha.",
+    "theme": "culture",
+    "difficulty": "easy",
+    "durationSeconds": 120,
+    "coverTone": "amber",
+    "stops": [
+      {
+        "placeSlug": "temple-of-the-sacred-tooth-relic",
+        "dwellSeconds": 20,
+        "range": 240,
+        "pitch": -26,
+        "headline": "Sri Dalada Maligawa",
+        "note": "The relic shrine and the daily thevava offering."
+      },
+      {
+        "placeSlug": "royal-palace-kandy",
+        "dwellSeconds": 16,
+        "range": 320,
+        "pitch": -30,
+        "headline": "The royal palace",
+        "note": "The temple was built within the king's own compound."
+      },
+      {
+        "placeSlug": "malwatte-maha-vihara",
+        "dwellSeconds": 16,
+        "range": 280,
+        "pitch": -30,
+        "headline": "Malwatte chapter",
+        "note": "One of the two fraternities guarding the relic tradition."
+      },
+      {
+        "placeSlug": "asgiriya-maha-vihara",
+        "dwellSeconds": 16,
+        "range": 300,
+        "pitch": -30,
+        "headline": "Asgiriya chapter",
+        "note": "Quieter monastic grounds north of the centre."
+      },
+      {
+        "placeSlug": "bahirawakanda-buddha-statue",
+        "dwellSeconds": 20,
+        "range": 420,
+        "pitch": -18,
+        "headline": "Bahirawakanda",
+        "note": "A modern pilgrimage site with the city at its feet."
+      }
+    ]
+  },
+  {
+    "id": "tour-lake",
+    "slug": "kandy-lake-loop",
+    "title": "Kandy Lake Loop",
+    "subtitle": "A short walk around the water and the old city edge.",
+    "description": "A practical micro-tour you can follow on foot: lake path, temple, church and the colonial hotel frontage.",
+    "theme": "walk",
+    "difficulty": "easy",
+    "durationSeconds": 95,
+    "coverTone": "mint",
+    "stops": [
+      {
+        "placeSlug": "kandy-lake",
+        "dwellSeconds": 16,
+        "range": 520,
+        "pitch": -40,
+        "headline": "Kiri Muhuda",
+        "note": "The 1807 lake and its royal bathing island."
+      },
+      {
+        "placeSlug": "temple-of-the-sacred-tooth-relic",
+        "dwellSeconds": 18,
+        "range": 230,
+        "pitch": -26,
+        "headline": "North shore",
+        "note": "The temple precinct opens directly onto the lake."
+      },
+      {
+        "placeSlug": "st-pauls-church-kandy",
+        "dwellSeconds": 14,
+        "range": 200,
+        "pitch": -24,
+        "headline": "St. Paul's",
+        "note": "A quiet Anglican church from the garrison era."
+      },
+      {
+        "placeSlug": "queens-hotel-kandy",
+        "dwellSeconds": 14,
+        "range": 240,
+        "pitch": -24,
+        "headline": "Colonial frontage",
+        "note": "The long veranda facing the lake."
+      },
+      {
+        "placeSlug": "rajapihilla-viewpoint",
+        "dwellSeconds": 18,
+        "range": 480,
+        "pitch": -22,
+        "headline": "Above the loop",
+        "note": "Climb the ridge for the whole circuit in one view."
+      }
+    ]
+  },
+  {
+    "id": "tour-historic",
+    "slug": "historic-kandy",
+    "title": "Historic Kandy",
+    "subtitle": "Kingdom, colony and the layers between.",
+    "description": "From the royal palace to the garrison cemetery, this tour traces the political history of the city in five stops.",
+    "theme": "history",
+    "difficulty": "medium",
+    "durationSeconds": 110,
+    "coverTone": "violet",
+    "stops": [
+      {
+        "placeSlug": "royal-palace-kandy",
+        "dwellSeconds": 18,
+        "range": 300,
+        "pitch": -28,
+        "headline": "The last kingdom",
+        "note": "Kandy held out against colonial powers longer than any other Sri Lankan kingdom."
+      },
+      {
+        "placeSlug": "national-museum-kandy",
+        "dwellSeconds": 16,
+        "range": 220,
+        "pitch": -24,
+        "headline": "Objects of the court",
+        "note": "Royal and craft collections in the palace complex."
+      },
+      {
+        "placeSlug": "kandy-clock-tower",
+        "dwellSeconds": 12,
+        "range": 220,
+        "pitch": -22,
+        "headline": "The colonial junction",
+        "note": "Civic Kandy reorganised around the station and the clock."
+      },
+      {
+        "placeSlug": "kandy-garrison-cemetery",
+        "dwellSeconds": 16,
+        "range": 260,
+        "pitch": -26,
+        "headline": "Garrison cemetery",
+        "note": "Memorials to soldiers, planters and administrators."
+      },
+      {
+        "placeSlug": "gadaladeniya-temple",
+        "dwellSeconds": 20,
+        "range": 420,
+        "pitch": -24,
+        "headline": "Before Kandy",
+        "note": "The 14th-century Gampola temples west of the city."
+      }
+    ]
+  },
+  {
+    "id": "tour-scenic",
+    "slug": "scenic-kandy",
+    "title": "Scenic Kandy",
+    "subtitle": "Ridges, tea gardens and the best light of the day.",
+    "description": "A hill-focused tour for photographers and anyone who wants to see the valley from above.",
+    "theme": "nature",
+    "difficulty": "medium",
+    "durationSeconds": 105,
+    "coverTone": "sky",
+    "stops": [
+      {
+        "placeSlug": "rajapihilla-viewpoint",
+        "dwellSeconds": 16,
+        "range": 480,
+        "pitch": -20,
+        "headline": "The classic angle",
+        "note": "Lake and temple from the western ridge."
+      },
+      {
+        "placeSlug": "bahirawakanda-buddha-statue",
+        "dwellSeconds": 18,
+        "range": 380,
+        "pitch": -16,
+        "headline": "Hilltop frame",
+        "note": "The city spreads north and east below the statue."
+      },
+      {
+        "placeSlug": "udawattakele-forest-reserve",
+        "dwellSeconds": 18,
+        "range": 900,
+        "pitch": -30,
+        "headline": "Canopy",
+        "note": "A protected forest on the ridge behind the palace."
+      },
+      {
+        "placeSlug": "ceylon-tea-museum",
+        "dwellSeconds": 16,
+        "range": 420,
+        "pitch": -22,
+        "headline": "Tea country begins",
+        "note": "The Hantana road climbs into cooler tea land."
+      },
+      {
+        "placeSlug": "hantana-viewpoint",
+        "dwellSeconds": 20,
+        "range": 1600,
+        "pitch": -26,
+        "headline": "Hantana",
+        "note": "Valley views towards the Knuckles foothills."
+      }
+    ]
+  }
+]

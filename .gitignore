@@ -1,0 +1,38 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# local editorial overrides and uploaded media
+.data/
+public/uploads/
+
+# generated Cesium / Leaflet runtime copies
+public/cesium/
+public/vendor/
+
+# tests
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# misc
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
