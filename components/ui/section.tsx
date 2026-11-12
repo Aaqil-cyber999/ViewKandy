@@ -74,17 +74,8 @@ export function PageIntro({
   children?: ReactNode;
 }) {
   return (
-    <div className="relative overflow-hidden border-b border-accent/20 bg-gradient-to-b from-accent-soft/80 via-canvas/70 to-transparent">
-      <div
-        aria-hidden
-        className="kv-aurora pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="kv-aurora pointer-events-none absolute -left-24 bottom-0 h-56 w-56 rounded-full bg-mint/10 blur-3xl"
-        style={{ animationDelay: "-6s" }}
-      />
-      <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8 lg:pt-16">
+    <div className="border-b border-accent/20 bg-gradient-to-b from-accent-soft/80 via-canvas/70 to-transparent">
+      <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8 lg:pt-16">
         <p className="kv-label">{eyebrow}</p>
         <h1 className="kv-display mt-3 max-w-3xl text-4xl font-semibold text-foreground sm:text-5xl">
           {title}

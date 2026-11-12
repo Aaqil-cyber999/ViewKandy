@@ -17,12 +17,9 @@ import { WeatherIcon } from "@/components/weather/weather-icon";
 import { CategoryIcon } from "@/components/places/category-icon";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Marquee } from "@/components/ui/marquee";
-import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section";
-import { SpotlightCard } from "@/components/ui/spotlight-card";
 import { listPlaces } from "@/lib/db";
-import { getCategory, seedCategories, seedTours } from "@/lib/data";
+import { seedCategories, seedTours } from "@/lib/data";
 import { fetchWeather, weatherAdvice } from "@/lib/weather/open-meteo";
 import type { PlaceWithDistance } from "@/types/place";
 
@@ -75,30 +72,6 @@ export default async function HomePage() {
         weatherLine={weatherLine}
       />
 
-      <div className="border-b border-accent/20 bg-accent-soft/70">
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <span className="kv-label hidden shrink-0 sm:inline">In the catalogue</span>
-          <Marquee className="min-w-0 flex-1">
-            {featured.map((place) => {
-              const category = getCategory(place.category);
-              return (
-                <Link
-                  key={place.slug}
-                  href={`/places/${place.slug}`}
-                  className="kv-focus inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-line/80 bg-surface/90 px-3 py-1.5 text-[11px] text-muted transition hover:border-accent/50 hover:text-foreground"
-                >
-                  <span
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: category.color }}
-                  />
-                  {place.name}
-                </Link>
-              );
-            })}
-          </Marquee>
-        </div>
-      </div>
-
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <section className="py-16" aria-labelledby="categories-heading">
           <SectionHeading
@@ -108,38 +81,36 @@ export default async function HomePage() {
             href="/explore"
             hrefLabel="Open the explorer"
           />
-          <Reveal>
-            <div className="mt-7 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
-              {seedCategories.map((category) => {
-                const count = places.filter((p) => p.category === category.slug).length;
-                return (
-                  <Link
-                    key={category.slug}
-                    href={`/explore?category=${category.slug}`}
-                    className="kv-focus group flex items-center gap-3 rounded-xl border border-line/90 bg-surface/90 px-3.5 py-3 shadow-[0_10px_30px_-26px_rgba(20,102,58,0.5)] transition hover:border-accent/50 hover:bg-surface"
+          <div className="mt-7 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
+            {seedCategories.map((category) => {
+              const count = places.filter((p) => p.category === category.slug).length;
+              return (
+                <Link
+                  key={category.slug}
+                  href={`/explore?category=${category.slug}`}
+                  className="kv-focus group flex items-center gap-3 rounded-xl border border-line/80 bg-surface/60 px-3.5 py-3 transition hover:border-accent/50 hover:bg-surface"
+                >
+                  <span
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border"
+                    style={{
+                      borderColor: `${category.color}44`,
+                      backgroundColor: `${category.color}14`,
+                      color: category.color,
+                    }}
                   >
-                    <span
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border"
-                      style={{
-                        borderColor: `${category.color}44`,
-                        backgroundColor: `${category.color}14`,
-                        color: category.color,
-                      }}
-                    >
-                      <CategoryIcon name={category.icon} className="h-4 w-4" />
+                    <CategoryIcon name={category.icon} className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[13px] font-medium text-foreground">
+                      {category.name}
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[13px] font-medium text-foreground">
-                        {category.name}
-                      </span>
-                      <span className="block text-[10px] text-muted-2">{count} places</span>
-                    </span>
-                    <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-2 transition group-hover:text-accent" />
-                  </Link>
-                );
-              })}
-            </div>
-          </Reveal>
+                    <span className="block text-[10px] text-muted-2">{count} places</span>
+                  </span>
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-2 transition group-hover:text-accent" />
+                </Link>
+              );
+            })}
+          </div>
         </section>
 
         <section className="border-t border-line/60 py-16" aria-labelledby="featured-heading">
@@ -151,18 +122,15 @@ export default async function HomePage() {
             hrefLabel="All places"
           />
           <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((place, index) => (
-              <Reveal key={place.slug} delay={index * 0.05} className="h-full">
-                <PlaceCard place={place} className="h-full" />
-              </Reveal>
+            {featured.map((place) => (
+              <PlaceCard key={place.slug} place={place} />
             ))}
           </div>
         </section>
 
         <section className="border-t border-line/60 py-16">
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <Reveal className="h-full">
-              <Card className="h-full overflow-hidden">
+            <Card className="overflow-hidden">
               <div className="flex flex-col gap-4 border-b border-line/70 p-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="kv-label">Live conditions</p>
@@ -232,12 +200,10 @@ export default async function HomePage() {
                   </p>
                 )}
               </CardContent>
-              </Card>
-            </Reveal>
+            </Card>
 
-            <Reveal className="h-full" delay={0.06}>
-              <Card className="h-full">
-                <CardContent className="flex h-full flex-col">
+            <Card>
+              <CardContent className="flex h-full flex-col">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-mint" />
                   <h2 className="text-lg font-semibold text-foreground">Plan around your day</h2>
@@ -277,9 +243,8 @@ export default async function HomePage() {
                     Ask a question
                   </Link>
                 </div>
-                </CardContent>
-              </Card>
-            </Reveal>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
@@ -292,14 +257,10 @@ export default async function HomePage() {
             hrefLabel="All tours"
           />
           <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {seedTours.slice(0, 2).map((tour, index) => (
-              <Reveal key={tour.slug} delay={index * 0.05} className="h-full">
-                <TourCard tour={tour} className="h-full" />
-              </Reveal>
+            {seedTours.slice(0, 2).map((tour) => (
+              <TourCard key={tour.slug} tour={tour} />
             ))}
-            <Reveal delay={0.1} className="h-full">
-              <TourCta />
-            </Reveal>
+            <TourCta />
           </div>
         </section>
 
@@ -313,24 +274,20 @@ export default async function HomePage() {
             {STEPS.map((step, index) => {
               const Icon = step.icon;
               return (
-                <Reveal key={step.title} delay={index * 0.06} className="h-full">
-                  <SpotlightCard className="h-full rounded-2xl">
-                    <Card className="h-full">
-                      <CardContent>
-                        <div className="flex items-center justify-between">
-                          <span className="grid h-10 w-10 place-items-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
-                            <Icon className="h-5 w-5" />
-                          </span>
-                          <span className="font-mono text-[11px] text-muted-2">
-                            0{index + 1}
-                          </span>
-                        </div>
-                        <h3 className="mt-4 text-sm font-semibold text-foreground">{step.title}</h3>
-                        <p className="mt-2 text-[12px] leading-relaxed text-muted">{step.body}</p>
-                      </CardContent>
-                    </Card>
-                  </SpotlightCard>
-                </Reveal>
+                <Card key={step.title}>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <span className="grid h-10 w-10 place-items-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="font-mono text-[11px] text-muted-2">
+                        0{index + 1}
+                      </span>
+                    </div>
+                    <h3 className="mt-4 text-sm font-semibold text-foreground">{step.title}</h3>
+                    <p className="mt-2 text-[12px] leading-relaxed text-muted">{step.body}</p>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
@@ -338,12 +295,7 @@ export default async function HomePage() {
 
         <section className="border-t border-line/60 py-16">
           <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-            <Reveal className="h-full">
-              <SpotlightCard
-                className="h-full rounded-2xl"
-                spotlightColor="rgba(31, 138, 76, 0.14)"
-              >
-                <div className="h-full rounded-2xl border border-mint/20 bg-mint/[0.04] p-6">
+            <div className="rounded-2xl border border-mint/20 bg-mint/[0.04] p-6">
               <ShieldCheck className="h-6 w-6 text-mint" />
               <h2 className="mt-3 text-xl font-semibold text-foreground">
                 Honest by default
@@ -362,13 +314,9 @@ export default async function HomePage() {
                 See the data status
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
-                </div>
-              </SpotlightCard>
-            </Reveal>
+            </div>
 
-            <Reveal className="h-full" delay={0.06}>
-              <SpotlightCard className="h-full rounded-2xl">
-                <div className="h-full rounded-2xl border border-line/80 bg-surface/50 p-6">
+            <div className="rounded-2xl border border-line/80 bg-surface/50 p-6">
               <Database className="h-6 w-6 text-accent" />
               <h2 className="mt-3 text-xl font-semibold text-foreground">
                 One database, several front doors
@@ -396,9 +344,7 @@ export default async function HomePage() {
                 Place data is editorial seed content. Verify hours and fees with
                 the official source before travelling.
               </p>
-                </div>
-              </SpotlightCard>
-            </Reveal>
+            </div>
           </div>
         </section>
       </div>

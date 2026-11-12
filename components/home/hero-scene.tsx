@@ -8,7 +8,6 @@ import { CesiumScene, type CesiumSceneHandle } from "@/components/map/cesium/ces
 import { FallbackMap } from "@/components/map/leaflet/fallback-map";
 import { CategoryIcon } from "@/components/places/category-icon";
 import { FallingLeaves } from "@/components/layout/ambient-nature";
-import { NumberTicker } from "@/components/ui/number-ticker";
 import { getCategory } from "@/lib/data";
 import { cn } from "@/lib/utils/cn";
 
@@ -88,7 +87,7 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
           <h1 className="kv-display mt-5 text-5xl font-semibold text-foreground sm:text-6xl lg:text-7xl">
             Explore Kandy
             <br />
-            <span className="kv-shimmer bg-gradient-to-r from-accent-strong via-accent to-mint bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-strong via-accent to-mint bg-clip-text text-transparent">
               beyond the map.
             </span>
           </h1>
@@ -126,15 +125,11 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
           <dl className="mt-9 flex flex-wrap gap-x-8 gap-y-3 text-[11px] text-muted">
             <div>
               <dt className="kv-label">Places</dt>
-              <dd className="mt-0.5 text-lg font-semibold text-foreground">
-                <NumberTicker value={placeCount} />
-              </dd>
+              <dd className="mt-0.5 text-lg font-semibold text-foreground">{placeCount}</dd>
             </div>
             <div>
               <dt className="kv-label">Categories</dt>
-              <dd className="mt-0.5 text-lg font-semibold text-foreground">
-                <NumberTicker value={categoryCount} />
-              </dd>
+              <dd className="mt-0.5 text-lg font-semibold text-foreground">{categoryCount}</dd>
             </div>
             <div>
               <dt className="kv-label">Weather now</dt>
