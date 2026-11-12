@@ -33,7 +33,8 @@ export function SiteHeader() {
     pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-ink-950/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-accent/25 bg-canvas/85 backdrop-blur-xl">
+      <div className="h-1 w-full bg-gradient-to-r from-accent-strong via-accent to-mint" />
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Logo />
 
@@ -46,8 +47,8 @@ export function SiteHeader() {
               className={cn(
                 "kv-focus rounded-full px-3.5 py-2 text-[13px] font-medium transition",
                 isActive(item.href)
-                  ? "bg-ink-700/80 text-white"
-                  : "text-slate-400 hover:bg-ink-700/50 hover:text-white",
+                  ? "bg-accent/12 text-accent-strong"
+                  : "text-muted hover:bg-accent/10 hover:text-foreground",
               )}
             >
               {t(item.key)}
@@ -62,12 +63,12 @@ export function SiteHeader() {
 
           <Link
             href="/saved"
-            className="kv-focus relative hidden h-9 w-9 place-items-center rounded-full border border-line text-slate-300 transition hover:bg-ink-700/60 hover:text-white sm:grid"
+            className="kv-focus relative hidden h-9 w-9 place-items-center rounded-full border border-line text-muted transition hover:bg-surface-2/60 hover:text-foreground sm:grid"
             aria-label="Saved places"
           >
             <Heart className="h-4 w-4" />
             {hydrated && favorites.length > 0 && (
-              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white">
+              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[9px] font-bold text-white">
                 {favorites.length}
               </span>
             )}
@@ -75,7 +76,7 @@ export function SiteHeader() {
 
           <Link
             href="/planner"
-            className="kv-focus hidden h-9 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-ink-950 transition hover:bg-sky-300 sm:inline-flex"
+            className="kv-focus hidden h-9 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white transition hover:bg-emerald-700 sm:inline-flex"
           >
             <Bookmark className="h-3.5 w-3.5" />
             {t("common.planTrip")}
@@ -87,7 +88,7 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="kv-focus grid h-9 w-9 place-items-center rounded-full border border-line text-slate-200 lg:hidden"
+            className="kv-focus grid h-9 w-9 place-items-center rounded-full border border-line text-foreground lg:hidden"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -95,7 +96,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-line/70 bg-ink-900/95 lg:hidden">
+        <div id="mobile-menu" className="border-t border-accent/20 bg-canvas/95 lg:hidden">
           <nav className="mx-auto grid max-w-7xl gap-1 px-4 py-3" aria-label="Mobile">
             {siteConfig.nav.map((item) => (
               <Link
@@ -104,8 +105,8 @@ export function SiteHeader() {
                 className={cn(
                   "kv-focus rounded-lg px-3 py-2.5 text-sm",
                   isActive(item.href)
-                    ? "bg-ink-700 text-white"
-                    : "text-slate-300 hover:bg-ink-700/60",
+                    ? "bg-surface-2 text-foreground"
+                    : "text-muted hover:bg-surface-2/60",
                 )}
               >
                 {t(item.key)}
@@ -116,7 +117,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="kv-focus rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:bg-ink-700/60"
+                className="kv-focus rounded-lg px-3 py-2.5 text-sm text-muted hover:bg-surface-2/60"
               >
                 {item.label}
               </Link>

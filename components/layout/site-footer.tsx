@@ -19,15 +19,16 @@ const PLAN_LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-line/70 bg-ink-950/60 pb-24 lg:pb-0">
+    <footer className="relative z-10 mt-24 border-t border-accent/25 bg-accent-soft/80 pb-24 lg:pb-0">
+      <div className="h-1 w-full bg-gradient-to-r from-accent-strong via-accent to-mint" />
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo />
-            <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-slate-400">
+            <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted">
               {siteConfig.description}
             </p>
-            <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
+            <p className="mt-4 text-[11px] leading-relaxed text-muted-2">
               Built for Kandy. Coordinates are real; distances in the planner are
               estimates unless a live route is requested.
             </p>
@@ -40,7 +41,7 @@ export function SiteFooter() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="kv-focus text-[13px] text-slate-400 transition hover:text-white"
+                    className="kv-focus text-[13px] text-muted transition hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -56,7 +57,7 @@ export function SiteFooter() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="kv-focus text-[13px] text-slate-400 transition hover:text-white"
+                    className="kv-focus text-[13px] text-muted transition hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -74,7 +75,7 @@ export function SiteFooter() {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="kv-focus inline-flex items-center gap-1 text-[13px] text-slate-400 transition hover:text-white"
+                    className="kv-focus inline-flex items-center gap-1 text-[13px] text-muted transition hover:text-foreground"
                   >
                     {item.label}
                     <ExternalLink className="h-3 w-3" />
@@ -82,19 +83,19 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
+            <p className="mt-4 text-[11px] leading-relaxed text-muted-2">
               Verification status is shown on every place. We never invent hours,
               fees, ratings or photos.
             </p>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-line/70 pt-6 text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-3 border-t border-line/70 pt-6 text-[11px] text-muted-2 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} KandyVerse. An independent city guide.</p>
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>Kandy, Sri Lanka · 7.2906° N, 80.6337° E</span>
             <span aria-hidden="true">·</span>
-            <Link href="/offline" className="kv-focus hover:text-slate-300">
+            <Link href="/offline" className="kv-focus hover:text-foreground">
               Offline mode
             </Link>
           </p>

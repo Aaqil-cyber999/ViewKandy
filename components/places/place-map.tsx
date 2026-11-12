@@ -20,7 +20,7 @@ export function PlaceMap({
   const places = [place, ...nearby];
 
   return (
-    <div className="relative h-[360px] overflow-hidden rounded-2xl border border-line/80 bg-ink-900 sm:h-[420px]">
+    <div className="relative h-[360px] overflow-hidden rounded-2xl border border-line/80 bg-surface sm:h-[420px]">
       {view === "3d" && !error ? (
         <CesiumScene
           places={places}
@@ -45,14 +45,14 @@ export function PlaceMap({
       )}
 
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
-        <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-ink-950/80 p-1 backdrop-blur">
+        <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1 backdrop-blur">
           <button
             type="button"
             onClick={() => setView("3d")}
             disabled={error}
             className={cn(
               "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] disabled:opacity-40",
-              view === "3d" ? "bg-accent text-ink-950" : "text-slate-300",
+              view === "3d" ? "bg-accent text-white" : "text-muted",
             )}
           >
             <Compass className="h-3 w-3" />
@@ -63,14 +63,14 @@ export function PlaceMap({
             onClick={() => setView("2d")}
             className={cn(
               "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px]",
-              view === "2d" ? "bg-accent text-ink-950" : "text-slate-300",
+              view === "2d" ? "bg-accent text-white" : "text-muted",
             )}
           >
             <MapIcon className="h-3 w-3" />
             2D
           </button>
         </div>
-        <Badge variant="neutral" className="bg-ink-950/80 backdrop-blur">
+        <Badge variant="neutral" className="bg-surface/80 backdrop-blur">
           <Layers className="h-3 w-3 text-accent" />
           {place.locationAccuracy === "rooftop"
             ? "Rooftop coordinate"
@@ -80,7 +80,7 @@ export function PlaceMap({
         </Badge>
       </div>
 
-      <p className="absolute bottom-2 left-3 right-3 text-[9px] leading-relaxed text-slate-500">
+      <p className="absolute bottom-2 left-3 right-3 text-[9px] leading-relaxed text-muted-2">
         Map data © OpenStreetMap contributors © CARTO. 3D landmark massing is
         illustrative, not a photorealistic survey.
       </p>

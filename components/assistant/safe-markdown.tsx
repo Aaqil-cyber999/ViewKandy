@@ -15,13 +15,13 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
 
     if (token.startsWith("**")) {
       nodes.push(
-        <strong key={key} className="font-semibold text-white">
+        <strong key={key} className="font-semibold text-foreground">
           {token.slice(2, -2)}
         </strong>,
       );
     } else if (token.startsWith("`")) {
       nodes.push(
-        <code key={key} className="rounded bg-ink-700/80 px-1 py-0.5 font-mono text-[11px] text-accent">
+        <code key={key} className="rounded bg-surface-2/80 px-1 py-0.5 font-mono text-[11px] text-accent">
           {token.slice(1, -1)}
         </code>,
       );
@@ -34,7 +34,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
             href={linkMatch[2]}
             target="_blank"
             rel="noreferrer"
-            className="text-accent underline decoration-accent/40 underline-offset-2 hover:text-sky-300"
+            className="text-accent underline decoration-accent/40 underline-offset-2 hover:text-emerald-700"
           >
             {linkMatch[1]}
           </a>,
@@ -44,7 +44,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
       }
     } else {
       nodes.push(
-        <em key={key} className="text-slate-300">
+        <em key={key} className="text-muted">
           {token.slice(1, -1)}
         </em>,
       );
@@ -70,7 +70,7 @@ export function SafeMarkdown({ text }: { text: string }) {
     if (paragraph.length === 0) return;
     const content = paragraph.join(" ");
     blocks.push(
-      <p key={`p-${blocks.length}`} className="text-[13px] leading-6 text-slate-300">
+      <p key={`p-${blocks.length}`} className="text-[13px] leading-6 text-muted">
         {renderInline(content, `p-${blocks.length}`)}
       </p>,
     );
@@ -86,11 +86,11 @@ export function SafeMarkdown({ text }: { text: string }) {
     ));
     blocks.push(
       list.ordered ? (
-        <ol key={`ol-${blocks.length}`} className="ml-4 list-decimal space-y-1 text-[13px] leading-6 text-slate-300">
+        <ol key={`ol-${blocks.length}`} className="ml-4 list-decimal space-y-1 text-[13px] leading-6 text-muted">
           {items}
         </ol>
       ) : (
-        <ul key={`ul-${blocks.length}`} className="ml-4 list-disc space-y-1 text-[13px] leading-6 text-slate-300">
+        <ul key={`ul-${blocks.length}`} className="ml-4 list-disc space-y-1 text-[13px] leading-6 text-muted">
           {items}
         </ul>
       ),
@@ -116,8 +116,8 @@ export function SafeMarkdown({ text }: { text: string }) {
           key={`h-${blocks.length}`}
           className={
             level === 1
-              ? "pt-1 text-base font-semibold text-white"
-              : "pt-1 text-[13px] font-semibold text-white"
+              ? "pt-1 text-base font-semibold text-foreground"
+              : "pt-1 text-[13px] font-semibold text-foreground"
           }
         >
           {renderInline(heading[2]!, `h-${blocks.length}`)}

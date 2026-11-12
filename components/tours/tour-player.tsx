@@ -134,7 +134,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
   if (!current) return null;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line/80 bg-ink-900">
+    <div className="overflow-hidden rounded-2xl border border-line/80 bg-surface">
       <div className="relative h-[52vh] min-h-[360px] lg:h-[62vh]">
         {view === "3d" && !mapError ? (
           <CesiumScene
@@ -166,16 +166,16 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
           />
         )}
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-ink-950/40" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-canvas/40" />
 
-        <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-line bg-ink-950/80 p-1 backdrop-blur">
+        <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1 backdrop-blur">
           <button
             type="button"
             onClick={() => setView("3d")}
             disabled={mapError}
             className={cn(
               "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] disabled:opacity-40",
-              view === "3d" ? "bg-accent text-ink-950" : "text-slate-300",
+              view === "3d" ? "bg-accent text-white" : "text-muted",
             )}
           >
             <Compass className="h-3 w-3" />
@@ -186,7 +186,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
             onClick={() => setView("2d")}
             className={cn(
               "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px]",
-              view === "2d" ? "bg-accent text-ink-950" : "text-slate-300",
+              view === "2d" ? "bg-accent text-white" : "text-muted",
             )}
           >
             <MapIcon className="h-3 w-3" />
@@ -195,12 +195,12 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
         </div>
 
         <div className="absolute right-3 top-3 flex items-center gap-1.5">
-          <Badge variant="neutral" className="bg-ink-950/80 backdrop-blur">
+          <Badge variant="neutral" className="bg-surface/80 backdrop-blur">
             <Film className="h-3 w-3 text-accent" />
             Stop {index + 1} / {stops.length}
           </Badge>
           {mapError && (
-            <Badge variant="amber" className="bg-ink-950/80 backdrop-blur">
+            <Badge variant="amber" className="bg-surface/80 backdrop-blur">
               2D fallback
             </Badge>
           )}
@@ -211,7 +211,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
             <button
               type="button"
               onClick={toggle}
-              className="kv-focus group grid h-20 w-20 place-items-center rounded-full border border-white/20 bg-ink-950/70 text-white backdrop-blur transition hover:scale-105 hover:bg-accent hover:text-ink-950"
+              className="kv-focus group grid h-20 w-20 place-items-center rounded-full border border-line bg-surface/70 text-foreground backdrop-blur transition hover:scale-105 hover:bg-accent hover:text-white"
               aria-label="Play virtual tour"
             >
               <Play className="ml-1 h-8 w-8" />
@@ -225,30 +225,30 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="kv-label">{current.stop.headline}</p>
-                  <h2 className="mt-1 text-lg font-semibold text-white">
+                  <h2 className="mt-1 text-lg font-semibold text-foreground">
                     {current.place.name}
                   </h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => setCaption(false)}
-                  className="kv-focus text-[10px] text-slate-500 hover:text-white"
+                  className="kv-focus text-[10px] text-muted-2 hover:text-foreground"
                 >
                   Hide caption
                 </button>
               </div>
-              <p className="mt-1.5 max-w-2xl text-[12px] leading-relaxed text-slate-300">
+              <p className="mt-1.5 max-w-2xl text-[12px] leading-relaxed text-muted">
                 {current.stop.note}
               </p>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Link
                   href={`/places/${current.place.slug}`}
-                  className="kv-focus inline-flex items-center gap-1 text-[11px] text-accent hover:text-sky-300"
+                  className="kv-focus inline-flex items-center gap-1 text-[11px] text-accent hover:text-emerald-700"
                 >
                   Open place details
                   <ArrowRight className="h-3 w-3" />
                 </Link>
-                <span className="text-[10px] text-slate-500">
+                <span className="text-[10px] text-muted-2">
                   {current.place.summary}
                 </span>
               </div>
@@ -259,7 +259,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
           <button
             type="button"
             onClick={() => setCaption(true)}
-            className="kv-focus absolute bottom-4 left-4 rounded-full border border-line bg-ink-950/80 px-3 py-1.5 text-[10px] text-slate-300 backdrop-blur"
+            className="kv-focus absolute bottom-4 left-4 rounded-full border border-line bg-surface/80 px-3 py-1.5 text-[10px] text-muted backdrop-blur"
           >
             <Volume2 className="mr-1 inline h-3 w-3" />
             Show caption
@@ -273,7 +273,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
             type="button"
             onClick={() => goTo(Math.max(0, index - 1))}
             disabled={index === 0}
-            className="kv-focus grid h-9 w-9 place-items-center rounded-full border border-line text-slate-300 disabled:opacity-30"
+            className="kv-focus grid h-9 w-9 place-items-center rounded-full border border-line text-muted disabled:opacity-30"
             aria-label="Previous stop"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -281,7 +281,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
           <button
             type="button"
             onClick={toggle}
-            className="kv-focus grid h-11 w-11 place-items-center rounded-full bg-accent text-ink-950 transition hover:bg-sky-300"
+            className="kv-focus grid h-11 w-11 place-items-center rounded-full bg-accent text-white transition hover:bg-emerald-700"
             aria-label={playing ? "Pause tour" : "Play tour"}
           >
             {playing ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5" />}
@@ -290,20 +290,20 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
             type="button"
             onClick={() => goTo(Math.min(stops.length - 1, index + 1))}
             disabled={index === stops.length - 1}
-            className="kv-focus grid h-9 w-9 place-items-center rounded-full border border-line text-slate-300 disabled:opacity-30"
+            className="kv-focus grid h-9 w-9 place-items-center rounded-full border border-line text-muted disabled:opacity-30"
             aria-label="Next stop"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
 
           <div className="min-w-0 flex-1">
-            <div className="h-1.5 overflow-hidden rounded-full bg-ink-700">
+            <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-accent to-mint transition-[width] duration-100"
                 style={{ width: `${overall * 100}%` }}
               />
             </div>
-            <div className="mt-1 flex items-center justify-between text-[9px] text-slate-500">
+            <div className="mt-1 flex items-center justify-between text-[9px] text-muted-2">
               <span>{Math.round(overall * totalSeconds)}s / {totalSeconds}s</span>
               <span>{formatDuration(totalSeconds / 60)} total</span>
             </div>
@@ -312,7 +312,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
           <button
             type="button"
             onClick={restart}
-            className="kv-focus hidden h-9 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] text-slate-300 sm:inline-flex"
+            className="kv-focus hidden h-9 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] text-muted sm:inline-flex"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Restart
@@ -330,7 +330,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
                 "kv-focus flex shrink-0 items-center gap-2 rounded-lg border px-2 py-1.5 text-left transition",
                 stopIndex === index
                   ? "border-accent/40 bg-accent/10"
-                  : "border-line/70 hover:bg-ink-800",
+                  : "border-line/70 hover:bg-surface",
               )}
             >
               <PlaceArt
@@ -338,7 +338,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
                 category={item.place.category}
                 className="h-7 w-7 rounded"
               />
-              <span className="max-w-[120px] truncate text-[10px] text-slate-300">
+              <span className="max-w-[120px] truncate text-[10px] text-muted">
                 {item.stop.headline}
               </span>
             </button>
@@ -346,7 +346,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
         </div>
       </div>
 
-      <p className="border-t border-line/70 px-4 py-2 text-[9px] text-slate-600">
+      <p className="border-t border-line/70 px-4 py-2 text-[9px] text-muted-2">
         Camera routes use real coordinates. 3D landmark massing is illustrative;
         photorealistic tiles appear only when a Google Maps key is configured.
         Space toggles playback, arrow keys step between stops.

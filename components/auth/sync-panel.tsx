@@ -105,26 +105,26 @@ export function SyncPanel() {
   }
 
   return (
-    <div className="rounded-2xl border border-line/80 bg-ink-800/40 p-5">
-      <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+    <div className="rounded-2xl border border-line/80 bg-surface/40 p-5">
+      <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
         <RefreshCw className="h-4 w-4 text-accent" />
         Account sync
       </h2>
-      <p className="mt-2 text-[12px] leading-relaxed text-slate-400">
+      <p className="mt-2 text-[12px] leading-relaxed text-muted">
         Move saves between this browser and your account. Nothing is uploaded
         unless you press the button.
       </p>
 
       <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
-        <div className="rounded-lg border border-line/70 bg-ink-900/50 p-2.5">
-          <p className="text-slate-500">This browser</p>
-          <p className="mt-0.5 font-semibold text-white">
+        <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5">
+          <p className="text-muted-2">This browser</p>
+          <p className="mt-0.5 font-semibold text-foreground">
             {favorites.length} places · {itineraries.length} plans
           </p>
         </div>
-        <div className="rounded-lg border border-line/70 bg-ink-900/50 p-2.5">
-          <p className="text-slate-500">Your account</p>
-          <p className="mt-0.5 font-semibold text-white">
+        <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5">
+          <p className="text-muted-2">Your account</p>
+          <p className="mt-0.5 font-semibold text-foreground">
             {remoteFavorites.length} places · {remoteItineraries.length} plans
           </p>
         </div>

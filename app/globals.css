@@ -1,16 +1,33 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ink-950: #040b14;
-  --color-ink-900: #07111f;
-  --color-ink-800: #0b1728;
-  --color-ink-700: #101f33;
-  --color-ink-600: #172a42;
-  --color-line: #1d3350;
-  --color-mist: #94a3b8;
-  --color-accent: #38bdf8;
-  --color-mint: #34d399;
-  --color-amber: #fbbf24;
+  /* Fresh Greens — a visibly green garden canvas, crisp white surfaces and
+     deep forest ink. The canvas carries the colour so the page never reads as
+     a plain white site. */
+  --color-canvas: #e9f3e4;
+  --color-surface: #ffffff;
+  --color-surface-2: #dcecd6;
+  --color-surface-3: #cfe3c8;
+  --color-foreground: #122a1a;
+  --color-muted: #46604e;
+  --color-muted-2: #6d8373;
+  --color-line: #c3d9bd;
+  --color-accent: #1f8a4c;
+  --color-accent-strong: #14663a;
+  --color-accent-soft: #d7eed7;
+  --color-mint: #15803d;
+  --color-amber: #a16207;
+  --color-danger: #b42318;
+  --color-danger-strong: #991b1b;
+
+  /* Legacy aliases kept so older utility names still resolve. */
+  --color-ink-950: #0f2a1a;
+  --color-ink-900: #ffffff;
+  --color-ink-800: #ffffff;
+  --color-ink-700: #dcecd6;
+  --color-ink-600: #cfe3c8;
+  --color-mist: #46604e;
+
   --font-sans: "Inter", "Geist", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -18,11 +35,11 @@
 }
 
 :root {
-  color-scheme: dark;
-  --page: #07111f;
-  --panel: #0b1728;
-  --hairline: rgba(148, 163, 184, 0.14);
-  --glow: 0 0 0 1px rgba(56, 189, 248, 0.25), 0 20px 60px -30px rgba(56, 189, 248, 0.5);
+  color-scheme: light;
+  --page: #e9f3e4;
+  --panel: #ffffff;
+  --hairline: rgba(31, 122, 69, 0.2);
+  --glow: 0 0 0 1px rgba(31, 138, 76, 0.22), 0 20px 60px -30px rgba(20, 102, 58, 0.42);
 }
 
 * {
@@ -35,8 +52,12 @@ html {
 }
 
 body {
-  background: var(--page);
-  color: #f8fafc;
+  background:
+    radial-gradient(1100px 620px at 50% -12%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0) 62%),
+    radial-gradient(920px 540px at 100% 0%, rgba(111, 178, 119, 0.34), transparent 60%),
+    radial-gradient(780px 480px at 0% 18%, rgba(165, 212, 158, 0.4), transparent 62%),
+    var(--page);
+  color: var(--color-foreground);
   font-family: var(--font-sans);
   font-feature-settings: "cv02", "cv03", "cv04", "ss01";
   -webkit-font-smoothing: antialiased;
@@ -45,27 +66,27 @@ body {
 }
 
 ::selection {
-  background: rgba(56, 189, 248, 0.3);
-  color: #f8fafc;
+  background: rgba(31, 138, 76, 0.22);
+  color: #0f2a1a;
 }
 
 /* Scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1d3350 transparent;
+  scrollbar-color: #c6d8c2 transparent;
 }
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #1d3350;
+  background: #c6d8c2;
   border-radius: 999px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: #2a4667;
+  background: #a9c4a4;
   background-clip: content-box;
 }
 
@@ -76,8 +97,8 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.5;
-  background-image: radial-gradient(rgba(148, 163, 184, 0.09) 1px, transparent 1px);
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(83, 102, 90, 0.12) 1px, transparent 1px);
   background-size: 3px 3px;
   mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 75%);
 }
@@ -87,9 +108,10 @@ body {
 }
 
 .kv-panel {
-  background: linear-gradient(180deg, rgba(16, 31, 51, 0.9), rgba(11, 23, 40, 0.92));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(240, 248, 237, 0.97));
   border: 1px solid var(--hairline);
   backdrop-filter: blur(14px);
+  box-shadow: 0 22px 60px -38px rgba(20, 102, 58, 0.38);
 }
 
 .kv-focus:focus-visible {
@@ -101,8 +123,8 @@ body {
   font-size: 0.6875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #7c8ca3;
-  font-weight: 600;
+  color: var(--color-accent-strong);
+  font-weight: 700;
 }
 
 .kv-display {
@@ -112,8 +134,8 @@ body {
 
 /* Cesium overrides: keep the map clean and on-brand. */
 .cesium-widget-credits {
-  background: rgba(4, 11, 20, 0.6) !important;
-  color: #94a3b8 !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  color: #53665a !important;
   font-size: 10px !important;
   padding: 2px 8px !important;
   border-radius: 4px;
@@ -121,7 +143,7 @@ body {
 }
 .cesium-widget-credits a,
 .cesium-widget-credits a:visited {
-  color: #cbd5e1 !important;
+  color: #166534 !important;
 }
 .cesium-viewer-bottom {
   left: 8px;
@@ -137,32 +159,32 @@ body {
 
 /* Leaflet overrides */
 .leaflet-container {
-  background: #07111f;
+  background: #e9f3e4;
   font-family: var(--font-sans);
   outline: none;
 }
 .leaflet-control-attribution {
-  background: rgba(4, 11, 20, 0.7) !important;
-  color: #94a3b8 !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  color: #46604e !important;
   font-size: 10px !important;
 }
 .leaflet-control-attribution a {
-  color: #cbd5e1 !important;
+  color: #14663a !important;
 }
 .leaflet-bar a {
-  background: #0b1728 !important;
-  color: #f8fafc !important;
-  border-color: #1d3350 !important;
+  background: #ffffff !important;
+  color: #122a1a !important;
+  border-color: #c3d9bd !important;
 }
 .leaflet-bar a:hover {
-  background: #16283f !important;
+  background: #dcecd6 !important;
 }
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: #0b1728 !important;
-  color: #f8fafc !important;
-  border: 1px solid #1d3350;
-  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
+  background: #ffffff !important;
+  color: #122a1a !important;
+  border: 1px solid #c3d9bd;
+  box-shadow: 0 20px 50px -24px rgba(20, 102, 58, 0.35);
 }
 .leaflet-popup-content {
   margin: 12px 14px;
@@ -174,31 +196,31 @@ body {
   width: 30px;
   height: 30px;
   border-radius: 999px;
-  background: #0b1728;
-  border: 1.5px solid var(--marker-color, #38bdf8);
-  color: var(--marker-color, #38bdf8);
-  box-shadow: 0 0 0 4px rgba(7, 17, 31, 0.55), 0 8px 20px -6px rgba(0, 0, 0, 0.8);
+  background: #ffffff;
+  border: 1.5px solid var(--marker-color, #1f8a4c);
+  color: var(--marker-color, #1f8a4c);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.62), 0 8px 20px -8px rgba(23, 42, 28, 0.38);
   transition: transform 150ms ease;
 }
 .kv-marker:hover {
   transform: scale(1.15);
 }
 .kv-marker-selected {
-  background: var(--marker-color, #38bdf8);
-  color: #04101c;
+  background: var(--marker-color, #1f8a4c);
+  color: #ffffff;
   transform: scale(1.2);
 }
 .marker-cluster-small,
 .marker-cluster-medium,
 .marker-cluster-large {
-  background: rgba(56, 189, 248, 0.18) !important;
+  background: rgba(31, 138, 76, 0.16) !important;
 }
 .marker-cluster-small div,
 .marker-cluster-medium div,
 .marker-cluster-large div {
-  background: #0b1728 !important;
-  color: #f8fafc !important;
-  border: 1px solid rgba(56, 189, 248, 0.5);
+  background: #ffffff !important;
+  color: #166534 !important;
+  border: 1px solid rgba(31, 138, 76, 0.4);
   font-weight: 600;
 }
 
@@ -241,6 +263,209 @@ body {
 }
 .kv-scanline {
   animation: kv-scan 3.5s ease-in-out infinite;
+}
+
+/* Marquee (Magic UI pattern) */
+@keyframes kv-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.kv-marquee-track {
+  animation: kv-marquee 42s linear infinite;
+}
+.kv-marquee-track[data-reverse="true"] {
+  animation-direction: reverse;
+}
+.group:hover .kv-marquee-track[data-pause="true"] {
+  animation-play-state: paused;
+}
+
+/* Shimmering gradient text (Magic UI / Motion Primitives pattern) */
+@keyframes kv-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+.kv-shimmer {
+  background-size: 200% auto;
+  animation: kv-shimmer 8s linear infinite;
+}
+
+/* Slow ambient aurora blobs (Aceternity pattern) */
+@keyframes kv-aurora {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(14px, -12px, 0) scale(1.08);
+    opacity: 0.9;
+  }
+}
+.kv-aurora {
+  animation: kv-aurora 16s ease-in-out infinite;
+}
+
+/* Ambient Kandy weather: soft clouds, drifting mist, a light drizzle and
+   leaves falling through the garden air. Pure CSS so it stays cheap. */
+.kv-cloud {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+  filter: blur(18px);
+  animation: kv-cloud-drift 46s ease-in-out infinite alternate;
+}
+.kv-cloud-a {
+  top: 4%;
+  left: -12%;
+  width: 48vw;
+  height: 20vh;
+  opacity: 0.6;
+}
+.kv-cloud-b {
+  top: 17%;
+  right: -10%;
+  width: 42vw;
+  height: 15vh;
+  opacity: 0.45;
+  animation-delay: -14s;
+}
+.kv-cloud-c {
+  top: 34%;
+  left: 28%;
+  width: 36vw;
+  height: 12vh;
+  opacity: 0.32;
+  animation-delay: -24s;
+}
+
+.kv-mist {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, 0.92),
+    rgba(214, 236, 210, 0.35) 55%,
+    rgba(214, 236, 210, 0)
+  );
+  filter: blur(34px);
+  animation: kv-mist-drift 32s ease-in-out infinite alternate;
+}
+.kv-mist-a {
+  top: 10%;
+  left: -18%;
+  width: 72vw;
+  height: 36vh;
+  opacity: 0.55;
+}
+.kv-mist-b {
+  top: 38%;
+  right: -22%;
+  width: 66vw;
+  height: 40vh;
+  opacity: 0.42;
+  animation-delay: -9s;
+}
+.kv-mist-c {
+  bottom: 2%;
+  left: 10%;
+  width: 58vw;
+  height: 28vh;
+  opacity: 0.32;
+  animation-delay: -16s;
+}
+
+.kv-rain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+}
+.kv-rain span {
+  position: absolute;
+  top: -18%;
+  width: 1px;
+  height: 64px;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, rgba(79, 138, 102, 0), rgba(79, 138, 102, 0.45));
+  animation-name: kv-rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.kv-leaf {
+  position: absolute;
+  top: -12vh;
+  display: block;
+  animation-name: kv-leaf-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2px 3px rgba(23, 42, 28, 0.12));
+}
+
+@keyframes kv-cloud-drift {
+  0% {
+    transform: translate3d(-3%, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(6%, 2%, 0) scale(1.08);
+  }
+}
+@keyframes kv-mist-drift {
+  0% {
+    transform: translate3d(-2%, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(4%, -2%, 0) scale(1.06);
+  }
+}
+@keyframes kv-rain-fall {
+  0% {
+    transform: translate3d(0, -20vh, 0);
+  }
+  100% {
+    transform: translate3d(-28px, 120vh, 0);
+  }
+}
+@keyframes kv-leaf-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--leaf-opacity, 0.45);
+  }
+  85% {
+    opacity: var(--leaf-opacity, 0.45);
+  }
+  100% {
+    transform: translate3d(var(--leaf-drift, 80px), 112vh, 0)
+      rotate(var(--leaf-spin, 420deg));
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .kv-cloud-c,
+  .kv-mist-c,
+  .kv-rain,
+  .kv-leaf--optional {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kv-ambient {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

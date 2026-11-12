@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Playwright reaches the dev server through 127.0.0.1; Next treats that as a
+  // cross-origin dev request unless it is explicitly allowed.
+  allowedDevOrigins: ["127.0.0.1"],
   images: {
     // Remote photography is only used from sources we control or that are
     // explicitly licensed for hot-linking. Everything else is a local asset.

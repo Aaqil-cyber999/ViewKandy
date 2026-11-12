@@ -114,15 +114,15 @@ export function AuthPanel() {
             <span className="grid h-10 w-10 place-items-center rounded-xl border border-amber/30 bg-amber/10 text-amber">
               <KeyRound className="h-5 w-5" />
             </span>
-            <h2 className="mt-4 text-xl font-semibold text-white">
+            <h2 className="mt-4 text-xl font-semibold text-foreground">
               Accounts are not configured yet
             </h2>
-            <p className="mt-2 text-[13px] leading-relaxed text-slate-400">
+            <p className="mt-2 text-[13px] leading-relaxed text-muted">
               KandyVerse is running without Supabase credentials, so there is no
               fake sign-in form and no pretend account. Saved places and itineraries
               continue to work locally in this browser.
             </p>
-            <div className="mt-4 rounded-xl border border-line/70 bg-ink-900/50 p-3 text-[11px] leading-relaxed text-slate-400">
+            <div className="mt-4 rounded-xl border border-line/70 bg-surface/50 p-3 text-[11px] leading-relaxed text-muted">
               To enable accounts, set{" "}
               <code className="text-accent">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
               <code className="text-accent">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, then run{" "}
@@ -132,14 +132,14 @@ export function AuthPanel() {
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
                 href="/saved"
-                className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-ink-950"
+                className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white"
               >
                 Open local saves
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
               <Link
                 href="/admin"
-                className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full border border-line px-4 text-[13px] text-slate-200"
+                className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full border border-line px-4 text-[13px] text-foreground"
               >
                 <ShieldCheck className="h-3.5 w-3.5" />
                 Editorial admin
@@ -148,9 +148,9 @@ export function AuthPanel() {
           </CardContent>
         </Card>
 
-        <div className="rounded-2xl border border-line/80 bg-ink-800/40 p-5">
-          <h2 className="text-sm font-semibold text-white">What accounts unlock</h2>
-          <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-slate-400">
+        <div className="rounded-2xl border border-line/80 bg-surface/40 p-5">
+          <h2 className="text-sm font-semibold text-foreground">What accounts unlock</h2>
+          <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
             <li className="flex gap-2">
               <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-mint" />
               Saved places and itineraries synced across devices.
@@ -164,7 +164,7 @@ export function AuthPanel() {
               No fake identity provider — Supabase Auth handles the session.
             </li>
           </ul>
-          <p className="mt-4 text-[10px] leading-relaxed text-slate-600">
+          <p className="mt-4 text-[10px] leading-relaxed text-muted-2">
             The site is fully usable without an account. Local saves are never
             uploaded silently.
           </p>
@@ -175,7 +175,7 @@ export function AuthPanel() {
 
   if (checking) {
     return (
-      <div className="mx-auto flex max-w-3xl items-center justify-center gap-2 px-4 py-20 text-sm text-slate-400">
+      <div className="mx-auto flex max-w-3xl items-center justify-center gap-2 px-4 py-20 text-sm text-muted">
         <Loader2 className="h-4 w-4 animate-spin" />
         Checking your session…
       </div>
@@ -190,16 +190,16 @@ export function AuthPanel() {
             <span className="grid h-10 w-10 place-items-center rounded-xl border border-mint/30 bg-mint/10 text-mint">
               <CheckCircle2 className="h-5 w-5" />
             </span>
-            <h2 className="mt-4 text-xl font-semibold text-white">Signed in</h2>
-            <p className="mt-1 text-[13px] text-slate-400">{user.email}</p>
-            <p className="mt-3 text-[12px] leading-relaxed text-slate-400">
+            <h2 className="mt-4 text-xl font-semibold text-foreground">Signed in</h2>
+            <p className="mt-1 text-[13px] text-muted">{user.email}</p>
+            <p className="mt-3 text-[12px] leading-relaxed text-muted">
               Your account is ready. Use the sync panel to move local saves into
               the account, or pull saves from another device.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <Link
                 href="/saved"
-                className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-ink-950"
+                className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white"
               >
                 Open saved
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -236,7 +236,7 @@ export function AuthPanel() {
                   setMessage(null);
                 }}
                 className={`kv-focus flex-1 rounded-full px-2 py-1.5 text-[11px] ${
-                  mode === value ? "bg-accent text-ink-950" : "text-slate-400"
+                  mode === value ? "bg-accent text-white" : "text-muted"
                 }`}
               >
                 {label}
@@ -290,29 +290,29 @@ export function AuthPanel() {
           </form>
 
           {message && (
-            <p className="mt-3 rounded-lg border border-line/70 bg-ink-900/50 p-2.5 text-[11px] leading-relaxed text-slate-300">
+            <p className="mt-3 rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[11px] leading-relaxed text-muted">
               {message}
             </p>
           )}
 
-          <p className="mt-4 text-[10px] leading-relaxed text-slate-600">
+          <p className="mt-4 text-[10px] leading-relaxed text-muted-2">
             By continuing you agree that KandyVerse stores only the account data
             needed for saved places. It never publishes your email or location.
           </p>
         </CardContent>
       </Card>
 
-      <div className="rounded-2xl border border-line/80 bg-ink-800/40 p-5">
-        <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+      <div className="rounded-2xl border border-line/80 bg-surface/40 p-5">
+        <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <ShieldCheck className="h-4 w-4 text-mint" />
           Real auth, real privacy
         </h2>
-        <p className="mt-2 text-[12px] leading-relaxed text-slate-400">
+        <p className="mt-2 text-[12px] leading-relaxed text-muted">
           Authentication is handled by Supabase Auth. Saved rows are protected by
           row-level security so one account cannot read another&apos;s data. The
           service-role key is only used in server route handlers.
         </p>
-        <p className="mt-3 text-[11px] leading-relaxed text-slate-500">
+        <p className="mt-3 text-[11px] leading-relaxed text-muted-2">
           You can keep using KandyVerse without an account; local saves stay in
           this browser and are never uploaded automatically.
         </p>

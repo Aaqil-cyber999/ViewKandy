@@ -96,7 +96,7 @@ export function FallbackMap({
         });
         mapRef.current = map;
 
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
           attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
           subdomains: "abcd",
@@ -210,7 +210,7 @@ export function FallbackMap({
       routeRef.current = L.polyline(
         route.map((p) => [p.lat, p.lng] as [number, number]),
         {
-          color: "#38bdf8",
+          color: "#1f8a4c",
           weight: 4,
           opacity: 0.95,
           dashArray: "10 8",

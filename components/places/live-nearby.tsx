@@ -61,15 +61,15 @@ export function LiveGooglePlaces({
   }
 
   return (
-    <div className="rounded-xl border border-line/80 bg-ink-900/50 p-4">
+    <div className="rounded-xl border border-line/80 bg-surface/50 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
           <MapPin className="h-4 w-4 text-accent" />
           Live places from Google
         </h2>
         <Badge variant="outline">External data</Badge>
       </div>
-      <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+      <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
         Optional live enrichment from Google Places. These listings are not
         KandyVerse editorial records and are not verified by us.
       </p>
@@ -95,7 +95,7 @@ export function LiveGooglePlaces({
         )}
 
         {result && !result.warning && result.places.length === 0 && (
-          <p className="mt-3 text-[11px] text-slate-500">
+          <p className="mt-3 text-[11px] text-muted-2">
             Google returned no places within 1.2 km for the selected types.
           </p>
         )}
@@ -111,18 +111,18 @@ export function LiveGooglePlaces({
                   }
                   target="_blank"
                   rel="noreferrer"
-                  className="kv-focus block rounded-lg border border-line/60 bg-ink-800/40 p-2.5 transition hover:border-slate-600"
+                  className="kv-focus block rounded-lg border border-line/60 bg-surface/40 p-2.5 transition hover:border-accent/50"
                 >
                   <span className="flex items-start justify-between gap-2">
-                    <span className="text-[12px] font-medium text-white">{item.name}</span>
-                    <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 text-slate-600" />
+                    <span className="text-[12px] font-medium text-foreground">{item.name}</span>
+                    <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 text-muted-2" />
                   </span>
-                  <span className="mt-0.5 block text-[10px] text-slate-500">
+                  <span className="mt-0.5 block text-[10px] text-muted-2">
                     {formatDistance(item.distanceMeters)}
                     {item.address ? ` · ${item.address}` : ""}
                   </span>
                   {(item.rating !== null || item.openNow !== null) && (
-                    <span className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-slate-400">
+                    <span className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-muted">
                       {item.rating !== null && (
                         <span className="inline-flex items-center gap-1">
                           <Star className="h-3 w-3 fill-amber text-amber" />
@@ -133,7 +133,7 @@ export function LiveGooglePlaces({
                         </span>
                       )}
                       {item.openNow !== null && (
-                        <span className={item.openNow ? "text-mint" : "text-slate-500"}>
+                        <span className={item.openNow ? "text-mint" : "text-muted-2"}>
                           {item.openNow ? "Open now" : "Closed now"}
                         </span>
                       )}
@@ -146,7 +146,7 @@ export function LiveGooglePlaces({
         )}
       </div>
 
-      <p className="mt-3 text-[9px] leading-relaxed text-slate-600">
+      <p className="mt-3 text-[9px] leading-relaxed text-muted-2">
         Data from Google Places, shown with attribution. Ratings and opening
         states are live Google values, not KandyVerse verification.
       </p>
@@ -187,15 +187,15 @@ export function OsmServices({ place }: { place: Place }) {
   }
 
   return (
-    <div className="rounded-xl border border-line/80 bg-ink-900/50 p-4">
+    <div className="rounded-xl border border-line/80 bg-surface/50 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
           <Store className="h-4 w-4 text-mint" />
           Live services from OpenStreetMap
         </h2>
         <Badge variant="outline">External data</Badge>
       </div>
-      <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+      <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
         Community-maintained ATMs, pharmacies, toilets and other practical
         services within 1.2 km. Not verified by KandyVerse.
       </p>
@@ -221,7 +221,7 @@ export function OsmServices({ place }: { place: Place }) {
         )}
 
         {result && !result.warning && result.services.length === 0 && (
-          <p className="mt-3 text-[11px] text-slate-500">
+          <p className="mt-3 text-[11px] text-muted-2">
             No matching OpenStreetMap services were returned within 1.2 km.
           </p>
         )}
@@ -231,7 +231,7 @@ export function OsmServices({ place }: { place: Place }) {
             {result.services.map((item) => (
               <li
                 key={item.id}
-                className="rounded-lg border border-line/60 bg-ink-800/40 p-2.5"
+                className="rounded-lg border border-line/60 bg-surface/40 p-2.5"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -239,24 +239,24 @@ export function OsmServices({ place }: { place: Place }) {
                       href={item.osmUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="kv-focus inline-flex items-center gap-1 text-[12px] font-medium text-white hover:text-accent"
+                      className="kv-focus inline-flex items-center gap-1 text-[12px] font-medium text-foreground hover:text-accent"
                     >
                       {item.name}
-                      <ExternalLink className="h-3 w-3 text-slate-600" />
+                      <ExternalLink className="h-3 w-3 text-muted-2" />
                     </a>
-                    <p className="mt-0.5 text-[10px] text-slate-500">
+                    <p className="mt-0.5 text-[10px] text-muted-2">
                       {item.category} · {formatDistance(item.distanceMeters)}
                       {item.address ? ` · ${item.address}` : ""}
                     </p>
                     {item.openingHours && (
-                      <p className="mt-0.5 text-[10px] text-slate-500">
-                        OSM hours tag: <span className="text-slate-400">{item.openingHours}</span>
+                      <p className="mt-0.5 text-[10px] text-muted-2">
+                        OSM hours tag: <span className="text-muted">{item.openingHours}</span>
                       </p>
                     )}
                     {(item.phone || item.website) && (
                       <p className="mt-0.5 flex flex-wrap gap-2 text-[10px]">
                         {item.phone && (
-                          <a href={`tel:${item.phone}`} className="text-accent hover:text-sky-300">
+                          <a href={`tel:${item.phone}`} className="text-accent hover:text-emerald-700">
                             {item.phone}
                           </a>
                         )}
@@ -265,7 +265,7 @@ export function OsmServices({ place }: { place: Place }) {
                             href={item.website}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-accent hover:text-sky-300"
+                            className="text-accent hover:text-emerald-700"
                           >
                             Website
                           </a>
@@ -280,7 +280,7 @@ export function OsmServices({ place }: { place: Place }) {
         )}
       </div>
 
-      <p className="mt-3 text-[9px] leading-relaxed text-slate-600">
+      <p className="mt-3 text-[9px] leading-relaxed text-muted-2">
         © OpenStreetMap contributors · ODbL. Live external data, not KandyVerse
         verification.
       </p>

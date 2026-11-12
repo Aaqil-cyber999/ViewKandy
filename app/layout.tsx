@@ -5,6 +5,7 @@ import { PwaRegister } from "@/components/providers/pwa-register";
 import { SiteHeader } from "@/components/layout/site-header";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { AmbientNature } from "@/components/layout/ambient-nature";
 import { siteConfig } from "@/lib/config/site";
 
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
       { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
-    other: [{ rel: "mask-icon", url: "/icons/icon.svg", color: "#38bdf8" }],
+    other: [{ rel: "mask-icon", url: "/icons/icon.svg", color: "#1f8a4c" }],
   },
   appleWebApp: {
     capable: true,
@@ -59,8 +60,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07111f",
-  colorScheme: "dark",
+  themeColor: "#e9f3e4",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -89,10 +90,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
+        <AmbientNature />
         <AppProviders>
           <a
             href="#main"
-            className="kv-focus sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink-950"
+            className="kv-focus sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
           >
             Skip to content
           </a>

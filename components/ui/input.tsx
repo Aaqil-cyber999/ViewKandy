@@ -6,7 +6,7 @@ export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttribute
     <input
       ref={ref}
       className={cn(
-        "kv-focus h-11 w-full rounded-xl border border-line bg-ink-900/70 px-3.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-accent/60",
+        "kv-focus h-11 w-full rounded-xl border border-line bg-surface/70 px-3.5 text-sm text-foreground placeholder:text-muted-2 focus:border-accent/60",
         className,
       )}
       {...props}
@@ -22,7 +22,7 @@ export const Textarea = React.forwardRef<
   <textarea
     ref={ref}
     className={cn(
-      "kv-focus min-h-24 w-full rounded-xl border border-line bg-ink-900/70 px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-accent/60",
+      "kv-focus min-h-24 w-full rounded-xl border border-line bg-surface/70 px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-2 focus:border-accent/60",
       className,
     )}
     {...props}
@@ -37,7 +37,7 @@ export const Select = React.forwardRef<
   <select
     ref={ref}
     className={cn(
-      "kv-focus h-11 w-full appearance-none rounded-xl border border-line bg-ink-900/70 px-3.5 text-sm text-slate-100 focus:border-accent/60",
+      "kv-focus h-11 w-full appearance-none rounded-xl border border-line bg-surface/70 px-3.5 text-sm text-foreground focus:border-accent/60",
       className,
     )}
     {...props}
@@ -51,7 +51,7 @@ export function Label({
 }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn("mb-1.5 block text-xs font-medium text-slate-400", className)}
+      className={cn("mb-1.5 block text-xs font-medium text-muted", className)}
       {...props}
     />
   );
@@ -59,7 +59,7 @@ export function Label({
 
 export function FieldHint({ children }: { children: React.ReactNode }) {
   return (
-    <span className="mt-1 block text-[11px] leading-relaxed text-slate-500">
+    <span className="mt-1 block text-[11px] leading-relaxed text-muted-2">
       {children}
     </span>
   );

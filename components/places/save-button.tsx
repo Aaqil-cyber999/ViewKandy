@@ -40,8 +40,8 @@ export function SaveButton({
         className={cn(
           "kv-focus inline-flex h-11 items-center gap-2 rounded-full border px-5 text-sm font-medium transition",
           saved
-            ? "border-rose-400/40 bg-rose-500/10 text-rose-300"
-            : "border-line text-slate-200 hover:bg-ink-700/60",
+            ? "border-rose-300/60 bg-rose-50 text-rose-700"
+            : "border-line text-foreground hover:bg-surface-2/60",
           className,
         )}
       >
@@ -58,8 +58,8 @@ export function SaveButton({
       aria-label={saved ? `Remove ${name} from saved` : `Save ${name}`}
       aria-pressed={saved}
       className={cn(
-        "kv-focus grid h-8 w-8 place-items-center rounded-full border border-line bg-ink-900/70 text-slate-300 backdrop-blur transition hover:text-white",
-        saved && "border-rose-400/40 text-rose-300",
+        "kv-focus grid h-8 w-8 place-items-center rounded-full border border-line bg-surface/70 text-muted backdrop-blur transition hover:text-foreground",
+        saved && "border-rose-300/60 text-rose-700",
         className,
       )}
     >
@@ -100,7 +100,7 @@ export function AddToTripButton({
         "kv-focus inline-flex h-11 items-center gap-2 rounded-full border px-5 text-sm font-medium transition",
         pinned
           ? "border-mint/40 bg-mint/10 text-mint"
-          : "border-line text-slate-200 hover:bg-ink-700/60",
+          : "border-line text-foreground hover:bg-surface-2/60",
         className,
       )}
     >

@@ -239,8 +239,8 @@ export function buildLandmarkEntities(
         label: {
           text: place.name,
           font: "500 12px Inter, system-ui, sans-serif",
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.fromCssColorString("#04101c"),
+          fillColor: Cesium.Color.fromCssColorString("#122a1a"),
+          outlineColor: Cesium.Color.WHITE,
           outlineWidth: 4,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -248,7 +248,7 @@ export function buildLandmarkEntities(
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 4500),
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
           showBackground: true,
-          backgroundColor: Cesium.Color.fromCssColorString("#07111f").withAlpha(0.6),
+          backgroundColor: Cesium.Color.WHITE.withAlpha(0.84),
           backgroundPadding: new Cesium.Cartesian2(6, 4),
         },
       });
@@ -284,9 +284,9 @@ export function addLake(
     name: "Kandy Lake",
     polygon: {
       hierarchy: new Cesium.PolygonHierarchy(positions),
-      material: Cesium.Color.fromCssColorString("#1b6f9c").withAlpha(0.82),
+      material: Cesium.Color.fromCssColorString("#5aa9c4").withAlpha(0.78),
       outline: true,
-      outlineColor: Cesium.Color.fromCssColorString("#38bdf8").withAlpha(0.6),
+      outlineColor: Cesium.Color.fromCssColorString("#2f7a8a").withAlpha(0.7),
       height: baseHeight + 0.6,
     },
     properties: { slug: "kandy-lake", kind: "water" },
@@ -310,7 +310,7 @@ export function addPlaceMarkers(
       point: {
         pixelSize: 9,
         color: Cesium.Color.fromCssColorString(category.color),
-        outlineColor: Cesium.Color.fromCssColorString("#04101c"),
+        outlineColor: Cesium.Color.WHITE,
         outlineWidth: 2,
         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
@@ -320,8 +320,8 @@ export function addPlaceMarkers(
         ? {
             text: place.name,
             font: "500 11px Inter, system-ui, sans-serif",
-            fillColor: Cesium.Color.WHITE,
-            outlineColor: Cesium.Color.fromCssColorString("#04101c"),
+            fillColor: Cesium.Color.fromCssColorString("#122a1a"),
+            outlineColor: Cesium.Color.WHITE,
             outlineWidth: 3,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -329,7 +329,7 @@ export function addPlaceMarkers(
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 3200),
             disableDepthTestDistance: Number.POSITIVE_INFINITY,
             showBackground: true,
-            backgroundColor: Cesium.Color.fromCssColorString("#07111f").withAlpha(0.55),
+            backgroundColor: Cesium.Color.WHITE.withAlpha(0.84),
             backgroundPadding: new Cesium.Cartesian2(5, 3),
           }
         : undefined,
@@ -352,9 +352,9 @@ export function addSelectionRing(
     ellipse: {
       semiMajorAxis: 110,
       semiMinorAxis: 110,
-      material: Cesium.Color.fromCssColorString("#38bdf8").withAlpha(0.12),
+      material: Cesium.Color.fromCssColorString("#1f8a4c").withAlpha(0.14),
       outline: true,
-      outlineColor: Cesium.Color.fromCssColorString("#38bdf8").withAlpha(0.85),
+      outlineColor: Cesium.Color.fromCssColorString("#1f8a4c").withAlpha(0.9),
       height: baseHeight + 4,
     },
     properties: { slug: place.slug, kind: "selection" },

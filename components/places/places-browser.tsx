@@ -52,10 +52,10 @@ export function PlacesBrowser({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="rounded-2xl border border-line/80 bg-ink-800/50 p-3">
+      <div className="rounded-2xl border border-line/80 bg-surface/50 p-3">
         <div className="flex flex-col gap-2 sm:flex-row">
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-2" />
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -106,7 +106,7 @@ export function PlacesBrowser({
                   "kv-focus inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] transition",
                   selected
                     ? "border-accent/40 bg-accent/10 text-accent"
-                    : "border-line text-slate-400 hover:text-white",
+                    : "border-line text-muted hover:text-foreground",
                 )}
               >
                 <CategoryIcon name={category.icon} className="h-3 w-3" />
@@ -122,7 +122,7 @@ export function PlacesBrowser({
                 setQuery("");
                 setOnlyVerified(false);
               }}
-              className="kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] text-slate-500 hover:text-white"
+              className="kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] text-muted-2 hover:text-foreground"
             >
               <X className="h-3 w-3" />
               Clear
@@ -131,7 +131,7 @@ export function PlacesBrowser({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-2">
         <span>
           Showing {results.length} of {places.length} places
         </span>
@@ -175,16 +175,16 @@ export function PlacesBrowser({
         </div>
       )}
 
-      <div className="mt-10 rounded-2xl border border-line/70 bg-ink-900/40 p-5 text-[12px] leading-relaxed text-slate-400">
-        <h2 className="text-sm font-semibold text-white">How verification works</h2>
+      <div className="mt-10 rounded-2xl border border-line/70 bg-surface/40 p-5 text-[12px] leading-relaxed text-muted">
+        <h2 className="text-sm font-semibold text-foreground">How verification works</h2>
         <p className="mt-2">
           <span className="text-mint">Verified</span> means an editor checked the
           place against a named source and recorded the date.{" "}
           <span className="text-amber">Partly verified</span> means some fields have
-          a source and others do not. <span className="text-slate-300">Unverified</span>{" "}
+          a source and others do not. <span className="text-muted">Unverified</span>{" "}
           means the place exists in the editorial seed but its hours, fees and phone
           number are intentionally left blank.{" "}
-          <Link href="/admin" className="text-accent hover:text-sky-300">
+          <Link href="/admin" className="text-accent hover:text-emerald-700">
             Editors can update records
           </Link>{" "}
           without inventing missing values.

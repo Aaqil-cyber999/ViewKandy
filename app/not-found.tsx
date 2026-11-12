@@ -19,14 +19,14 @@ export default function NotFound() {
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-xl flex-col justify-center px-4 py-16 sm:px-6">
       <div className="text-center">
-        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-ink-800 text-accent">
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface text-accent">
           <Compass className="h-6 w-6" />
         </span>
         <p className="kv-label mt-5">404</p>
-        <h1 className="kv-display mt-2 text-3xl font-semibold text-white sm:text-4xl">
+        <h1 className="kv-display mt-2 text-3xl font-semibold text-foreground sm:text-4xl">
           This page could not be found
         </h1>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate-400">
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
           The link may be out of date, or the place may no longer be in the
           catalogue. Nothing is guessed to fill the gap.
         </p>
@@ -40,7 +40,7 @@ export default function NotFound() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="kv-focus flex items-center gap-3 rounded-xl border border-line/70 bg-ink-800/40 px-3.5 py-3 text-[13px] text-slate-200 transition hover:border-slate-600 hover:text-white"
+                className="kv-focus flex items-center gap-3 rounded-xl border border-line/70 bg-surface/40 px-3.5 py-3 text-[13px] text-foreground transition hover:border-accent/50 hover:text-foreground"
               >
                 <Icon className="h-4 w-4 text-accent" />
                 {item.label}

@@ -38,7 +38,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={item.id}
             role="status"
             className={cn(
-              "pointer-events-auto flex w-full max-w-md items-start gap-2.5 rounded-xl border border-line bg-ink-800/95 px-4 py-3 text-sm text-slate-100 shadow-2xl backdrop-blur",
+              "pointer-events-auto flex w-full max-w-md items-start gap-2.5 rounded-xl border border-line bg-surface/95 px-4 py-3 text-sm text-foreground shadow-2xl backdrop-blur",
               item.tone === "success" && "border-mint/30",
             )}
           >
@@ -51,7 +51,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => setToasts((current) => current.filter((t) => t.id !== item.id))}
-              className="kv-focus rounded p-0.5 text-slate-500 hover:text-white"
+              className="kv-focus rounded p-0.5 text-muted-2 hover:text-foreground"
               aria-label="Dismiss notification"
             >
               <X className="h-3.5 w-3.5" />

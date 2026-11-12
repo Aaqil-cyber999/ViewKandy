@@ -59,22 +59,22 @@ export default async function TourDetailPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <nav className="flex items-center gap-2 text-[11px] text-slate-500" aria-label="Breadcrumb">
-        <Link href="/tours" className="kv-focus inline-flex items-center gap-1 hover:text-white">
+      <nav className="flex items-center gap-2 text-[11px] text-muted-2" aria-label="Breadcrumb">
+        <Link href="/tours" className="kv-focus inline-flex items-center gap-1 hover:text-foreground">
           <ArrowLeft className="h-3 w-3" />
           All tours
         </Link>
         <span aria-hidden="true">/</span>
-        <span className="truncate text-slate-400">{tour.title}</span>
+        <span className="truncate text-muted">{tour.title}</span>
       </nav>
 
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-2xl">
           <p className="kv-label">Virtual tour · {tour.theme}</p>
-          <h1 className="kv-display mt-2 text-3xl font-semibold text-white sm:text-4xl">
+          <h1 className="kv-display mt-2 text-3xl font-semibold text-foreground sm:text-4xl">
             {tour.title}
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">{tour.description}</p>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{tour.description}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="accent">
@@ -96,8 +96,8 @@ export default async function TourDetailPage({
       </div>
 
       <section className="mt-10">
-        <h2 className="text-xl font-semibold text-white">Stops on this route</h2>
-        <p className="mt-1 text-[12px] text-slate-500">
+        <h2 className="text-xl font-semibold text-foreground">Stops on this route</h2>
+        <p className="mt-1 text-[12px] text-muted-2">
           The player visits these in order. Every stop links to its full record,
           including the verification status.
         </p>
@@ -105,7 +105,7 @@ export default async function TourDetailPage({
           {stops.map((item, index) => (
             <li
               key={item.place.slug}
-              className="flex gap-4 rounded-2xl border border-line/70 bg-ink-800/40 p-3"
+              className="flex gap-4 rounded-2xl border border-line/70 bg-surface/40 p-3"
             >
               <div className="relative shrink-0">
                 <PlaceArt
@@ -113,7 +113,7 @@ export default async function TourDetailPage({
                   category={item.place.category}
                   className="h-20 w-28 rounded-xl sm:h-24 sm:w-36"
                 />
-                <span className="absolute left-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-ink-950/80 text-[9px] font-bold text-accent backdrop-blur">
+                <span className="absolute left-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-surface/80 text-[9px] font-bold text-accent backdrop-blur">
                   {index + 1}
                 </span>
               </div>
@@ -121,14 +121,14 @@ export default async function TourDetailPage({
                 <p className="kv-label">{item.stop.headline}</p>
                 <Link
                   href={`/places/${item.place.slug}`}
-                  className="kv-focus mt-0.5 block text-sm font-semibold text-white hover:text-accent"
+                  className="kv-focus mt-0.5 block text-sm font-semibold text-foreground hover:text-accent"
                 >
                   {item.place.name}
                 </Link>
-                <p className="mt-1 text-[12px] leading-relaxed text-slate-400">
+                <p className="mt-1 text-[12px] leading-relaxed text-muted">
                   {item.stop.note}
                 </p>
-                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-slate-500">
+                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-muted-2">
                   <span>{item.stop.dwellSeconds}s on screen</span>
                   <span>·</span>
                   <span>{item.place.summary}</span>

@@ -22,7 +22,7 @@ export default async function ExplorePage() {
       />
       <Suspense
         fallback={
-          <div className="mx-auto max-w-7xl px-4 py-16 text-sm text-slate-400">
+          <div className="mx-auto max-w-7xl px-4 py-16 text-sm text-muted">
             Loading the explorer…
           </div>
         }

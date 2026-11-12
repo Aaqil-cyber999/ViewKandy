@@ -72,13 +72,13 @@ function Fact({
 }) {
   return (
     <div className="flex items-start gap-3 border-b border-line/60 py-3 last:border-b-0">
-      <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-line bg-ink-900/60 text-slate-400">
+      <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-line bg-surface/60 text-muted">
         {icon}
       </span>
       <div className="min-w-0">
-        <p className="text-[10px] uppercase tracking-[0.14em] text-slate-500">{label}</p>
-        <div className="mt-0.5 text-[13px] leading-relaxed text-slate-200">{value}</div>
-        {hint && <p className="mt-0.5 text-[10px] leading-relaxed text-slate-500">{hint}</p>}
+        <p className="text-[10px] uppercase tracking-[0.14em] text-muted-2">{label}</p>
+        <div className="mt-0.5 text-[13px] leading-relaxed text-foreground">{value}</div>
+        {hint && <p className="mt-0.5 text-[10px] leading-relaxed text-muted-2">{hint}</p>}
       </div>
     </div>
   );
@@ -130,17 +130,17 @@ export default async function PlaceDetailPage({
       />
 
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-2 text-[11px] text-slate-500" aria-label="Breadcrumb">
-          <Link href="/places" className="kv-focus inline-flex items-center gap-1 hover:text-white">
+        <nav className="flex items-center gap-2 text-[11px] text-muted-2" aria-label="Breadcrumb">
+          <Link href="/places" className="kv-focus inline-flex items-center gap-1 hover:text-foreground">
             <ArrowLeft className="h-3 w-3" />
             All places
           </Link>
           <span aria-hidden="true">/</span>
-          <Link href={`/explore?category=${place.category}`} className="kv-focus hover:text-white">
+          <Link href={`/explore?category=${place.category}`} className="kv-focus hover:text-foreground">
             {category.name}
           </Link>
           <span aria-hidden="true">/</span>
-          <span className="truncate text-slate-400">{place.name}</span>
+          <span className="truncate text-muted">{place.name}</span>
         </nav>
 
         <div className="mt-4 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
@@ -155,7 +155,7 @@ export default async function PlaceDetailPage({
               <div className="absolute left-4 top-4 flex flex-wrap gap-2">
                 <Badge
                   variant="neutral"
-                  className="border-white/10 bg-ink-950/70 backdrop-blur"
+                  className="border-line bg-surface/70 backdrop-blur"
                   style={{ color: category.color }}
                 >
                   <CategoryIcon name={category.icon} className="h-3 w-3" />
@@ -164,23 +164,23 @@ export default async function PlaceDetailPage({
                 <VerificationBadge status={place.verification.status} />
                 {place.featured && <Badge variant="accent">Editor&apos;s pick</Badge>}
               </div>
-              <p className="absolute bottom-3 right-4 text-[9px] text-slate-400">
+              <p className="absolute bottom-3 right-4 text-[9px] text-muted">
                 Category identity artwork — not a photograph of this place.
               </p>
             </div>
 
             <div className="mt-6">
-              <h1 className="kv-display text-3xl font-semibold text-white sm:text-4xl">
+              <h1 className="kv-display text-3xl font-semibold text-foreground sm:text-4xl">
                 {place.name}
               </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300">
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
                 {place.summary}
               </p>
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {place.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-line bg-ink-800/60 px-2.5 py-1 text-[10px] text-slate-400"
+                    className="rounded-full border border-line bg-surface/60 px-2.5 py-1 text-[10px] text-muted"
                   >
                     {tag}
                   </span>
@@ -193,7 +193,7 @@ export default async function PlaceDetailPage({
                 <ShareButton title={place.name} />
                 <Link
                   href={`/explore?place=${place.slug}`}
-                  className="kv-focus inline-flex h-11 items-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-ink-950 transition hover:bg-sky-300"
+                  className="kv-focus inline-flex h-11 items-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-white transition hover:bg-emerald-700"
                 >
                   <MapPin className="h-4 w-4" />
                   Show in explorer
@@ -204,14 +204,14 @@ export default async function PlaceDetailPage({
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
               <Card>
                 <CardContent>
-                  <h2 className="text-sm font-semibold text-white">Practical information</h2>
+                  <h2 className="text-sm font-semibold text-foreground">Practical information</h2>
                   <div className="mt-2">
                     <Fact
                       icon={<Clock className="h-4 w-4" />}
                       label="Opening hours"
                       value={
                         place.openingHours ?? (
-                          <span className="text-slate-400">Not verified</span>
+                          <span className="text-muted">Not verified</span>
                         )
                       }
                       hint={
@@ -227,7 +227,7 @@ export default async function PlaceDetailPage({
                         place.entryFeeLkr !== null ? (
                           `LKR ${place.entryFeeLkr.toLocaleString("en-LK")}`
                         ) : (
-                          <span className="text-slate-400">Not verified</span>
+                          <span className="text-muted">Not verified</span>
                         )
                       }
                       hint={
@@ -247,7 +247,7 @@ export default async function PlaceDetailPage({
                       label="Accessibility"
                       value={
                         place.accessibility ?? (
-                          <span className="text-slate-400">No verified note</span>
+                          <span className="text-muted">No verified note</span>
                         )
                       }
                     />
@@ -267,7 +267,7 @@ export default async function PlaceDetailPage({
                             href={place.website}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1 text-accent hover:text-sky-300"
+                            className="inline-flex items-center gap-1 text-accent hover:text-emerald-700"
                           >
                             Visit site
                             <ExternalLink className="h-3 w-3" />
@@ -281,15 +281,15 @@ export default async function PlaceDetailPage({
 
               <Card>
                 <CardContent>
-                  <h2 className="text-sm font-semibold text-white">Data & verification</h2>
-                  <div className="mt-3 space-y-3 text-[12px] leading-relaxed text-slate-400">
+                  <h2 className="text-sm font-semibold text-foreground">Data & verification</h2>
+                  <div className="mt-3 space-y-3 text-[12px] leading-relaxed text-muted">
                     <div className="flex items-center gap-2">
                       {verified ? (
                         <CheckCircle2 className="h-4 w-4 text-mint" />
                       ) : (
                         <ShieldAlert className="h-4 w-4 text-amber" />
                       )}
-                      <span className="text-slate-200">
+                      <span className="text-foreground">
                         Status: {place.verification.status.replaceAll("_", " ")}
                       </span>
                     </div>
@@ -300,7 +300,7 @@ export default async function PlaceDetailPage({
                           href={place.verification.sourceUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-accent hover:text-sky-300"
+                          className="text-accent hover:text-emerald-700"
                         >
                           {place.verification.source}
                         </a>
@@ -319,7 +319,7 @@ export default async function PlaceDetailPage({
                     </p>
                     <p>
                       Coordinate accuracy:{" "}
-                      <span className="text-slate-200">
+                      <span className="text-foreground">
                         {place.locationAccuracy.replaceAll("_", " ")}
                       </span>{" "}
                       · {place.lat.toFixed(5)}, {place.lng.toFixed(5)}
@@ -333,7 +333,7 @@ export default async function PlaceDetailPage({
                     )}
                     <Link
                       href="/admin"
-                      className="kv-focus inline-flex items-center gap-1 text-[11px] text-slate-300 hover:text-white"
+                      className="kv-focus inline-flex items-center gap-1 text-[11px] text-muted hover:text-foreground"
                     >
                       <ShieldCheck className="h-3.5 w-3.5 text-mint" />
                       Editor? Verify this record
@@ -344,8 +344,8 @@ export default async function PlaceDetailPage({
             </div>
 
             <div className="mt-6">
-              <h2 className="mb-3 text-sm font-semibold text-white">About this place</h2>
-              <p className="whitespace-pre-line text-[13px] leading-7 text-slate-300">
+              <h2 className="mb-3 text-sm font-semibold text-foreground">About this place</h2>
+              <p className="whitespace-pre-line text-[13px] leading-7 text-muted">
                 {place.description}
               </p>
             </div>
@@ -359,8 +359,8 @@ export default async function PlaceDetailPage({
             </div>
 
             <div className="mt-6">
-              <h2 className="text-sm font-semibold text-white">Live nearby data</h2>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
+              <h2 className="text-sm font-semibold text-foreground">Live nearby data</h2>
+              <p className="mt-1 text-[11px] leading-relaxed text-muted-2">
                 Optional external enrichment, kept separate from the editorial
                 catalogue. Every result is attributed to its source and is not
                 treated as KandyVerse verification.
@@ -378,43 +378,43 @@ export default async function PlaceDetailPage({
           <aside className="space-y-4">
             <Card>
               <CardContent>
-                <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+                <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Info className="h-4 w-4 text-accent" />
                   At a glance
                 </h2>
                 <dl className="mt-3 space-y-2.5 text-[12px]">
                   <div className="flex items-start justify-between gap-3">
-                    <dt className="text-slate-500">Category</dt>
-                    <dd className="text-right text-slate-200">{category.name}</dd>
+                    <dt className="text-muted-2">Category</dt>
+                    <dd className="text-right text-foreground">{category.name}</dd>
                   </div>
                   <div className="flex items-start justify-between gap-3">
-                    <dt className="text-slate-500">Setting</dt>
-                    <dd className="text-right text-slate-200">
+                    <dt className="text-muted-2">Setting</dt>
+                    <dd className="text-right text-foreground">
                       {place.indoor ? "Indoor" : "Outdoor"}
                     </dd>
                   </div>
                   <div className="flex items-start justify-between gap-3">
-                    <dt className="text-slate-500">Best time</dt>
-                    <dd className="text-right text-slate-200">
+                    <dt className="text-muted-2">Best time</dt>
+                    <dd className="text-right text-foreground">
                       {place.bestTime ?? "No verified note"}
                     </dd>
                   </div>
                   <div className="flex items-start justify-between gap-3">
-                    <dt className="text-slate-500">Address</dt>
-                    <dd className="text-right text-slate-200">
+                    <dt className="text-muted-2">Address</dt>
+                    <dd className="text-right text-foreground">
                       {place.address ?? "Kandy, Sri Lanka"}
                     </dd>
                   </div>
                   <div className="flex items-start justify-between gap-3">
-                    <dt className="text-slate-500">Coordinate</dt>
-                    <dd className="text-right font-mono text-[11px] text-slate-300">
+                    <dt className="text-muted-2">Coordinate</dt>
+                    <dd className="text-right font-mono text-[11px] text-muted">
                       {place.lat.toFixed(4)}, {place.lng.toFixed(4)}
                     </dd>
                   </div>
                 </dl>
                 {place.practicalNotes && (
-                  <p className="mt-3 rounded-lg border border-line/70 bg-ink-900/50 p-2.5 text-[11px] leading-relaxed text-slate-400">
-                    <CircleHelp className="mr-1 inline h-3 w-3 text-slate-500" />
+                  <p className="mt-3 rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[11px] leading-relaxed text-muted">
+                    <CircleHelp className="mr-1 inline h-3 w-3 text-muted-2" />
                     {place.practicalNotes}
                   </p>
                 )}
@@ -423,17 +423,17 @@ export default async function PlaceDetailPage({
 
             <Card>
               <CardContent>
-                <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+                <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <CalendarClock className="h-4 w-4 text-mint" />
                   Build this into a day
                 </h2>
-                <p className="mt-2 text-[12px] leading-relaxed text-slate-400">
+                <p className="mt-2 text-[12px] leading-relaxed text-muted">
                   Add {place.name} to your shortlist, then let the planner fit it
                   around travel time, meals and the rest of your interests.
                 </p>
                 <Link
                   href="/planner"
-                  className="kv-focus mt-3 inline-flex h-9 items-center gap-1.5 rounded-full bg-mint px-4 text-[12px] font-semibold text-ink-950 transition hover:bg-emerald-300"
+                  className="kv-focus mt-3 inline-flex h-9 items-center gap-1.5 rounded-full bg-mint px-4 text-[12px] font-semibold text-white transition hover:bg-emerald-700"
                 >
                   Open planner
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -443,12 +443,12 @@ export default async function PlaceDetailPage({
 
             <div>
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-white">Nearby</h2>
-                <span className="text-[10px] text-slate-500">within 1.8 km</span>
+                <h2 className="text-sm font-semibold text-foreground">Nearby</h2>
+                <span className="text-[10px] text-muted-2">within 1.8 km</span>
               </div>
               <div className="space-y-2">
                 {nearby.length === 0 ? (
-                  <p className="rounded-xl border border-dashed border-line p-4 text-[11px] text-slate-500">
+                  <p className="rounded-xl border border-dashed border-line p-4 text-[11px] text-muted-2">
                     No other places within 1.8 km in the database.
                   </p>
                 ) : (
@@ -456,7 +456,7 @@ export default async function PlaceDetailPage({
                     <Link
                       key={item.slug}
                       href={`/places/${item.slug}`}
-                      className="kv-focus flex items-center gap-3 rounded-xl border border-line/70 bg-ink-800/40 p-2.5 transition hover:border-slate-600"
+                      className="kv-focus flex items-center gap-3 rounded-xl border border-line/70 bg-surface/40 p-2.5 transition hover:border-accent/50"
                     >
                       <PlaceArt
                         slug={item.slug}
@@ -464,15 +464,15 @@ export default async function PlaceDetailPage({
                         className="h-12 w-12 shrink-0 rounded-lg"
                       />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[12px] font-medium text-white">
+                        <span className="block truncate text-[12px] font-medium text-foreground">
                           {item.name}
                         </span>
-                        <span className="block text-[10px] text-slate-500">
+                        <span className="block text-[10px] text-muted-2">
                           {formatDistance(item.distanceMeters)} away ·{" "}
                           {formatDuration(item.estimatedVisitMinutes)}
                         </span>
                       </span>
-                      <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-slate-600" />
+                      <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-2" />
                     </Link>
                   ))
                 )}
@@ -486,13 +486,13 @@ export default async function PlaceDetailPage({
             <div className="mb-4 flex items-end justify-between gap-3">
               <div>
                 <p className="kv-label">Continue exploring</p>
-                <h2 className="mt-1 text-2xl font-semibold text-white">
+                <h2 className="mt-1 text-2xl font-semibold text-foreground">
                   Around {place.name}
                 </h2>
               </div>
               <Link
                 href={`/explore?place=${place.slug}`}
-                className="kv-focus text-[12px] text-accent hover:text-sky-300"
+                className="kv-focus text-[12px] text-accent hover:text-emerald-700"
               >
                 See on map
               </Link>

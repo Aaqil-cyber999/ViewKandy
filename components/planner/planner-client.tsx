@@ -333,11 +333,11 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
         <Card>
           <CardContent className="space-y-4">
             <div>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <Sparkles className="h-4 w-4 text-mint" />
                 Shape your day
               </h2>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
+              <p className="mt-1 text-[11px] leading-relaxed text-muted-2">
                 The planner fits real places into your window. Travel times are
                 estimates unless you request a live route.
               </p>
@@ -360,7 +360,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 <Label htmlFor="startTime">Start time</Label>
                 <Input id="startTime" type="time" {...register("startTime")} />
                 {errors.startTime && (
-                  <p className="mt-1 text-[10px] text-red-300">{errors.startTime.message}</p>
+                  <p className="mt-1 text-[10px] text-red-700">{errors.startTime.message}</p>
                 )}
               </div>
               <div>
@@ -415,7 +415,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                               "kv-focus inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] transition",
                               active
                                 ? "border-accent/40 bg-accent/10 text-accent"
-                                : "border-line text-slate-400 hover:text-white",
+                                : "border-line text-muted hover:text-foreground",
                             )}
                           >
                             <CategoryIcon name={category.icon} className="h-3 w-3" />
@@ -427,7 +427,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 )}
               />
               {errors.interests && (
-                <p className="mt-1 text-[10px] text-red-300">{errors.interests.message}</p>
+                <p className="mt-1 text-[10px] text-red-700">{errors.interests.message}</p>
               )}
             </div>
 
@@ -443,7 +443,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                       aria-pressed={travelMode === mode}
                       className={cn(
                         "kv-focus inline-flex flex-1 items-center justify-center gap-1 rounded-md px-2 py-1.5 text-[11px] capitalize",
-                        travelMode === mode ? "bg-accent text-ink-950" : "text-slate-400",
+                        travelMode === mode ? "bg-accent text-white" : "text-muted",
                       )}
                     >
                       {mode === "walk" ? <Footprints className="h-3 w-3" /> : <Navigation className="h-3 w-3" />}
@@ -488,17 +488,17 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
             </div>
 
             <div className="space-y-2">
-              <label className="flex items-start gap-2 text-[12px] text-slate-300">
-                <input type="checkbox" className="mt-0.5 accent-sky-400" {...register("includeMeal")} />
+              <label className="flex items-start gap-2 text-[12px] text-muted">
+                <input type="checkbox" className="mt-0.5 accent-emerald-600" {...register("includeMeal")} />
                 <span>
                   Include a meal stop
                   <FieldHint>Adds a food place when the window allows it.</FieldHint>
                 </span>
               </label>
-              <label className="flex items-start gap-2 text-[12px] text-slate-300">
+              <label className="flex items-start gap-2 text-[12px] text-muted">
                 <input
                   type="checkbox"
-                  className="mt-0.5 accent-sky-400"
+                  className="mt-0.5 accent-emerald-600"
                   {...register("accessibilityNeeded")}
                 />
                 <span>
@@ -506,8 +506,8 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   <FieldHint>Only uses places with an accessibility note.</FieldHint>
                 </span>
               </label>
-              <label className="flex items-start gap-2 text-[12px] text-slate-300">
-                <input type="checkbox" className="mt-0.5 accent-sky-400" {...register("budgetEnabled")} />
+              <label className="flex items-start gap-2 text-[12px] text-muted">
+                <input type="checkbox" className="mt-0.5 accent-emerald-600" {...register("budgetEnabled")} />
                 <span>Set a budget</span>
               </label>
               {budgetEnabled && (
@@ -537,7 +537,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         key={slug}
                         type="button"
                         onClick={() => togglePin(slug)}
-                        className="kv-focus inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[10px] text-slate-300 hover:border-red-400/40 hover:text-red-300"
+                        className="kv-focus inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[10px] text-muted hover:border-red-300/60 hover:text-red-700"
                         title="Remove from shortlist"
                       >
                         {place.name}
@@ -546,7 +546,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                     );
                   })}
                 </div>
-                <p className="mt-1.5 text-[10px] leading-relaxed text-slate-500">
+                <p className="mt-1.5 text-[10px] leading-relaxed text-muted-2">
                   Pinned places are included when they fit. Remove one here to
                   exclude it on the next calculation.
                 </p>
@@ -554,7 +554,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
             )}
 
             {weather && (
-              <div className="rounded-lg border border-line/70 bg-ink-900/50 p-2.5 text-[11px] leading-relaxed text-slate-400">
+              <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[11px] leading-relaxed text-muted">
                 <span className={weather.rainLikely ? "text-amber" : "text-mint"}>
                   {weather.headline}
                 </span>{" "}
@@ -567,12 +567,12 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
               {itinerary ? "Recalculate plan" : "Build my plan"}
             </Button>
             {errors.root && (
-              <p className="text-[10px] text-red-300">{errors.root.message}</p>
+              <p className="text-[10px] text-red-700">{errors.root.message}</p>
             )}
           </CardContent>
         </Card>
 
-        <p className="px-1 text-[10px] leading-relaxed text-slate-600">
+        <p className="px-1 text-[10px] leading-relaxed text-muted-2">
           Estimates use straight-line distance, a street-detour factor and a
           conservative city speed. Opening hours are only respected when a
           machine-readable value is stored.
@@ -587,15 +587,15 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
           />
         ) : (
           <>
-            <div className="rounded-2xl border border-line/80 bg-ink-800/50 p-4">
+            <div className="rounded-2xl border border-line/80 bg-surface/50 p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="kv-label">Your day</p>
-                  <h2 className="mt-1 text-xl font-semibold text-white">
+                  <h2 className="mt-1 text-xl font-semibold text-foreground">
                     {itinerary.startTime}–{itinerary.endTime} · {itinerary.stops.length}{" "}
                     {itinerary.stops.length === 1 ? "stop" : "stops"}
                   </h2>
-                  <p className="mt-1 text-[11px] text-slate-500">
+                  <p className="mt-1 text-[11px] text-muted-2">
                     Starting at {itinerary.start.label} ·{" "}
                     {itinerary.mode === "walk" ? "walking" : "driving"} ·{" "}
                     {lastPrefs ? PACE_LABELS[lastPrefs.pace] : "balanced"} pace
@@ -671,7 +671,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   type="button"
                   onClick={requestLiveRoute}
                   disabled={routeLoading || itinerary.stops.length === 0}
-                  className="kv-focus ml-auto inline-flex h-8 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] text-slate-300 transition hover:bg-ink-700 disabled:opacity-40"
+                  className="kv-focus ml-auto inline-flex h-8 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] text-muted transition hover:bg-surface-2 disabled:opacity-40"
                 >
                   <Navigation className="h-3 w-3" />
                   {routeLoading ? "Routing…" : "Get live route"}
@@ -685,7 +685,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
               )}
             </div>
 
-            <div className="relative h-[360px] overflow-hidden rounded-2xl border border-line/80 bg-ink-900">
+            <div className="relative h-[360px] overflow-hidden rounded-2xl border border-line/80 bg-surface">
               {view === "3d" && !mapError ? (
                 <CesiumScene
                   places={mapPlaces}
@@ -707,14 +707,14 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   className="h-full w-full"
                 />
               )}
-              <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-line bg-ink-950/80 p-1 backdrop-blur">
+              <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1 backdrop-blur">
                 <button
                   type="button"
                   onClick={() => setView("3d")}
                   disabled={mapError}
                   className={cn(
                     "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] disabled:opacity-40",
-                    view === "3d" ? "bg-accent text-ink-950" : "text-slate-300",
+                    view === "3d" ? "bg-accent text-white" : "text-muted",
                   )}
                 >
                   <Compass className="h-3 w-3" />
@@ -725,7 +725,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   onClick={() => setView("2d")}
                   className={cn(
                     "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px]",
-                    view === "2d" ? "bg-accent text-ink-950" : "text-slate-300",
+                    view === "2d" ? "bg-accent text-white" : "text-muted",
                   )}
                 >
                   <MapIcon className="h-3 w-3" />
@@ -748,10 +748,10 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
               </div>
             )}
 
-            <div className="rounded-2xl border border-line/80 bg-ink-800/40">
+            <div className="rounded-2xl border border-line/80 bg-surface/40">
               <div className="flex items-center justify-between border-b border-line/70 px-4 py-3">
-                <h3 className="text-sm font-semibold text-white">Timeline</h3>
-                <span className="text-[10px] text-slate-500">
+                <h3 className="text-sm font-semibold text-foreground">Timeline</h3>
+                <span className="text-[10px] text-muted-2">
                   Reorder or remove stops; times recalculate
                 </span>
               </div>
@@ -759,10 +759,10 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 {itinerary.stops.map((stop, index) => (
                   <li key={`${stop.place.slug}-${index}`} className="flex gap-3 p-3 sm:p-4">
                     <div className="w-12 shrink-0 text-right">
-                      <p className="text-[12px] font-semibold text-white">
+                      <p className="text-[12px] font-semibold text-foreground">
                         {formatMinutesAsTime(stop.arrivalMinutes)}
                       </p>
-                      <p className="text-[10px] text-slate-500">
+                      <p className="text-[10px] text-muted-2">
                         {formatMinutesAsTime(stop.departureMinutes)}
                       </p>
                     </div>
@@ -779,11 +779,11 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         <div className="min-w-0">
                           <Link
                             href={`/places/${stop.place.slug}`}
-                            className="kv-focus text-[13px] font-semibold text-white hover:text-accent"
+                            className="kv-focus text-[13px] font-semibold text-foreground hover:text-accent"
                           >
                             {stop.place.name}
                           </Link>
-                          <p className="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-slate-400">
+                          <p className="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-muted">
                             {stop.place.summary}
                           </p>
                         </div>
@@ -792,7 +792,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                             type="button"
                             onClick={() => moveStop(index, -1)}
                             disabled={index === 0}
-                            className="kv-focus rounded p-1 text-slate-500 hover:text-white disabled:opacity-30"
+                            className="kv-focus rounded p-1 text-muted-2 hover:text-foreground disabled:opacity-30"
                             aria-label={`Move ${stop.place.name} earlier`}
                           >
                             <ArrowUp className="h-3.5 w-3.5" />
@@ -801,7 +801,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                             type="button"
                             onClick={() => moveStop(index, 1)}
                             disabled={index === itinerary.stops.length - 1}
-                            className="kv-focus rounded p-1 text-slate-500 hover:text-white disabled:opacity-30"
+                            className="kv-focus rounded p-1 text-muted-2 hover:text-foreground disabled:opacity-30"
                             aria-label={`Move ${stop.place.name} later`}
                           >
                             <ArrowDown className="h-3.5 w-3.5" />
@@ -809,7 +809,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                           <button
                             type="button"
                             onClick={() => removeStop(index)}
-                            className="kv-focus rounded p-1 text-slate-500 hover:text-red-300"
+                            className="kv-focus rounded p-1 text-muted-2 hover:text-red-700"
                             aria-label={`Remove ${stop.place.name}`}
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -817,7 +817,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         </div>
                       </div>
 
-                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-500">
+                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-2">
                         <span className="inline-flex items-center gap-1">
                           <CategoryIcon
                             name={categories.find((c) => c.slug === stop.place.category)?.icon ?? "info"}
@@ -859,7 +859,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                       <div className="mt-2 flex gap-2">
                         <Link
                           href={`/places/${stop.place.slug}`}
-                          className="kv-focus inline-flex items-center gap-1 text-[10px] text-accent hover:text-sky-300"
+                          className="kv-focus inline-flex items-center gap-1 text-[10px] text-accent hover:text-emerald-700"
                         >
                           Details
                           <ArrowRight className="h-3 w-3" />
@@ -867,7 +867,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         <button
                           type="button"
                           onClick={() => togglePin(stop.place.slug)}
-                          className="kv-focus inline-flex items-center gap-1 text-[10px] text-slate-500 hover:text-mint"
+                          className="kv-focus inline-flex items-center gap-1 text-[10px] text-muted-2 hover:text-mint"
                         >
                           <Pin className="h-3 w-3" />
                           {pins.includes(stop.place.slug) ? "Pinned" : "Pin for next time"}
@@ -881,8 +881,8 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
 
             <Card>
               <CardContent>
-                <h3 className="text-sm font-semibold text-white">Assumptions & method</h3>
-                <ul className="mt-2 space-y-1 text-[11px] leading-relaxed text-slate-400">
+                <h3 className="text-sm font-semibold text-foreground">Assumptions & method</h3>
+                <ul className="mt-2 space-y-1 text-[11px] leading-relaxed text-muted">
                   {itinerary.assumptions.map((assumption) => (
                     <li key={assumption} className="flex items-start gap-1.5">
                       <Check className="mt-0.5 h-3 w-3 shrink-0 text-mint" />
@@ -892,7 +892,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 </ul>
                 {itinerary.alternatives.length > 0 && (
                   <>
-                    <h4 className="mt-4 text-[11px] font-semibold text-slate-200">
+                    <h4 className="mt-4 text-[11px] font-semibold text-foreground">
                       Alternatives if you have more time
                     </h4>
                     <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -900,7 +900,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         <Link
                           key={place.slug}
                           href={`/places/${place.slug}`}
-                          className="kv-focus rounded-full border border-line px-2.5 py-1 text-[10px] text-slate-300 hover:border-accent/40 hover:text-accent"
+                          className="kv-focus rounded-full border border-line px-2.5 py-1 text-[10px] text-muted hover:border-accent/40 hover:text-accent"
                         >
                           {place.name}
                         </Link>
@@ -927,12 +927,12 @@ function Stat({
   value: string;
 }) {
   return (
-    <div className="rounded-lg border border-line/70 bg-ink-900/50 px-3 py-2">
-      <dt className="flex items-center gap-1 text-[9px] uppercase tracking-[0.12em] text-slate-500">
+    <div className="rounded-lg border border-line/70 bg-surface/50 px-3 py-2">
+      <dt className="flex items-center gap-1 text-[9px] uppercase tracking-[0.12em] text-muted-2">
         {icon}
         {label}
       </dt>
-      <dd className="mt-0.5 text-[12px] font-semibold text-white">{value}</dd>
+      <dd className="mt-0.5 text-[12px] font-semibold text-foreground">{value}</dd>
     </div>
   );
 }

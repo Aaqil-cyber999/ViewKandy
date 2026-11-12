@@ -1,7 +1,7 @@
 /**
  * Generates the PWA / touch icons with no image dependencies.
- * The mark mirrors components/brand/logo.tsx: a sky-blue chevron, a mint
- * vertical stroke and a mint dot on an ink gradient.
+ * The mark mirrors components/brand/logo.tsx: a white chevron, a pale-mint
+ * vertical stroke and dot on a deep forest-green gradient.
  *
  * Run with: node scripts/generate-icons.mjs
  */
@@ -14,10 +14,10 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = resolve(root, "public", "icons");
 mkdirSync(outDir, { recursive: true });
 
-const INK_TOP = [7, 17, 31];
-const INK_BOTTOM = [11, 23, 40];
-const SKY = [56, 189, 248];
-const MINT = [52, 211, 153];
+const INK_TOP = [20, 102, 58];
+const INK_BOTTOM = [31, 138, 76];
+const SKY = [255, 255, 255];
+const MINT = [209, 250, 229];
 
 function clamp(value, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
@@ -94,7 +94,7 @@ function render(size, { maskable = false } = {}) {
       let color = mix(INK_TOP, INK_BOTTOM, clamp((u + v) / 2));
       // Subtle radial glow behind the mark.
       const glow = Math.max(0, 1 - Math.hypot(u - 0.5, v - 0.5) / 0.62);
-      color = over(color, [20, 60, 90], glow * 0.28);
+      color = over(color, [134, 239, 172], glow * 0.24);
 
       // Sky chevron.
       const dChevron = Math.min(
@@ -122,7 +122,7 @@ function render(size, { maskable = false } = {}) {
       // Inner hairline ring.
       const ring =
         Math.abs(roundedRectDistance(px, py, size, size, radius) + size * 0.028) < scale * 0.8
-          ? 0.18
+          ? 0.22
           : 0;
       color = over(color, [255, 255, 255], ring);
 

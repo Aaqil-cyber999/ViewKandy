@@ -34,7 +34,7 @@ export function PlaceArt({
 
   return (
     <div
-      className={cn("relative overflow-hidden bg-ink-800", className)}
+      className={cn("relative overflow-hidden bg-surface-2", className)}
       role="img"
       aria-label={`${meta.name} illustration`}
     >
@@ -46,16 +46,16 @@ export function PlaceArt({
       >
         <defs>
           <radialGradient id={`glow-${slug}`} cx="30%" cy="20%" r="80%">
-            <stop offset="0%" stopColor={meta.color} stopOpacity="0.38" />
-            <stop offset="55%" stopColor={meta.color} stopOpacity="0.07" />
-            <stop offset="100%" stopColor="#07111f" stopOpacity="0" />
+            <stop offset="0%" stopColor={meta.color} stopOpacity="0.3" />
+            <stop offset="55%" stopColor={meta.color} stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#f7faf5" stopOpacity="0" />
           </radialGradient>
           <linearGradient id={`fade-${slug}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#0b1728" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#07111f" stopOpacity="0.85" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
+            <stop offset="100%" stopColor="#f7faf5" stopOpacity="0.88" />
           </linearGradient>
         </defs>
-        <rect width="400" height="240" fill="#0b1728" />
+        <rect width="400" height="240" fill="#eef5eb" />
         <rect width="400" height="240" fill={`url(#glow-${slug})`} />
         <g
           stroke={meta.color}
@@ -77,7 +77,7 @@ export function PlaceArt({
             );
           })}
         </g>
-        <g stroke="#94a3b8" strokeOpacity="0.08" strokeWidth="0.5">
+        <g stroke="#53665a" strokeOpacity="0.08" strokeWidth="0.5">
           {Array.from({ length: 12 }).map((_, i) => (
             <line key={`h${i}`} x1="0" y1={i * 20} x2="400" y2={i * 20} />
           ))}
@@ -88,7 +88,7 @@ export function PlaceArt({
         <rect width="400" height="240" fill={`url(#fade-${slug})`} />
       </svg>
 
-      <div className="relative flex h-full w-full items-center justify-center">
+      <div className="relative flex h-full w-full items-center justify-center" style={{ color: meta.color }}>
         <CategoryIcon
           name={meta.icon}
           className="h-14 w-14 opacity-80"

@@ -21,26 +21,26 @@ export function Logo({
           <path
             d="M8 25V7l10 9-10 9Z"
             fill="none"
-            stroke="#38bdf8"
+            stroke="#1f8a4c"
             strokeWidth="1.8"
             strokeLinejoin="round"
           />
           <path
             d="M18 7v18"
-            stroke="#34d399"
+            stroke="#15803d"
             strokeWidth="1.8"
             strokeLinecap="round"
           />
-          <circle cx="23.5" cy="11.5" r="2.2" fill="#34d399" />
+          <circle cx="23.5" cy="11.5" r="2.2" fill="#15803d" />
         </svg>
-        <span className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5" />
+        <span className="absolute inset-0 rounded-xl ring-1 ring-inset ring-accent/10" />
       </span>
       {showWordmark && (
         <span className="flex flex-col leading-none">
-          <span className="text-[15px] font-semibold tracking-[0.16em] text-white">
+          <span className="text-[15px] font-semibold tracking-[0.16em] text-foreground">
             KANDY<span className="text-accent">VERSE</span>
           </span>
-          <span className="mt-1 text-[9px] uppercase tracking-[0.22em] text-slate-500">
+          <span className="mt-1 text-[9px] uppercase tracking-[0.22em] text-muted-2">
             Beyond the map
           </span>
         </span>

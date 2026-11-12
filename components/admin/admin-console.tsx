@@ -410,11 +410,11 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
     return (
       <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
         <div className="mb-6 text-center">
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-ink-800 text-accent">
+          <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-surface text-accent">
             <ShieldCheck className="h-5 w-5" />
           </span>
-          <h1 className="mt-4 text-2xl font-semibold text-white">Editorial console</h1>
-          <p className="mt-2 text-[13px] leading-relaxed text-slate-400">
+          <h1 className="mt-4 text-2xl font-semibold text-foreground">Editorial console</h1>
+          <p className="mt-2 text-[13px] leading-relaxed text-muted">
             Place records and verification are edited here. Admin access uses a
             signed HttpOnly session cookie — no shared demo password is shipped.
           </p>
@@ -422,7 +422,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
 
         {!session ? (
           <Card>
-            <CardContent className="flex items-center justify-center gap-2 py-8 text-sm text-slate-400">
+            <CardContent className="flex items-center justify-center gap-2 py-8 text-sm text-muted">
               <Loader2 className="h-4 w-4 animate-spin text-accent" />
               Checking admin session…
             </CardContent>
@@ -434,14 +434,14 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                 <Lock className="h-4 w-4" />
                 Admin access is not configured
               </p>
-              <p className="text-[13px] leading-relaxed text-slate-400">
-                Set <code className="rounded bg-ink-950 px-1">ADMIN_EMAIL</code> and{" "}
-                <code className="rounded bg-ink-950 px-1">ADMIN_PASSWORD</code> (or{" "}
-                <code className="rounded bg-ink-950 px-1">ADMIN_PASSWORD_SHA256</code>) in{" "}
-                <code className="rounded bg-ink-950 px-1">.env.local</code>, then restart the
+              <p className="text-[13px] leading-relaxed text-muted">
+                Set <code className="rounded bg-surface px-1">ADMIN_EMAIL</code> and{" "}
+                <code className="rounded bg-surface px-1">ADMIN_PASSWORD</code> (or{" "}
+                <code className="rounded bg-surface px-1">ADMIN_PASSWORD_SHA256</code>) in{" "}
+                <code className="rounded bg-surface px-1">.env.local</code>, then restart the
                 server.
               </p>
-              <p className="text-[12px] leading-relaxed text-slate-500">
+              <p className="text-[12px] leading-relaxed text-muted-2">
                 In production, prefer the SHA-256 variant so the plain password is
                 never stored in the environment.
               </p>
@@ -474,7 +474,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                   />
                 </div>
                 {loginError && (
-                  <p className="flex items-start gap-2 rounded-lg border border-red-400/20 bg-red-500/5 px-3 py-2 text-[12px] text-red-300">
+                  <p className="flex items-start gap-2 rounded-lg border border-red-300/50 bg-red-50 px-3 py-2 text-[12px] text-red-700">
                     <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                     {loginError}
                   </p>
@@ -497,7 +497,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         <button
           type="button"
           onClick={cancelEdit}
-          className="kv-focus mb-5 inline-flex items-center gap-1.5 text-[13px] text-slate-400 hover:text-white"
+          className="kv-focus mb-5 inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to places
@@ -506,10 +506,10 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="kv-label">{editing ? "Edit record" : "New record"}</p>
-            <h1 className="mt-1 text-2xl font-semibold text-white">
+            <h1 className="mt-1 text-2xl font-semibold text-foreground">
               {editing ? editing.name : "Create a place"}
             </h1>
-            <p className="mt-1 text-[13px] text-slate-400">
+            <p className="mt-1 text-[13px] text-muted">
               Only publish facts you can source. Leave hours, fees and phone numbers
               empty when unknown — the UI shows “not recorded” rather than guessing.
             </p>
@@ -518,7 +518,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             <Link
               href={`/places/${editing.slug}`}
               target="_blank"
-              className="kv-focus inline-flex items-center gap-1.5 text-[13px] text-slate-400 hover:text-white"
+              className="kv-focus inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-foreground"
             >
               View public page
               <ExternalLink className="h-3.5 w-3.5" />
@@ -527,12 +527,12 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         </div>
 
         {formIssues.length > 0 && (
-          <div className="mt-5 rounded-xl border border-red-400/25 bg-red-500/[0.06] px-4 py-3">
-            <p className="flex items-center gap-2 text-[12px] font-semibold text-red-300">
+          <div className="mt-5 rounded-xl border border-red-300/50 bg-red-50 px-4 py-3">
+            <p className="flex items-center gap-2 text-[12px] font-semibold text-red-700">
               <AlertTriangle className="h-3.5 w-3.5" />
               Fix these before saving
             </p>
-            <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-[12px] text-red-200/80">
+            <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-[12px] text-red-700/80">
               {formIssues.map((issue) => (
                 <li key={issue}>{issue}</li>
               ))}
@@ -656,10 +656,10 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                 </Select>
               </div>
               <div className="flex items-end">
-                <label className="flex h-11 items-center gap-2 text-[13px] text-slate-300">
+                <label className="flex h-11 items-center gap-2 text-[13px] text-muted">
                   <input
                     type="checkbox"
-                    className="accent-sky-400"
+                    className="accent-emerald-600"
                     checked={form.indoor}
                     onChange={(event) => setForm({ ...form, indoor: event.target.checked })}
                   />
@@ -772,10 +772,10 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             description="Featured places appear in curated sections. Priority is a manual tie-breaker."
           >
             <div className="flex flex-wrap items-center gap-6">
-              <label className="flex items-center gap-2 text-[13px] text-slate-300">
+              <label className="flex items-center gap-2 text-[13px] text-muted">
                 <input
                   type="checkbox"
-                  className="accent-sky-400"
+                  className="accent-emerald-600"
                   checked={form.featured}
                   onChange={(event) => setForm({ ...form, featured: event.target.checked })}
                 />
@@ -896,9 +896,9 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="kv-label">Editorial</p>
-          <h1 className="mt-1 text-3xl font-semibold text-white">Place records</h1>
-          <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-slate-400">
-            Signed in as <span className="text-slate-200">{session.email}</span>. Changes
+          <h1 className="mt-1 text-3xl font-semibold text-foreground">Place records</h1>
+          <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-muted">
+            Signed in as <span className="text-foreground">{session.email}</span>. Changes
             are written to the configured PostgreSQL database through Drizzle, or to
             the local seed-backed store when DATABASE_URL is not configured.
           </p>
@@ -929,7 +929,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
 
       <div className="mt-6 flex flex-wrap items-center gap-2">
         <div className="relative min-w-[220px] flex-1">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-2" />
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -969,21 +969,21 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
       {loadingPlaces && places.length === 0 ? (
         <div className="mt-6 space-y-2">
           {[0, 1, 2, 3].map((row) => (
-            <div key={row} className="h-16 animate-pulse rounded-xl border border-line/60 bg-ink-800/40" />
+            <div key={row} className="h-16 animate-pulse rounded-xl border border-line/60 bg-surface/40" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-dashed border-line bg-ink-900/40 px-6 py-12 text-center">
-          <Database className="mx-auto h-6 w-6 text-slate-500" />
-          <p className="mt-3 text-sm font-medium text-white">No matching places</p>
-          <p className="mt-1 text-[13px] text-slate-400">
+        <div className="mt-6 rounded-2xl border border-dashed border-line bg-surface/40 px-6 py-12 text-center">
+          <Database className="mx-auto h-6 w-6 text-muted-2" />
+          <p className="mt-3 text-sm font-medium text-foreground">No matching places</p>
+          <p className="mt-1 text-[13px] text-muted">
             Adjust the filters, or create a new record.
           </p>
         </div>
       ) : (
         <div className="mt-6 overflow-hidden rounded-2xl border border-line/80">
           <table className="w-full text-left">
-            <thead className="hidden bg-ink-800/70 text-[11px] uppercase tracking-wide text-slate-500 sm:table-header-group">
+            <thead className="hidden bg-surface/70 text-[11px] uppercase tracking-wide text-muted-2 sm:table-header-group">
               <tr>
                 <th className="px-4 py-3 font-medium">Place</th>
                 <th className="px-4 py-3 font-medium">Category</th>
@@ -994,7 +994,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             </thead>
             <tbody className="divide-y divide-line/60">
               {filtered.map((place) => (
-                <tr key={place.id} className="align-middle transition hover:bg-ink-800/40">
+                <tr key={place.id} className="align-middle transition hover:bg-surface/40">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <PlaceArt
@@ -1003,22 +1003,22 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                         className="h-10 w-10 shrink-0 rounded-lg"
                       />
                       <div className="min-w-0">
-                        <p className="truncate text-[13px] font-medium text-white">{place.name}</p>
-                        <p className="truncate text-[11px] text-slate-500">/{place.slug}</p>
-                        <p className="mt-1 flex items-center gap-1.5 text-[10px] text-slate-500 sm:hidden">
+                        <p className="truncate text-[13px] font-medium text-foreground">{place.name}</p>
+                        <p className="truncate text-[11px] text-muted-2">/{place.slug}</p>
+                        <p className="mt-1 flex items-center gap-1.5 text-[10px] text-muted-2 sm:hidden">
                           {place.featured && <Badge variant="accent">Featured</Badge>}
                           <VerificationBadge status={place.verification.status} />
                         </p>
                       </div>
                     </div>
                   </td>
-                  <td className="hidden px-4 py-3 text-[12px] capitalize text-slate-400 sm:table-cell">
+                  <td className="hidden px-4 py-3 text-[12px] capitalize text-muted sm:table-cell">
                     {place.category}
                   </td>
                   <td className="hidden px-4 py-3 sm:table-cell">
                     <VerificationBadge status={place.verification.status} />
                   </td>
-                  <td className="hidden px-4 py-3 text-[12px] text-slate-400 sm:table-cell">
+                  <td className="hidden px-4 py-3 text-[12px] text-muted sm:table-cell">
                     {place.estimatedVisitMinutes} min
                   </td>
                   <td className="px-4 py-3">
@@ -1037,7 +1037,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                         onClick={() => void remove(place)}
                         disabled={deletingId === place.id}
                         aria-label={`Delete ${place.name}`}
-                        className="text-slate-500 hover:text-red-300"
+                        className="text-muted-2 hover:text-red-700"
                       >
                         {deletingId === place.id ? (
                           <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -1054,7 +1054,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         </div>
       )}
 
-      <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
+      <p className="mt-4 text-[11px] leading-relaxed text-muted-2">
         Showing {filtered.length} of {places.length} records. Verification and
         coordinates are editorial data; the planner and assistant only use what is
         recorded here.
@@ -1079,11 +1079,11 @@ function Stat({
         ? "text-amber"
         : tone === "accent"
           ? "text-accent"
-          : "text-white";
+          : "text-foreground";
   return (
     <Card>
       <CardContent className="p-4">
-        <p className="text-[11px] uppercase tracking-wide text-slate-500">{label}</p>
+        <p className="text-[11px] uppercase tracking-wide text-muted-2">{label}</p>
         <p className={cn("mt-1 text-2xl font-semibold tabular-nums", toneClass)}>{value}</p>
       </CardContent>
     </Card>
@@ -1103,8 +1103,8 @@ function FormSection({
     <Card>
       <CardContent className="space-y-4">
         <div>
-          <h2 className="text-sm font-semibold text-white">{title}</h2>
-          <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{description}</p>
+          <h2 className="text-sm font-semibold text-foreground">{title}</h2>
+          <p className="mt-1 text-[11px] leading-relaxed text-muted-2">{description}</p>
         </div>
         {children}
       </CardContent>

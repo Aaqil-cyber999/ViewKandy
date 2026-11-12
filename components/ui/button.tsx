@@ -8,12 +8,12 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-accent text-ink-950 hover:bg-sky-300 shadow-[0_10px_30px_-12px_rgba(56,189,248,0.7)]",
-        mint: "bg-mint text-ink-950 hover:bg-emerald-300",
-        secondary: "border border-line bg-ink-700/80 text-slate-100 hover:bg-ink-600",
-        outline: "border border-line text-slate-200 hover:border-slate-500 hover:bg-ink-700/50",
-        ghost: "text-slate-300 hover:bg-ink-700/60 hover:text-white",
-        danger: "bg-red-500/90 text-white hover:bg-red-500",
+          "bg-accent text-white hover:bg-emerald-700 shadow-[0_10px_30px_-12px_rgba(31,138,76,0.4)]",
+        mint: "bg-mint text-white hover:bg-emerald-700",
+        secondary: "border border-line bg-surface-2/80 text-foreground hover:bg-surface-3",
+        outline: "border border-line text-foreground hover:border-accent/40 hover:bg-surface-2/50",
+        ghost: "text-muted hover:bg-surface-2/60 hover:text-foreground",
+        danger: "bg-red-600 text-white hover:bg-red-700",
       },
       size: {
         sm: "h-9 px-4 text-[13px]",

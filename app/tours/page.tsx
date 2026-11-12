@@ -19,7 +19,7 @@ export default function ToursPage() {
         title="See the shape of the city first"
         description="Each tour is a sequence of camera moves over real coordinates. Play it end to end, pause on a stop, or jump straight to the place details. The 3D massing is illustrative; the coordinates are not."
       >
-        <div className="flex flex-wrap gap-4 text-[11px] text-slate-400">
+        <div className="flex flex-wrap gap-4 text-[11px] text-muted">
           <span className="inline-flex items-center gap-1.5">
             <Film className="h-3.5 w-3.5 text-accent" />
             {seedTours.length} tours
@@ -38,8 +38,8 @@ export default function ToursPage() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-2xl border border-line/70 bg-ink-900/40 p-5 text-[12px] leading-relaxed text-slate-400">
-          <h2 className="text-sm font-semibold text-white">About the 3D</h2>
+        <div className="mt-10 rounded-2xl border border-line/70 bg-surface/40 p-5 text-[12px] leading-relaxed text-muted">
+          <h2 className="text-sm font-semibold text-foreground">About the 3D</h2>
           <p className="mt-2">
             KandyVerse uses CesiumJS with an OpenStreetMap/CARTO base layer and
             custom, clearly illustrative landmark massing built from real

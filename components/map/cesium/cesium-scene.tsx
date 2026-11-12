@@ -87,12 +87,21 @@ export const CesiumScene = forwardRef<CesiumSceneHandle, CesiumSceneProps>(
         if (!viewer) return;
         const layer = viewer.imageryLayers.get(0);
         if (layer) {
-          layer.brightness = on ? 0.55 : 1;
+          layer.brightness = on ? 0.5 : 1;
           layer.contrast = on ? 1.15 : 1;
-          layer.saturation = on ? 0.8 : 1;
+          layer.saturation = on ? 0.75 : 1;
+        }
+        const Cesium = cesiumRef.current;
+        if (Cesium) {
+          viewer.scene.backgroundColor = Cesium.Color.fromCssColorString(
+            on ? "#07111f" : "#e9f3e4",
+          );
+          viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString(
+            on ? "#07111f" : "#dcecd6",
+          );
         }
         if (viewer.scene.skyAtmosphere) {
-          viewer.scene.skyAtmosphere.show = !on;
+          viewer.scene.skyAtmosphere.show = false;
         }
       },
     }));
@@ -121,7 +130,7 @@ export const CesiumScene = forwardRef<CesiumSceneHandle, CesiumSceneProps>(
           viewer = new Cesium.Viewer(containerRef.current, {
             baseLayer: new Cesium.ImageryLayer(
               new Cesium.UrlTemplateImageryProvider({
-                url: "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+                url: "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
                 credit: new Cesium.Credit(
                   '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a> © CARTO',
                 ),
@@ -143,9 +152,10 @@ export const CesiumScene = forwardRef<CesiumSceneHandle, CesiumSceneProps>(
           });
 
           viewerRef.current = viewer;
-          viewer.scene.backgroundColor = Cesium.Color.fromCssColorString("#040b14");
-          viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString("#07111f");
-          viewer.scene.globe.showGroundAtmosphere = true;
+          viewer.scene.backgroundColor = Cesium.Color.fromCssColorString("#e9f3e4");
+          viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString("#dcecd6");
+          viewer.scene.globe.showGroundAtmosphere = false;
+          if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = false;
           viewer.scene.fog.enabled = true;
           viewer.scene.fog.density = 0.00018;
           viewer.scene.screenSpaceCameraController.minimumZoomDistance = 90;
@@ -341,7 +351,7 @@ export const CesiumScene = forwardRef<CesiumSceneHandle, CesiumSceneProps>(
             positions: props.route.map((p) => Cesium.Cartesian3.fromDegrees(p.lng, p.lat, 18)),
             width: 5,
             material: new Cesium.PolylineDashMaterialProperty({
-              color: Cesium.Color.fromCssColorString("#38bdf8"),
+              color: Cesium.Color.fromCssColorString("#1f8a4c"),
               dashLength: 18,
             }),
             clampToGround: false,

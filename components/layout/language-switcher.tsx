@@ -27,7 +27,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "kv-focus inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-xs text-slate-300 transition hover:bg-ink-700/60",
+          "kv-focus inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-xs text-muted transition hover:bg-surface-2/60",
           compact && "px-2.5",
         )}
         aria-haspopup="listbox"
@@ -41,7 +41,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
       {open && (
         <div
           role="listbox"
-          className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-line bg-ink-800 p-1 shadow-2xl"
+          className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-line bg-surface p-1 shadow-2xl"
         >
           {LOCALES.map((option) => (
             <button
@@ -53,11 +53,11 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
                 setLocale(option.code);
                 setOpen(false);
               }}
-              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-slate-200 hover:bg-ink-700"
+              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-foreground hover:bg-surface-2"
             >
               <span>
                 {option.native}
-                <span className="ml-2 text-[10px] uppercase tracking-wide text-slate-500">
+                <span className="ml-2 text-[10px] uppercase tracking-wide text-muted-2">
                   {option.code}
                 </span>
               </span>
@@ -65,7 +65,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
             </button>
           ))}
           {partial && (
-            <p className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-slate-500">
+            <p className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-muted-2">
               Partial translation — missing strings fall back to English.
             </p>
           )}

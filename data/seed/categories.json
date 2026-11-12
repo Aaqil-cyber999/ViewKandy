@@ -4,7 +4,7 @@
     "slug": "heritage",
     "name": "Heritage & History",
     "description": "Palaces, colonial landmarks and living history.",
-    "color": "#f59e0b",
+    "color": "#b45309",
     "icon": "landmark",
     "order": 1
   },
@@ -13,7 +13,7 @@
     "slug": "religious",
     "name": "Sacred Sites",
     "description": "Temples, churches and places of worship.",
-    "color": "#fbbf24",
+    "color": "#a16207",
     "icon": "flame",
     "order": 2
   },
@@ -22,7 +22,7 @@
     "slug": "nature",
     "name": "Nature & Gardens",
     "description": "Forest reserves, gardens and green escapes.",
-    "color": "#34d399",
+    "color": "#15803d",
     "icon": "trees",
     "order": 3
   },
@@ -31,7 +31,7 @@
     "slug": "viewpoint",
     "name": "Viewpoints",
     "description": "Hills, rooftops and the best angles on Kandy.",
-    "color": "#38bdf8",
+    "color": "#0369a1",
     "icon": "mountain",
     "order": 4
   },
@@ -40,7 +40,7 @@
     "slug": "museum",
     "name": "Museums",
     "description": "Collections that explain Kandy's story.",
-    "color": "#a78bfa",
+    "color": "#6d28d9",
     "icon": "building",
     "order": 5
   },
@@ -49,7 +49,7 @@
     "slug": "experience",
     "name": "Experiences",
     "description": "Walks, performances and things to do.",
-    "color": "#2dd4bf",
+    "color": "#0f766e",
     "icon": "ticket",
     "order": 6
   },
@@ -58,7 +58,7 @@
     "slug": "food",
     "name": "Food & Drink",
     "description": "Rice and curry, hoppers, cafés and tea.",
-    "color": "#fb7185",
+    "color": "#be123c",
     "icon": "utensils",
     "order": 7
   },
@@ -67,7 +67,7 @@
     "slug": "hotel",
     "name": "Stay",
     "description": "Hotels and guesthouses in and around the city.",
-    "color": "#818cf8",
+    "color": "#4338ca",
     "icon": "bed",
     "order": 8
   },
@@ -76,7 +76,7 @@
     "slug": "shopping",
     "name": "Shopping",
     "description": "Markets, malls and local craft.",
-    "color": "#e879f9",
+    "color": "#a21caf",
     "icon": "bag",
     "order": 9
   },
@@ -85,7 +85,7 @@
     "slug": "transport",
     "name": "Transport",
     "description": "Rail, bus and onward connections.",
-    "color": "#94a3b8",
+    "color": "#475569",
     "icon": "train",
     "order": 10
   },
@@ -94,7 +94,7 @@
     "slug": "health",
     "name": "Health & Safety",
     "description": "Hospitals, pharmacies and practical help.",
-    "color": "#f87171",
+    "color": "#b91c1c",
     "icon": "cross",
     "order": 11
   },
@@ -103,7 +103,7 @@
     "slug": "services",
     "name": "Services",
     "description": "ATMs, toilets, parking and city services.",
-    "color": "#60a5fa",
+    "color": "#1d4ed8",
     "icon": "info",
     "order": 12
   }

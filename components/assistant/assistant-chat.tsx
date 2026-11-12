@@ -162,15 +162,15 @@ export function AssistantChat() {
 
   return (
     <div className="mx-auto grid max-w-7xl gap-5 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_300px] lg:px-8">
-      <div className="flex min-h-[70vh] flex-col overflow-hidden rounded-2xl border border-line/80 bg-ink-800/40">
+      <div className="flex min-h-[70vh] flex-col overflow-hidden rounded-2xl border border-line/80 bg-surface/40">
         <div className="flex items-center justify-between gap-2 border-b border-line/70 px-4 py-3">
           <div className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center rounded-lg border border-mint/30 bg-mint/10 text-mint">
               <Bot className="h-4 w-4" />
             </span>
             <div>
-              <h2 className="text-sm font-semibold text-white">KandyVerse guide</h2>
-              <p className="text-[10px] text-slate-500">
+              <h2 className="text-sm font-semibold text-foreground">KandyVerse guide</h2>
+              <p className="text-[10px] text-muted-2">
                 Grounded in the city database · never invents hours or prices
               </p>
             </div>
@@ -183,7 +183,7 @@ export function AssistantChat() {
               "kv-focus inline-flex h-8 items-center gap-1.5 rounded-full border px-2.5 text-[10px] transition",
               near
                 ? "border-mint/40 bg-mint/10 text-mint"
-                : "border-line text-slate-400 hover:text-white",
+                : "border-line text-muted hover:text-foreground",
             )}
           >
             <Crosshair className="h-3 w-3" />
@@ -205,7 +205,7 @@ export function AssistantChat() {
                   "mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border",
                   message.role === "assistant"
                     ? "border-mint/30 bg-mint/10 text-mint"
-                    : "border-line bg-ink-700 text-slate-300",
+                    : "border-line bg-surface-2 text-muted",
                 )}
               >
                 {message.role === "assistant" ? (
@@ -221,12 +221,12 @@ export function AssistantChat() {
                   message.role === "user"
                     ? "border-accent/30 bg-accent/10"
                     : message.error
-                      ? "border-red-400/30 bg-red-500/5"
-                      : "border-line/80 bg-ink-900/60",
+                      ? "border-red-300/50 bg-red-50"
+                      : "border-line/80 bg-surface/60",
                 )}
               >
                 {message.role === "user" ? (
-                  <p className="whitespace-pre-line text-[13px] leading-6 text-slate-100">
+                  <p className="whitespace-pre-line text-[13px] leading-6 text-foreground">
                     {message.content}
                   </p>
                 ) : (
@@ -255,14 +255,14 @@ export function AssistantChat() {
               <span className="grid h-7 w-7 place-items-center rounded-full border border-mint/30 bg-mint/10 text-mint">
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
               </span>
-              <span className="rounded-2xl border border-line/80 bg-ink-900/60 px-3.5 py-2.5 text-[12px] text-slate-400">
+              <span className="rounded-2xl border border-line/80 bg-surface/60 px-3.5 py-2.5 text-[12px] text-muted">
                 Searching the KandyVerse database…
               </span>
             </div>
           )}
         </div>
 
-        <div className="border-t border-line/70 bg-ink-900/50 p-3">
+        <div className="border-t border-line/70 bg-surface/50 p-3">
           <div className="mb-2 flex gap-1.5 overflow-x-auto pb-1">
             {QUICK_PROMPTS.map((prompt) => (
               <button
@@ -270,7 +270,7 @@ export function AssistantChat() {
                 type="button"
                 onClick={() => send(prompt)}
                 disabled={pending}
-                className="kv-focus shrink-0 rounded-full border border-line px-2.5 py-1 text-[10px] text-slate-400 transition hover:border-accent/40 hover:text-accent disabled:opacity-40"
+                className="kv-focus shrink-0 rounded-full border border-line px-2.5 py-1 text-[10px] text-muted transition hover:border-accent/40 hover:text-accent disabled:opacity-40"
               >
                 {prompt}
               </button>
@@ -302,7 +302,7 @@ export function AssistantChat() {
               <Send className="h-4 w-4" />
             </Button>
           </div>
-          <p className="mt-1.5 text-[9px] leading-relaxed text-slate-600">
+          <p className="mt-1.5 text-[9px] leading-relaxed text-muted-2">
             Enter to send · Shift+Enter for a new line. Answers are generated from
             the editorial database; verify opening hours before travelling.
           </p>
@@ -310,12 +310,12 @@ export function AssistantChat() {
       </div>
 
       <aside className="space-y-3">
-        <div className="rounded-2xl border border-line/80 bg-ink-800/40 p-4">
-          <h2 className="flex items-center gap-2 text-[13px] font-semibold text-white">
+        <div className="rounded-2xl border border-line/80 bg-surface/40 p-4">
+          <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
             <CircleAlert className="h-4 w-4 text-amber" />
             What it will not do
           </h2>
-          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-slate-400">
+          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-muted">
             <li>· Invent opening hours, ticket prices or phone numbers.</li>
             <li>· Claim a restaurant is “the best” without reviews.</li>
             <li>· Promise a live route when the Routes API is not configured.</li>
@@ -323,12 +323,12 @@ export function AssistantChat() {
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-line/80 bg-ink-800/40 p-4">
-          <h2 className="flex items-center gap-2 text-[13px] font-semibold text-white">
+        <div className="rounded-2xl border border-line/80 bg-surface/40 p-4">
+          <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
             <MapPin className="h-4 w-4 text-accent" />
             Better questions
           </h2>
-          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-slate-400">
+          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-muted">
             <li>· “2 hours near the railway station, indoors.”</li>
             <li>· “A temple and a viewpoint before lunch.”</li>
             <li>· “Where is the nearest pharmacy to the lake?”</li>
@@ -336,10 +336,10 @@ export function AssistantChat() {
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-line/80 bg-ink-800/40 p-4 text-[11px] leading-relaxed text-slate-400">
+        <div className="rounded-2xl border border-line/80 bg-surface/40 p-4 text-[11px] leading-relaxed text-muted">
           <p>
             Prefer a visual plan? The{" "}
-            <Link href="/planner" className="text-accent hover:text-sky-300">
+            <Link href="/planner" className="text-accent hover:text-emerald-700">
               trip planner
             </Link>{" "}
             shows the timeline and map side by side.
@@ -364,7 +364,7 @@ function AssistantExtras({
           {data.mode === "openai" ? "OpenAI + tools" : "Grounded retrieval"}
         </Badge>
         {data.notice && (
-          <span className="text-[9px] leading-relaxed text-slate-500">{data.notice}</span>
+          <span className="text-[9px] leading-relaxed text-muted-2">{data.notice}</span>
         )}
       </div>
 
@@ -374,7 +374,7 @@ function AssistantExtras({
             <Link
               key={place.slug}
               href={`/places/${place.slug}`}
-              className="kv-focus group flex gap-2 rounded-xl border border-line/70 bg-ink-800/60 p-2 transition hover:border-slate-600"
+              className="kv-focus group flex gap-2 rounded-xl border border-line/70 bg-surface/60 p-2 transition hover:border-accent/50"
             >
               <PlaceArt
                 slug={place.slug}
@@ -382,17 +382,17 @@ function AssistantExtras({
                 className="h-12 w-12 shrink-0 rounded-md"
               />
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[11px] font-medium text-white group-hover:text-accent">
+                <span className="block truncate text-[11px] font-medium text-foreground group-hover:text-accent">
                   {place.name}
                 </span>
-                <span className="mt-0.5 block text-[9px] text-slate-500">
+                <span className="mt-0.5 block text-[9px] text-muted-2">
                   {formatDuration(place.estimatedVisitMinutes)} ·{" "}
                   {place.entryFeeLkr !== null
                     ? `LKR ${place.entryFeeLkr.toLocaleString("en-LK")}`
                     : "fee not verified"}
                 </span>
               </span>
-              <ArrowRight className="mt-1 h-3 w-3 shrink-0 text-slate-600 group-hover:text-accent" />
+              <ArrowRight className="mt-1 h-3 w-3 shrink-0 text-muted-2 group-hover:text-accent" />
             </Link>
           ))}
         </div>
@@ -401,7 +401,7 @@ function AssistantExtras({
       {data.itinerary && data.itinerary.stops.length > 0 && (
         <div className="rounded-xl border border-mint/25 bg-mint/[0.04] p-2.5">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-[11px] font-semibold text-white">
+            <p className="text-[11px] font-semibold text-foreground">
               {data.itinerary.startTime}–{data.itinerary.endTime} ·{" "}
               {data.itinerary.stops.length} stops
             </p>
@@ -412,16 +412,16 @@ function AssistantExtras({
           <ol className="mt-1.5 space-y-1">
             {data.itinerary.stops.map((stop) => (
               <li key={stop.place.slug} className="flex items-start gap-2 text-[10px]">
-                <span className="w-9 shrink-0 font-mono text-slate-500">
+                <span className="w-9 shrink-0 font-mono text-muted-2">
                   {formatMinutesAsTime(stop.arrivalMinutes)}
                 </span>
                 <Link
                   href={`/places/${stop.place.slug}`}
-                  className="kv-focus text-slate-300 hover:text-accent"
+                  className="kv-focus text-muted hover:text-accent"
                 >
                   {stop.place.name}
                 </Link>
-                <span className="ml-auto shrink-0 text-slate-600">
+                <span className="ml-auto shrink-0 text-muted-2">
                   {formatDistance(stop.travel.meters)} · {stop.travel.minutes} min
                 </span>
               </li>
@@ -431,7 +431,7 @@ function AssistantExtras({
       )}
 
       {data.sources.length > 0 && (
-        <div className="text-[10px] text-slate-500">
+        <div className="text-[10px] text-muted-2">
           Sources:{" "}
           {data.sources.map((source, index) => (
             <span key={source.url}>
@@ -440,7 +440,7 @@ function AssistantExtras({
                 href={source.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-accent hover:text-sky-300"
+                className="text-accent hover:text-emerald-700"
               >
                 {source.label}
               </a>

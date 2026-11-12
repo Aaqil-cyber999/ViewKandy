@@ -37,9 +37,9 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
   }
 
   return (
-    <div className="rounded-xl border border-line/80 bg-ink-900/50 p-4">
+    <div className="rounded-xl border border-line/80 bg-surface/50 p-4">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
           <Route className="h-4 w-4 text-accent" />
           Route from Kandy city centre
         </h2>
@@ -54,7 +54,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
               }}
               aria-pressed={mode === option}
               className={`kv-focus rounded-full px-2.5 py-1 text-[10px] capitalize ${
-                mode === option ? "bg-accent text-ink-950" : "text-slate-400"
+                mode === option ? "bg-accent text-white" : "text-muted"
               }`}
             >
               {option}
@@ -63,17 +63,17 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
         </div>
       </div>
 
-      <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+      <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
         Uses the Google Routes API when a server key is configured; otherwise it
         shows a clearly labelled straight-line estimate.
       </p>
 
       {result && (
-        <div className="mt-3 rounded-lg border border-accent/20 bg-accent/[0.06] px-3 py-2 text-[12px] text-slate-300">
-          <p className="font-medium text-white">
+        <div className="mt-3 rounded-lg border border-accent/20 bg-accent/[0.06] px-3 py-2 text-[12px] text-muted">
+          <p className="font-medium text-foreground">
             {result.distanceLabel} · {result.durationLabel}
           </p>
-          <p className="mt-0.5 text-[10px] text-slate-500">
+          <p className="mt-0.5 text-[10px] text-muted-2">
             {result.source === "google_routes"
               ? "Live route from Google Routes API"
               : "Estimate from straight-line distance"}
@@ -93,7 +93,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
           href={`https://www.google.com/maps/dir/?api=1&origin=7.2906,80.6337&destination=${place.lat},${place.lng}&travelmode=${mode === "walk" ? "walking" : "driving"}`}
           target="_blank"
           rel="noreferrer"
-          className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[12px] text-slate-300 transition hover:bg-ink-700"
+          className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[12px] text-muted transition hover:bg-surface-2"
         >
           <Navigation className="h-3.5 w-3.5" />
           Open in Google Maps
@@ -102,7 +102,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
           href={streetViewUrl(place)}
           target="_blank"
           rel="noreferrer"
-          className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[12px] text-slate-300 transition hover:bg-ink-700"
+          className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-4 text-[12px] text-muted transition hover:bg-surface-2"
         >
           <Camera className="h-3.5 w-3.5" />
           Street View
