@@ -12,9 +12,13 @@ function hash(input: string): number {
 }
 
 /**
- * Generative category artwork. KandyVerse deliberately does not ship stock
+ * Generative topographic plate. View Kandy deliberately does not ship stock
  * photos pretending to be specific places; place photography is added by
- * admins with credit + licence, otherwise this identity graphic is used.
+ * admins with credit + licence, otherwise this identity artwork is used.
+ *
+ * The composition is drawn from the Kandy basin: layered ridges, contour lines,
+ * a low sun and survey ticks. It is deterministic per slug, so every place keeps
+ * a stable visual identity across the site.
  */
 export function PlaceArt({
   slug,
@@ -29,8 +33,36 @@ export function PlaceArt({
 }) {
   const meta = getCategory(category as Parameters<typeof getCategory>[0]);
   const seed = hash(slug);
-  const rotation = seed % 360;
-  const phase = (seed % 100) / 100;
+  const phase = ((seed % 1000) / 1000) * Math.PI * 2;
+  const sunX = 102 + (seed % 180);
+  const sunY = 46 + ((seed >> 3) % 34);
+  const ridgeShift = (seed >> 5) % 40;
+
+  const ridge = (baseline: number, amplitude: number, offset: number) => {
+    const points = 9;
+    const step = 400 / (points - 1);
+    const coords = Array.from({ length: points }).map((_, i) => {
+      const wave =
+        Math.sin(phase + i * 0.9 + offset) * 0.55 +
+        Math.sin(phase * 1.7 + i * 1.7 + offset) * 0.45;
+      return [i * step, baseline + wave * amplitude] as const;
+    });
+    return `M0 300 L${coords
+      .map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`)
+      .join(" L")} L400 300 Z`;
+  };
+
+  const contour = (index: number) => {
+    const y = 150 + index * 15;
+    const points = 7;
+    const step = 400 / (points - 1);
+    return `M0 ${y} ${Array.from({ length: points })
+      .map((_, i) => {
+        const yy = y + Math.sin(phase + i * 1.1 + index * 0.6) * (5 + index);
+        return `L${(i * step).toFixed(1)} ${yy.toFixed(1)}`;
+      })
+      .join(" ")}`;
+  };
 
   return (
     <div
@@ -39,68 +71,104 @@ export function PlaceArt({
       aria-label={`${meta.name} illustration`}
     >
       <svg
-        viewBox="0 0 400 240"
+        viewBox="0 0 400 300"
         className="absolute inset-0 h-full w-full"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
       >
         <defs>
-          <radialGradient id={`glow-${slug}`} cx="30%" cy="20%" r="80%">
-            <stop offset="0%" stopColor={meta.color} stopOpacity="0.3" />
-            <stop offset="55%" stopColor={meta.color} stopOpacity="0.06" />
-            <stop offset="100%" stopColor="#f7faf5" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id={`fade-${slug}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-            <stop offset="100%" stopColor="#f7faf5" stopOpacity="0.88" />
+          <linearGradient id={`sky-${slug}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#f8f4e9" />
+            <stop offset="62%" stopColor="#efe9da" />
+            <stop offset="100%" stopColor="#e4dcc8" />
           </linearGradient>
+          <radialGradient id={`sun-${slug}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#c69a58" stopOpacity="0.9" />
+            <stop offset="70%" stopColor="#c69a58" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="#c69a58" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id={`ink-${slug}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#17493a" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#0b2821" stopOpacity="0.96" />
+          </linearGradient>
+          <pattern
+            id={`grid-${slug}`}
+            width="40"
+            height="40"
+            patternUnits="userSpaceOnUse"
+          >
+            <path d="M40 0H0V40" fill="none" stroke="#14251e" strokeOpacity="0.05" />
+          </pattern>
         </defs>
-        <rect width="400" height="240" fill="#eef5eb" />
-        <rect width="400" height="240" fill={`url(#glow-${slug})`} />
-        <g
-          stroke={meta.color}
-          strokeOpacity="0.28"
+
+        <rect width="400" height="300" fill={`url(#sky-${slug})`} />
+        <rect width="400" height="300" fill={`url(#grid-${slug})`} />
+
+        {/* survey ticks along the edges */}
+        <g stroke="#14251e" strokeOpacity="0.18" strokeWidth="1">
+          {Array.from({ length: 13 }).map((_, i) => (
+            <line key={`t${i}`} x1={i * 32} y1="0" x2={i * 32} y2={i % 3 === 0 ? 7 : 4} />
+          ))}
+          {Array.from({ length: 9 }).map((_, i) => (
+            <line key={`l${i}`} x1="0" y1={i * 34} x2={i % 2 === 0 ? 6 : 3} y2={i * 34} />
+          ))}
+        </g>
+
+        <circle cx={sunX} cy={sunY} r="46" fill={`url(#sun-${slug})`} />
+        <circle
+          cx={sunX}
+          cy={sunY}
+          r="13"
           fill="none"
+          stroke="#a97f45"
+          strokeOpacity="0.7"
           strokeWidth="1"
-          transform={`rotate(${rotation} 200 120)`}
+        />
+
+        {/* contour lines reading across the basin */}
+        <g fill="none" stroke={meta.color} strokeOpacity="0.22" strokeWidth="0.9">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <path key={`c${i}`} d={contour(i)} />
+          ))}
+        </g>
+
+        {/* layered ridges */}
+        <path d={ridge(188, 16, 0)} fill={meta.color} fillOpacity="0.1" />
+        <path d={ridge(212, 20, 2.2)} fill={`url(#ink-${slug})`} fillOpacity="0.24" />
+        <path d={ridge(240, 16, 4.1)} fill={`url(#ink-${slug})`} fillOpacity="0.62" />
+        <path d={ridge(266, 11, 5.6)} fill={`url(#ink-${slug})`} fillOpacity="0.92" />
+
+        {/* the lake, suggested with two still lines */}
+        <g stroke="#f8f4e9" strokeOpacity="0.5" strokeWidth="1">
+          <line x1="34" y1="279" x2="112" y2="279" />
+          <line x1="60" y1="284" x2="96" y2="284" />
+        </g>
+
+        <g
+          fill="none"
+          stroke="#d8c29a"
+          strokeOpacity="0.55"
+          strokeWidth="1"
+          transform={`translate(${ridgeShift + 268} 196)`}
         >
-          {Array.from({ length: 9 }).map((_, i) => {
-            const r = 26 + i * 17;
-            return (
-              <ellipse
-                key={i}
-                cx={200 + Math.sin(phase * 6 + i) * 12}
-                cy={120 + Math.cos(phase * 5 + i) * 8}
-                rx={r * 1.35}
-                ry={r}
-              />
-            );
-          })}
+          <circle r="14" />
+          <circle r="22" opacity="0.55" />
+          <path d="M-30 0H30M0 -30V30" opacity="0.3" />
         </g>
-        <g stroke="#53665a" strokeOpacity="0.08" strokeWidth="0.5">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <line key={`h${i}`} x1="0" y1={i * 20} x2="400" y2={i * 20} />
-          ))}
-          {Array.from({ length: 20 }).map((_, i) => (
-            <line key={`v${i}`} x1={i * 20} y1="0" x2={i * 20} y2="240" />
-          ))}
-        </g>
-        <rect width="400" height="240" fill={`url(#fade-${slug})`} />
       </svg>
 
-      <div className="relative flex h-full w-full items-center justify-center" style={{ color: meta.color }}>
-        <CategoryIcon
-          name={meta.icon}
-          className="h-14 w-14 opacity-80"
-        />
+      <div className="absolute inset-0 bg-gradient-to-t from-forest/35 via-transparent to-transparent" />
+
+      <div
+        className="absolute bottom-2.5 right-2.5 grid h-7 w-7 place-items-center border border-cream/35 bg-forest/40 text-cream/90 backdrop-blur-sm"
+        aria-hidden="true"
+      >
+        <CategoryIcon name={meta.icon} className="h-3.5 w-3.5" />
       </div>
 
       {showLabel && (
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between px-4 pb-3">
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.18em]"
-            style={{ color: meta.color }}
-          >
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cream">
             {meta.name}
           </span>
         </div>

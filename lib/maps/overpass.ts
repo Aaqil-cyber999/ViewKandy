@@ -5,7 +5,7 @@ import type { LatLng } from "@/types/place";
 /**
  * OpenStreetMap / Overpass adapter for live nearby services.
  *
- * This is external community data, not KandyVerse verification. Every result
+ * This is external community data, not View Kandy verification. Every result
  * links back to its OSM node and carries the ODbL attribution in the UI.
  */
 
@@ -155,7 +155,7 @@ export async function fetchNearbyOsmServices(
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Accept: "application/json",
-          "User-Agent": `KandyVerse/1.0 (+${contact})`,
+          "User-Agent": `View Kandy/1.0 (+${contact})`,
         },
         body: new URLSearchParams({ data: buildQuery(center, radius) }).toString(),
         signal: AbortSignal.timeout(9000),

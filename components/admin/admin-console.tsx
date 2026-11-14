@@ -104,7 +104,7 @@ function emptyForm(category: CategorySlug = "heritage"): FormState {
     bestTime: "",
     practicalNotes: "",
     verificationStatus: "unverified",
-    verificationSource: "KandyVerse editorial seed",
+    verificationSource: "View Kandy editorial seed",
     verificationSourceUrl: "",
     lastVerifiedAt: "",
     locationAccuracy: "approximate",
@@ -361,7 +361,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
 
   async function remove(place: Place) {
     const confirmed = window.confirm(
-      `Delete “${place.name}”? This removes it from the KandyVerse place records.`,
+      `Delete “${place.name}”? This removes it from the View Kandy place records.`,
     );
     if (!confirmed) return;
     setDeletingId(place.id);
@@ -414,7 +414,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             <ShieldCheck className="h-5 w-5" />
           </span>
           <h1 className="mt-4 text-2xl font-semibold text-foreground">Editorial console</h1>
-          <p className="mt-2 text-[13px] leading-relaxed text-muted">
+          <p className="mt-2 text-[14px] leading-relaxed text-muted">
             Place records and verification are edited here. Admin access uses a
             signed HttpOnly session cookie — no shared demo password is shipped.
           </p>
@@ -434,7 +434,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                 <Lock className="h-4 w-4" />
                 Admin access is not configured
               </p>
-              <p className="text-[13px] leading-relaxed text-muted">
+              <p className="text-[14px] leading-relaxed text-muted">
                 Set <code className="rounded bg-surface px-1">ADMIN_EMAIL</code> and{" "}
                 <code className="rounded bg-surface px-1">ADMIN_PASSWORD</code> (or{" "}
                 <code className="rounded bg-surface px-1">ADMIN_PASSWORD_SHA256</code>) in{" "}
@@ -497,7 +497,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         <button
           type="button"
           onClick={cancelEdit}
-          className="kv-focus mb-5 inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-foreground"
+          className="kv-focus mb-5 inline-flex items-center gap-1.5 text-[14px] text-muted hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to places
@@ -509,7 +509,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             <h1 className="mt-1 text-2xl font-semibold text-foreground">
               {editing ? editing.name : "Create a place"}
             </h1>
-            <p className="mt-1 text-[13px] text-muted">
+            <p className="mt-1 text-[14px] text-muted">
               Only publish facts you can source. Leave hours, fees and phone numbers
               empty when unknown — the UI shows “not recorded” rather than guessing.
             </p>
@@ -518,7 +518,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             <Link
               href={`/places/${editing.slug}`}
               target="_blank"
-              className="kv-focus inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-foreground"
+              className="kv-focus inline-flex items-center gap-1.5 text-[14px] text-muted hover:text-foreground"
             >
               View public page
               <ExternalLink className="h-3.5 w-3.5" />
@@ -656,7 +656,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                 </Select>
               </div>
               <div className="flex items-end">
-                <label className="flex h-11 items-center gap-2 text-[13px] text-muted">
+                <label className="flex h-11 items-center gap-2 text-[14px] text-muted">
                   <input
                     type="checkbox"
                     className="accent-emerald-600"
@@ -772,7 +772,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
             description="Featured places appear in curated sections. Priority is a manual tie-breaker."
           >
             <div className="flex flex-wrap items-center gap-6">
-              <label className="flex items-center gap-2 text-[13px] text-muted">
+              <label className="flex items-center gap-2 text-[14px] text-muted">
                 <input
                   type="checkbox"
                   className="accent-emerald-600"
@@ -852,9 +852,9 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                 />
               </div>
             </div>
-            <p className="rounded-lg border border-amber/20 bg-amber/[0.05] px-3 py-2 text-[11px] leading-relaxed text-amber/90">
+            <p className="rounded-lg border border-amber/20 bg-amber/[0.05] px-3 py-2 text-[12px] leading-relaxed text-amber/90">
               Marking a place verified or partly verified requires both a source URL
-              and a verification date. This guard is intentional: KandyVerse does not
+              and a verification date. This guard is intentional: View Kandy does not
               display unearned verification.
             </p>
           </FormSection>
@@ -897,7 +897,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         <div>
           <p className="kv-label">Editorial</p>
           <h1 className="mt-1 text-3xl font-semibold text-foreground">Place records</h1>
-          <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-muted">
+          <p className="mt-1 max-w-2xl text-[14px] leading-relaxed text-muted">
             Signed in as <span className="text-foreground">{session.email}</span>. Changes
             are written to the configured PostgreSQL database through Drizzle, or to
             the local seed-backed store when DATABASE_URL is not configured.
@@ -976,14 +976,14 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         <div className="mt-6 rounded-2xl border border-dashed border-line bg-surface/40 px-6 py-12 text-center">
           <Database className="mx-auto h-6 w-6 text-muted-2" />
           <p className="mt-3 text-sm font-medium text-foreground">No matching places</p>
-          <p className="mt-1 text-[13px] text-muted">
+          <p className="mt-1 text-[14px] text-muted">
             Adjust the filters, or create a new record.
           </p>
         </div>
       ) : (
         <div className="mt-6 overflow-hidden rounded-2xl border border-line/80">
           <table className="w-full text-left">
-            <thead className="hidden bg-surface/70 text-[11px] uppercase tracking-wide text-muted-2 sm:table-header-group">
+            <thead className="hidden bg-surface/70 text-[12px] uppercase tracking-wide text-muted-2 sm:table-header-group">
               <tr>
                 <th className="px-4 py-3 font-medium">Place</th>
                 <th className="px-4 py-3 font-medium">Category</th>
@@ -1003,9 +1003,9 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                         className="h-10 w-10 shrink-0 rounded-lg"
                       />
                       <div className="min-w-0">
-                        <p className="truncate text-[13px] font-medium text-foreground">{place.name}</p>
-                        <p className="truncate text-[11px] text-muted-2">/{place.slug}</p>
-                        <p className="mt-1 flex items-center gap-1.5 text-[10px] text-muted-2 sm:hidden">
+                        <p className="truncate text-[14px] font-medium text-foreground">{place.name}</p>
+                        <p className="truncate text-[12px] text-muted-2">/{place.slug}</p>
+                        <p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted-2 sm:hidden">
                           {place.featured && <Badge variant="accent">Featured</Badge>}
                           <VerificationBadge status={place.verification.status} />
                         </p>
@@ -1054,7 +1054,7 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         </div>
       )}
 
-      <p className="mt-4 text-[11px] leading-relaxed text-muted-2">
+      <p className="mt-4 text-[12px] leading-relaxed text-muted-2">
         Showing {filtered.length} of {places.length} records. Verification and
         coordinates are editorial data; the planner and assistant only use what is
         recorded here.
@@ -1083,7 +1083,7 @@ function Stat({
   return (
     <Card>
       <CardContent className="p-4">
-        <p className="text-[11px] uppercase tracking-wide text-muted-2">{label}</p>
+        <p className="text-[12px] uppercase tracking-wide text-muted-2">{label}</p>
         <p className={cn("mt-1 text-2xl font-semibold tabular-nums", toneClass)}>{value}</p>
       </CardContent>
     </Card>
@@ -1104,7 +1104,7 @@ function FormSection({
       <CardContent className="space-y-4">
         <div>
           <h2 className="text-sm font-semibold text-foreground">{title}</h2>
-          <p className="mt-1 text-[11px] leading-relaxed text-muted-2">{description}</p>
+          <p className="mt-1 text-[12px] leading-relaxed text-muted-2">{description}</p>
         </div>
         {children}
       </CardContent>

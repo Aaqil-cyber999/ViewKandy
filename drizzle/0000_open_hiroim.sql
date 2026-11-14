@@ -63,7 +63,7 @@ CREATE TABLE "places" (
 	"best_time" text,
 	"practical_notes" text,
 	"verification_status" text DEFAULT 'unverified' NOT NULL,
-	"verification_source" text DEFAULT 'KandyVerse editorial seed' NOT NULL,
+	"verification_source" text DEFAULT 'View Kandy editorial seed' NOT NULL,
 	"verification_source_url" text,
 	"last_verified_at" timestamp with time zone,
 	"location_accuracy" text DEFAULT 'approximate' NOT NULL,

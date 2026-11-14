@@ -1,8 +1,8 @@
 {
-  "name": "kandyverse",
+  "name": "viewkandy",
   "version": "1.0.0",
   "private": true,
-  "description": "KandyVerse — Explore Kandy Beyond the Map. Immersive 3D digital tourism and smart city exploration platform.",
+  "description": "View Kandy — Explore Kandy Beyond the Map. Immersive 3D digital tourism and smart city exploration platform.",
   "scripts": {
     "setup:assets": "node scripts/setup-assets.mjs",
     "icons": "node scripts/generate-icons.mjs",
@@ -53,6 +53,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@testing-library/jest-dom": "^6.8.0",
@@ -66,6 +67,8 @@
     "@vitejs/plugin-react": "^5.0.2",
     "dotenv": "^18.0.10",
     "drizzle-kit": "^0.31.11",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.29",
     "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",

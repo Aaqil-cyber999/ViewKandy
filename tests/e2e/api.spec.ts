@@ -63,7 +63,7 @@ test("PWA manifest, robots and sitemap are served", async ({ request }) => {
   const manifest = await request.get("/manifest.webmanifest");
   expect(manifest.status()).toBe(200);
   const manifestBody = await manifest.json();
-  expect(manifestBody.short_name).toBe("KandyVerse");
+  expect(manifestBody.short_name).toBe("View Kandy");
   expect(manifestBody.icons.length).toBeGreaterThanOrEqual(3);
 
   const robots = await request.get("/robots.txt");

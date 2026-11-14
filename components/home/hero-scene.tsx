@@ -43,7 +43,12 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
   }
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-line/60">
+    <section
+      id="overview"
+      data-scroll-section
+      data-scroll-label="Overview"
+      className="relative isolate overflow-hidden border-b border-line/60"
+    >
       <div className="absolute inset-0">
         {error ? (
           <FallbackMap
@@ -76,7 +81,7 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
 
       <div className="relative mx-auto flex min-h-[620px] max-w-7xl flex-col justify-end px-4 pb-10 pt-20 sm:px-6 lg:min-h-[680px] lg:px-8">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1.5 text-[11px] text-muted backdrop-blur">
+          <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1.5 text-[12px] text-muted backdrop-blur">
             <span className="relative flex h-1.5 w-1.5">
               <span className="kv-pulse-ring absolute inline-flex h-full w-full rounded-full bg-mint" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-mint" />
@@ -92,7 +97,7 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
             </span>
           </h1>
 
-          <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
+          <p className="mt-5 max-w-xl text-pretty text-sm leading-relaxed text-muted sm:text-base">
             Fly over the lake and the hills, find places that actually exist, and
             turn a few free hours into a plan you can walk. No invented hours, no
             fake reviews, no stock photos pretending to be Kandy.
@@ -122,25 +127,31 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
             </Link>
           </div>
 
-          <dl className="mt-9 flex flex-wrap gap-x-8 gap-y-3 text-[11px] text-muted">
+          <dl className="mt-9 flex flex-wrap items-start gap-x-10 gap-y-4 text-muted">
             <div>
               <dt className="kv-label">Places</dt>
-              <dd className="mt-0.5 text-lg font-semibold text-foreground">{placeCount}</dd>
+              <dd className="kv-nums mt-1 text-lg font-semibold leading-none text-foreground">
+                {placeCount}
+              </dd>
             </div>
             <div>
               <dt className="kv-label">Categories</dt>
-              <dd className="mt-0.5 text-lg font-semibold text-foreground">{categoryCount}</dd>
+              <dd className="kv-nums mt-1 text-lg font-semibold leading-none text-foreground">
+                {categoryCount}
+              </dd>
             </div>
-            <div>
+            <div className="min-w-0">
               <dt className="kv-label">Weather now</dt>
-              <dd className="mt-0.5 text-sm font-medium text-foreground">{weatherLine}</dd>
+              <dd className="kv-nums mt-1 truncate text-lg font-semibold leading-none text-foreground">
+                {weatherLine}
+              </dd>
             </div>
           </dl>
         </div>
 
         <div className="mt-10 flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 py-1.5 text-[10px] text-muted backdrop-blur">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 py-1.5 text-[11px] text-muted backdrop-blur">
               <Layers className="h-3 w-3 text-accent" />
               {tileset
                 ? "Google Photorealistic 3D Tiles active"
@@ -149,13 +160,13 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
                   : "OSM base map + illustrative 3D landmark massing"}
             </span>
             {!ready && !error && (
-              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1.5 text-[10px] text-muted backdrop-blur">
+              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1.5 text-[11px] text-muted backdrop-blur">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
                 Loading 3D scene…
               </span>
             )}
             {error && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-amber/30 bg-amber/10 px-3 py-1.5 text-[10px] text-amber backdrop-blur">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-amber/30 bg-amber/10 px-3 py-1.5 text-[11px] text-amber backdrop-blur">
                 3D unavailable — showing the 2D map
               </span>
             )}
@@ -169,7 +180,7 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
                 setNight(next);
                 sceneRef.current?.setNightMode(next);
               }}
-              className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 text-[11px] text-muted backdrop-blur transition hover:bg-surface-2"
+              className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 text-[12px] text-muted backdrop-blur transition hover:bg-surface-2"
             >
               {night ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
               {night ? "Day" : "Night"}
@@ -180,7 +191,7 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
                 setSelected(null);
                 sceneRef.current?.reset();
               }}
-              className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 text-[11px] text-muted backdrop-blur transition hover:bg-surface-2"
+              className="kv-focus inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface/70 px-3 text-[12px] text-muted backdrop-blur transition hover:bg-surface-2"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               Reset view
@@ -201,7 +212,7 @@ export function HeroScene({ places, placeCount, categoryCount, weatherLine }: He
               <X className="h-3.5 w-3.5" />
             </button>
             <p
-              className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em]"
+              className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em]"
               style={{ color: getCategory(selectedPlace.category).color }}
             >
               <CategoryIcon name={getCategory(selectedPlace.category).icon} className="h-3 w-3" />

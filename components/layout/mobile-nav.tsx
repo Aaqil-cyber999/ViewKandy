@@ -18,7 +18,7 @@ export function MobileNav() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-line/80 bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-line/80 bg-canvas/96 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       aria-label="Quick navigation"
     >
       <ul className="mx-auto grid max-w-lg grid-cols-5">
@@ -28,16 +28,22 @@ export function MobileNav() {
             (item.href !== "/" && pathname.startsWith(`${item.href}/`));
           const Icon = item.icon;
           return (
-            <li key={item.href}>
+            <li key={item.href} className="relative">
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "kv-focus flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium transition",
+                  "kv-focus relative flex flex-col items-center gap-1 py-2.5 text-[10px] uppercase tracking-[0.12em] transition",
                   active ? "text-accent" : "text-muted-2 hover:text-foreground",
                 )}
               >
-                <Icon className={cn("h-5 w-5", active && "drop-shadow-[0_0_8px_rgba(31,138,76,0.45)]")} />
+                {active && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-[30%] top-0 h-[2px] bg-accent"
+                  />
+                )}
+                <Icon className="h-[18px] w-[18px]" />
                 {item.label}
               </Link>
             </li>

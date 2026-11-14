@@ -7,6 +7,8 @@ export interface TourStop {
   pitch: number;
   headline: string;
   note: string;
+  lat?: number;
+  lng?: number;
 }
 
 export interface Tour {

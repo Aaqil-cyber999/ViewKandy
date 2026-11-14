@@ -124,7 +124,7 @@ export async function executeTool(
 
     case "get_place_details": {
       const place = findAnchor(places, args.slug as string);
-      if (!place) return { ok: false, data: { error: "Place not found in the KandyVerse database." } };
+      if (!place) return { ok: false, data: { error: "Place not found in the View Kandy database." } };
       return {
         ok: true,
         data: {
@@ -339,7 +339,7 @@ export const OPENAI_TOOLS = [
     type: "function" as const,
     name: "search_places",
     description:
-      "Search the KandyVerse tourism database by free text and/or categories. Use this before recommending any place.",
+      "Search the View Kandy tourism database by free text and/or categories. Use this before recommending any place.",
     strict: false,
     parameters: {
       type: "object",

@@ -24,11 +24,13 @@ export default async function PlannerPage() {
         title="Turn a free afternoon into a walkable plan"
         description="Choose when you start, how long you have and what you care about. The planner orders real places by travel time, respects verified opening hours, and tells you when the day does not fit."
       />
-      <PlannerClient
-        places={places}
-        categories={seedCategories}
-        weather={advice}
-      />
+      <section id="itinerary" data-scroll-section data-scroll-label="Itinerary">
+        <PlannerClient
+          places={places}
+          categories={seedCategories}
+          weather={advice}
+        />
+      </section>
     </>
   );
 }

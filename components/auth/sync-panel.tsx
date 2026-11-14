@@ -115,7 +115,7 @@ export function SyncPanel() {
         unless you press the button.
       </p>
 
-      <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
+      <div className="mt-3 grid grid-cols-2 gap-2 text-[12px]">
         <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5">
           <p className="text-muted-2">This browser</p>
           <p className="mt-0.5 font-semibold text-foreground">
@@ -131,7 +131,7 @@ export function SyncPanel() {
       </div>
 
       {error && (
-        <p className="mt-2 rounded-lg border border-amber/20 bg-amber/[0.05] p-2 text-[10px] leading-relaxed text-amber/90">
+        <p className="mt-2 rounded-lg border border-amber/20 bg-amber/[0.05] p-2 text-[11px] leading-relaxed text-amber/90">
           {error}
         </p>
       )}

@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  Compass,
   Film,
-  Map as MapIcon,
   Pause,
   Play,
   RotateCcw,
@@ -16,7 +14,6 @@ import {
 } from "lucide-react";
 import type { Place } from "@/types/place";
 import type { Tour, TourStop } from "@/types/tour";
-import { CesiumScene, type CesiumSceneHandle } from "@/components/map/cesium/cesium-scene";
 import { FallbackMap } from "@/components/map/leaflet/fallback-map";
 import { PlaceArt } from "@/components/places/place-art";
 import { Badge } from "@/components/ui/badge";
@@ -30,13 +27,9 @@ export interface ResolvedStop {
 }
 
 export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] }) {
-  const sceneRef = useRef<CesiumSceneHandle>(null);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [ready, setReady] = useState(false);
-  const [mapError, setMapError] = useState(false);
-  const [view, setView] = useState<"3d" | "2d">("3d");
   const [caption, setCaption] = useState(true);
 
   const current = stops[index];
@@ -49,25 +42,6 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
     [stops, index],
   );
   const overall = Math.min(1, (beforeSeconds + elapsed) / Math.max(1, totalSeconds));
-
-  const flyToStop = useCallback(
-    (nextIndex: number) => {
-      const item = stops[nextIndex];
-      if (!item) return;
-      sceneRef.current?.flyTo({
-        lat: item.place.lat,
-        lng: item.place.lng,
-        range: item.stop.range,
-        pitch: item.stop.pitch,
-      });
-    },
-    [stops],
-  );
-
-  useEffect(() => {
-    if (ready) flyToStop(index);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, index]);
 
   useEffect(() => {
     if (!playing) return;
@@ -113,7 +87,6 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
   function goTo(nextIndex: number) {
     setIndex(nextIndex);
     setElapsed(0);
-    flyToStop(nextIndex);
   }
 
   function toggle() {
@@ -128,82 +101,32 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
     setIndex(0);
     setElapsed(0);
     setPlaying(true);
-    flyToStop(0);
   }
 
   if (!current) return null;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line/80 bg-surface">
+    <div className="overflow-hidden border border-line bg-surface">
       <div className="relative h-[52vh] min-h-[360px] lg:h-[62vh]">
-        {view === "3d" && !mapError ? (
-          <CesiumScene
-            ref={sceneRef}
-            places={stops.map((item) => item.place)}
-            selectedSlug={current.place.slug}
-            mode="tour"
-            labels={false}
-            initialTarget={{
-              lat: current.place.lat,
-              lng: current.place.lng,
-              range: current.stop.range,
-              pitch: current.stop.pitch,
-            }}
-            onReady={() => setReady(true)}
-            onError={() => {
-              setMapError(true);
-              setView("2d");
-            }}
-            className="h-full w-full"
-          />
-        ) : (
-          <FallbackMap
-            places={stops.map((item) => item.place)}
-            selectedSlug={current.place.slug}
-            center={{ lat: current.place.lat, lng: current.place.lng }}
-            zoom={15}
-            className="h-full w-full"
-          />
-        )}
+        <FallbackMap
+          places={stops.map((item) => item.place)}
+          selectedSlug={current.place.slug}
+          center={{ lat: current.place.lat, lng: current.place.lng }}
+          focus={{ lat: current.place.lat, lng: current.place.lng }}
+          zoom={15}
+          className="h-full w-full"
+        />
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-canvas/40" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-canvas/30" />
 
-        <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1 backdrop-blur">
-          <button
-            type="button"
-            onClick={() => setView("3d")}
-            disabled={mapError}
-            className={cn(
-              "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] disabled:opacity-40",
-              view === "3d" ? "bg-accent text-white" : "text-muted",
-            )}
-          >
-            <Compass className="h-3 w-3" />
-            3D
-          </button>
-          <button
-            type="button"
-            onClick={() => setView("2d")}
-            className={cn(
-              "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px]",
-              view === "2d" ? "bg-accent text-white" : "text-muted",
-            )}
-          >
-            <MapIcon className="h-3 w-3" />
-            2D
-          </button>
-        </div>
-
-        <div className="absolute right-3 top-3 flex items-center gap-1.5">
-          <Badge variant="neutral" className="bg-surface/80 backdrop-blur">
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
+          <Badge variant="neutral" className="border-line bg-surface/85 backdrop-blur">
             <Film className="h-3 w-3 text-accent" />
             Stop {index + 1} / {stops.length}
           </Badge>
-          {mapError && (
-            <Badge variant="amber" className="bg-surface/80 backdrop-blur">
-              2D fallback
-            </Badge>
-          )}
+          <Badge variant="neutral" className="border-line bg-surface/85 backdrop-blur">
+            Live 2D map
+          </Badge>
         </div>
 
         {!playing && elapsed === 0 && index === 0 && (
@@ -232,7 +155,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
                 <button
                   type="button"
                   onClick={() => setCaption(false)}
-                  className="kv-focus text-[10px] text-muted-2 hover:text-foreground"
+                  className="kv-focus text-[11px] text-muted-2 hover:text-foreground"
                 >
                   Hide caption
                 </button>
@@ -243,12 +166,12 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <Link
                   href={`/places/${current.place.slug}`}
-                  className="kv-focus inline-flex items-center gap-1 text-[11px] text-accent hover:text-emerald-700"
+                  className="kv-focus inline-flex items-center gap-1 text-[12px] text-accent hover:text-emerald-700"
                 >
                   Open place details
                   <ArrowRight className="h-3 w-3" />
                 </Link>
-                <span className="text-[10px] text-muted-2">
+                <span className="text-[11px] text-muted-2">
                   {current.place.summary}
                 </span>
               </div>
@@ -259,7 +182,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
           <button
             type="button"
             onClick={() => setCaption(true)}
-            className="kv-focus absolute bottom-4 left-4 rounded-full border border-line bg-surface/80 px-3 py-1.5 text-[10px] text-muted backdrop-blur"
+            className="kv-focus absolute bottom-4 left-4 rounded-full border border-line bg-surface/80 px-3 py-1.5 text-[11px] text-muted backdrop-blur"
           >
             <Volume2 className="mr-1 inline h-3 w-3" />
             Show caption
@@ -303,7 +226,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
                 style={{ width: `${overall * 100}%` }}
               />
             </div>
-            <div className="mt-1 flex items-center justify-between text-[9px] text-muted-2">
+            <div className="mt-1 flex items-center justify-between text-[10px] text-muted-2">
               <span>{Math.round(overall * totalSeconds)}s / {totalSeconds}s</span>
               <span>{formatDuration(totalSeconds / 60)} total</span>
             </div>
@@ -312,7 +235,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
           <button
             type="button"
             onClick={restart}
-            className="kv-focus hidden h-9 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] text-muted sm:inline-flex"
+            className="kv-focus hidden h-9 items-center gap-1.5 rounded-full border border-line px-3 text-[12px] text-muted sm:inline-flex"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Restart
@@ -338,7 +261,7 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
                 category={item.place.category}
                 className="h-7 w-7 rounded"
               />
-              <span className="max-w-[120px] truncate text-[10px] text-muted">
+              <span className="max-w-[120px] truncate text-[11px] text-muted">
                 {item.stop.headline}
               </span>
             </button>
@@ -346,10 +269,10 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
         </div>
       </div>
 
-      <p className="border-t border-line/70 px-4 py-2 text-[9px] text-muted-2">
-        Camera routes use real coordinates. 3D landmark massing is illustrative;
-        photorealistic tiles appear only when a Google Maps key is configured.
-        Space toggles playback, arrow keys step between stops.
+      <p className="border-t border-line/70 px-4 py-2 text-[10px] text-muted-2">
+        Stop coordinates are real editorial records; the map is a live
+        OpenStreetMap view, not a photorealistic survey. Space toggles playback,
+        arrow keys step between stops.
       </p>
     </div>
   );

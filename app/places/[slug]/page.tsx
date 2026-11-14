@@ -51,7 +51,7 @@ export async function generateMetadata({
     description: place.summary,
     alternates: { canonical: `/places/${place.slug}` },
     openGraph: {
-      title: `${place.name} · KandyVerse`,
+      title: `${place.name} · View Kandy`,
       description: place.summary,
       url: `${siteConfig.url}/places/${place.slug}`,
       type: "article",
@@ -76,9 +76,9 @@ function Fact({
         {icon}
       </span>
       <div className="min-w-0">
-        <p className="text-[10px] uppercase tracking-[0.14em] text-muted-2">{label}</p>
-        <div className="mt-0.5 text-[13px] leading-relaxed text-foreground">{value}</div>
-        {hint && <p className="mt-0.5 text-[10px] leading-relaxed text-muted-2">{hint}</p>}
+        <p className="text-[11px] uppercase tracking-[0.14em] text-muted-2">{label}</p>
+        <div className="mt-0.5 text-[14px] leading-relaxed text-foreground">{value}</div>
+        {hint && <p className="mt-0.5 text-[11px] leading-relaxed text-muted-2">{hint}</p>}
       </div>
     </div>
   );
@@ -129,8 +129,13 @@ export default async function PlaceDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-2 text-[11px] text-muted-2" aria-label="Breadcrumb">
+      <div
+        id="place-overview"
+        data-scroll-section
+        data-scroll-label="Place overview"
+        className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8"
+      >
+        <nav className="flex items-center gap-2 text-[12px] text-muted-2" aria-label="Breadcrumb">
           <Link href="/places" className="kv-focus inline-flex items-center gap-1 hover:text-foreground">
             <ArrowLeft className="h-3 w-3" />
             All places
@@ -164,7 +169,7 @@ export default async function PlaceDetailPage({
                 <VerificationBadge status={place.verification.status} />
                 {place.featured && <Badge variant="accent">Editor&apos;s pick</Badge>}
               </div>
-              <p className="absolute bottom-3 right-4 text-[9px] text-muted">
+              <p className="absolute bottom-3 right-4 text-[10px] text-muted">
                 Category identity artwork — not a photograph of this place.
               </p>
             </div>
@@ -180,7 +185,7 @@ export default async function PlaceDetailPage({
                 {place.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-line bg-surface/60 px-2.5 py-1 text-[10px] text-muted"
+                    className="rounded-full border border-line bg-surface/60 px-2.5 py-1 text-[11px] text-muted"
                   >
                     {tag}
                   </span>
@@ -233,7 +238,7 @@ export default async function PlaceDetailPage({
                       hint={
                         place.entryFeeLkr !== null
                           ? "Recorded by an editor; confirm on arrival."
-                          : "KandyVerse does not estimate ticket prices."
+                          : "View Kandy does not estimate ticket prices."
                       }
                     />
                     <Fact
@@ -325,7 +330,7 @@ export default async function PlaceDetailPage({
                       · {place.lat.toFixed(5)}, {place.lng.toFixed(5)}
                     </p>
                     {!verified && (
-                      <p className="rounded-lg border border-amber/20 bg-amber/[0.05] p-2.5 text-[11px] text-amber/90">
+                      <p className="rounded-lg border border-amber/20 bg-amber/[0.05] p-2.5 text-[12px] text-amber/90">
                         This record is part of the editorial seed. Hours, fees,
                         ratings and reviews are intentionally not filled in until a
                         source is recorded.
@@ -333,7 +338,7 @@ export default async function PlaceDetailPage({
                     )}
                     <Link
                       href="/admin"
-                      className="kv-focus inline-flex items-center gap-1 text-[11px] text-muted hover:text-foreground"
+                      className="kv-focus inline-flex items-center gap-1 text-[12px] text-muted hover:text-foreground"
                     >
                       <ShieldCheck className="h-3.5 w-3.5 text-mint" />
                       Editor? Verify this record
@@ -345,7 +350,7 @@ export default async function PlaceDetailPage({
 
             <div className="mt-6">
               <h2 className="mb-3 text-sm font-semibold text-foreground">About this place</h2>
-              <p className="whitespace-pre-line text-[13px] leading-7 text-muted">
+              <p className="whitespace-pre-line text-[14px] leading-7 text-muted">
                 {place.description}
               </p>
             </div>
@@ -360,10 +365,10 @@ export default async function PlaceDetailPage({
 
             <div className="mt-6">
               <h2 className="text-sm font-semibold text-foreground">Live nearby data</h2>
-              <p className="mt-1 text-[11px] leading-relaxed text-muted-2">
+              <p className="mt-1 text-[12px] leading-relaxed text-muted-2">
                 Optional external enrichment, kept separate from the editorial
                 catalogue. Every result is attributed to its source and is not
-                treated as KandyVerse verification.
+                treated as View Kandy verification.
               </p>
               <div className="mt-3 space-y-3">
                 <LiveGooglePlaces
@@ -407,13 +412,13 @@ export default async function PlaceDetailPage({
                   </div>
                   <div className="flex items-start justify-between gap-3">
                     <dt className="text-muted-2">Coordinate</dt>
-                    <dd className="text-right font-mono text-[11px] text-muted">
+                    <dd className="text-right font-mono text-[12px] text-muted">
                       {place.lat.toFixed(4)}, {place.lng.toFixed(4)}
                     </dd>
                   </div>
                 </dl>
                 {place.practicalNotes && (
-                  <p className="mt-3 rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[11px] leading-relaxed text-muted">
+                  <p className="mt-3 rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[12px] leading-relaxed text-muted">
                     <CircleHelp className="mr-1 inline h-3 w-3 text-muted-2" />
                     {place.practicalNotes}
                   </p>
@@ -444,11 +449,11 @@ export default async function PlaceDetailPage({
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-foreground">Nearby</h2>
-                <span className="text-[10px] text-muted-2">within 1.8 km</span>
+                <span className="text-[11px] text-muted-2">within 1.8 km</span>
               </div>
               <div className="space-y-2">
                 {nearby.length === 0 ? (
-                  <p className="rounded-xl border border-dashed border-line p-4 text-[11px] text-muted-2">
+                  <p className="rounded-xl border border-dashed border-line p-4 text-[12px] text-muted-2">
                     No other places within 1.8 km in the database.
                   </p>
                 ) : (
@@ -467,7 +472,7 @@ export default async function PlaceDetailPage({
                         <span className="block truncate text-[12px] font-medium text-foreground">
                           {item.name}
                         </span>
-                        <span className="block text-[10px] text-muted-2">
+                        <span className="block text-[11px] text-muted-2">
                           {formatDistance(item.distanceMeters)} away ·{" "}
                           {formatDuration(item.estimatedVisitMinutes)}
                         </span>
@@ -482,7 +487,12 @@ export default async function PlaceDetailPage({
         </div>
 
         {nearby.length > 0 && (
-          <section className="mt-14 border-t border-line/60 pt-8">
+          <section
+            id="nearby-places"
+            data-scroll-section
+            data-scroll-label="Nearby places"
+            className="mt-14 border-t border-line/60 pt-8"
+          >
             <div className="mb-4 flex items-end justify-between gap-3">
               <div>
                 <p className="kv-label">Continue exploring</p>

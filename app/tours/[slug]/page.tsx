@@ -29,7 +29,7 @@ export async function generateMetadata({
     description: tour.description,
     alternates: { canonical: `/tours/${tour.slug}` },
     openGraph: {
-      title: `${tour.title} · KandyVerse`,
+      title: `${tour.title} · View Kandy`,
       description: tour.subtitle,
       url: `${siteConfig.url}/tours/${tour.slug}`,
       type: "video.other",
@@ -58,8 +58,13 @@ export default async function TourDetailPage({
   if (stops.length === 0) notFound();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <nav className="flex items-center gap-2 text-[11px] text-muted-2" aria-label="Breadcrumb">
+    <div
+      id="tour-overview"
+      data-scroll-section
+      data-scroll-label="Tour overview"
+      className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8"
+    >
+      <nav className="flex items-center gap-2 text-[12px] text-muted-2" aria-label="Breadcrumb">
         <Link href="/tours" className="kv-focus inline-flex items-center gap-1 hover:text-foreground">
           <ArrowLeft className="h-3 w-3" />
           All tours
@@ -95,7 +100,12 @@ export default async function TourDetailPage({
         <TourPlayer tour={tour} stops={stops} />
       </div>
 
-      <section className="mt-10">
+      <section
+        id="tour-stops"
+        data-scroll-section
+        data-scroll-label="Stops"
+        className="mt-10"
+      >
         <h2 className="text-xl font-semibold text-foreground">Stops on this route</h2>
         <p className="mt-1 text-[12px] text-muted-2">
           The player visits these in order. Every stop links to its full record,
@@ -113,7 +123,7 @@ export default async function TourDetailPage({
                   category={item.place.category}
                   className="h-20 w-28 rounded-xl sm:h-24 sm:w-36"
                 />
-                <span className="absolute left-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-surface/80 text-[9px] font-bold text-accent backdrop-blur">
+                <span className="absolute left-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-surface/80 text-[10px] font-bold text-accent backdrop-blur">
                   {index + 1}
                 </span>
               </div>
@@ -128,7 +138,7 @@ export default async function TourDetailPage({
                 <p className="mt-1 text-[12px] leading-relaxed text-muted">
                   {item.stop.note}
                 </p>
-                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-muted-2">
+                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] text-muted-2">
                   <span>{item.stop.dwellSeconds}s on screen</span>
                   <span>·</span>
                   <span>{item.place.summary}</span>

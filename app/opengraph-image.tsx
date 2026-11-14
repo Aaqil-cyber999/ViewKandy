@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "KandyVerse — an immersive 3D tourism and smart-city guide for Kandy, Sri Lanka";
+  "View Kandy — an immersive 3D tourism and smart-city guide for Kandy, Sri Lanka";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -144,7 +144,7 @@ export default function OpengraphImage() {
               background: "#7aa884",
             }}
           />
-          kandyverse · Sri Lanka
+          viewkandy · Sri Lanka
         </div>
       </div>
     ),

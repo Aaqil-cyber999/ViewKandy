@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       reply = {
         ...reply,
         notice:
-          "The AI model is temporarily unavailable, so this answer was produced by the deterministic KandyVerse retrieval engine.",
+          "The AI model is temporarily unavailable, so this answer was produced by the deterministic View Kandy retrieval engine.",
       };
     }
   } else {
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       ...reply,
       notice:
         reply.notice ??
-        "Grounded mode: answers come from the KandyVerse database and planner. Set OPENAI_API_KEY to enable conversational AI.",
+        "Grounded mode: answers come from the View Kandy database and planner. Set OPENAI_API_KEY to enable conversational AI.",
     };
   }
 

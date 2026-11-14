@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export function SectionHeading({
@@ -10,6 +10,7 @@ export function SectionHeading({
   href,
   hrefLabel = "View all",
   className,
+  index,
 }: {
   eyebrow?: string;
   title: string;
@@ -17,25 +18,29 @@ export function SectionHeading({
   href?: string;
   hrefLabel?: string;
   className?: string;
+  index?: string;
 }) {
   return (
-    <div className={cn("flex flex-wrap items-end justify-between gap-4", className)}>
+    <div className={cn("flex flex-wrap items-end justify-between gap-x-10 gap-y-6", className)}>
       <div className="max-w-2xl">
-        {eyebrow && <p className="kv-label mb-2">{eyebrow}</p>}
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        {eyebrow && (
+          <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.19em] text-accent">
+            {index && <span className="kv-nums text-gold">{index}</span>}
+            <span className="h-px w-7 bg-gold/70" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )}
+        <h2 className="kv-display mt-4 text-[clamp(1.9rem,4vw,3.1rem)] text-foreground">
           {title}
         </h2>
         {description && (
-          <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
+          <p className="kv-lede mt-4 max-w-xl text-[15px]">{description}</p>
         )}
       </div>
       {href && (
-        <Link
-          href={href}
-          className="kv-focus inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-[13px] text-muted transition hover:border-accent/40 hover:text-foreground"
-        >
+        <Link href={href} className="kv-focus kv-link group pb-1 text-[13px]">
           {hrefLabel}
-          <ArrowRight className="h-3.5 w-3.5" />
+          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </Link>
       )}
     </div>
@@ -52,9 +57,9 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-dashed border-line bg-surface/40 px-6 py-12 text-center">
-      <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-      <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-muted">
+    <div className="border border-dashed border-line px-6 py-12 text-center">
+      <h3 className="font-display text-xl text-foreground">{title}</h3>
+      <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted">
         {description}
       </p>
       {action && <div className="mt-5 flex justify-center">{action}</div>}
@@ -67,23 +72,32 @@ export function PageIntro({
   title,
   description,
   children,
+  meta,
 }: {
   eyebrow: string;
   title: string;
   description: string;
   children?: ReactNode;
+  meta?: ReactNode;
 }) {
   return (
-    <div className="border-b border-accent/20 bg-gradient-to-b from-accent-soft/80 via-canvas/70 to-transparent">
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8 lg:pt-16">
-        <p className="kv-label">{eyebrow}</p>
-        <h1 className="kv-display mt-3 max-w-3xl text-4xl font-semibold text-foreground sm:text-5xl">
+    <div
+      id="page-intro"
+      data-scroll-section
+      data-scroll-label={eyebrow}
+      className="kv-page-intro border-b border-line"
+    >
+      <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8 lg:pb-14 lg:pt-16">
+        <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.19em] text-accent">
+          <span className="h-px w-7 bg-gold/70" aria-hidden="true" />
+          {eyebrow}
+        </p>
+        <h1 className="kv-display mt-5 max-w-4xl text-[clamp(2.4rem,5.4vw,4.35rem)] text-foreground">
           {title}
         </h1>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
-          {description}
-        </p>
-        {children && <div className="mt-6">{children}</div>}
+        <p className="kv-lede mt-5 max-w-2xl">{description}</p>
+        {meta && <div className="mt-7">{meta}</div>}
+        {children && <div className="mt-7">{children}</div>}
       </div>
     </div>
   );

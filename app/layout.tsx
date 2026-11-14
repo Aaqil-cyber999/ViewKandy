@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { DM_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/app-providers";
 import { PwaRegister } from "@/components/providers/pwa-register";
@@ -6,13 +7,28 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { AmbientNature } from "@/components/layout/ambient-nature";
+import { ScrollNav } from "@/components/layout/scroll-nav";
 import { siteConfig } from "@/lib/config/site";
+
+const sans = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-dm-sans",
+  weight: ["400", "500", "600", "700"],
+});
+
+const display = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fraunces",
+  weight: ["400", "500", "600"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "KandyVerse — Explore Kandy Beyond the Map",
-    template: "%s · KandyVerse",
+    default: "View Kandy — Explore Kandy Beyond the Map",
+    template: "%s · View Kandy",
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
@@ -27,19 +43,19 @@ export const metadata: Metadata = {
     "smart city",
     "travel guide",
   ],
-  authors: [{ name: "KandyVerse" }],
-  creator: "KandyVerse",
+  authors: [{ name: "View Kandy" }],
+  creator: "View Kandy",
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: "KandyVerse — Explore Kandy Beyond the Map",
+    title: "View Kandy — Explore Kandy Beyond the Map",
     description: siteConfig.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "KandyVerse — Explore Kandy Beyond the Map",
+    title: "View Kandy — Explore Kandy Beyond the Map",
     description: siteConfig.description,
   },
   icons: {
@@ -54,13 +70,13 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "KandyVerse",
+    title: "View Kandy",
   },
   formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#e9f3e4",
+  themeColor: "#edf3ee",
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
@@ -84,7 +100,11 @@ const websiteJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${sans.variable} ${display.variable}`}
+    >
       <body className="kv-grain min-h-dvh antialiased">
         <script
           type="application/ld+json"
@@ -98,11 +118,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to content
           </a>
-          <SiteHeader />
-          <main id="main" className="relative z-10">
-            {children}
-          </main>
-          <SiteFooter />
+          <div className="kv-app-rail">
+            <SiteHeader />
+            <main id="main" className="relative z-10">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
+          <ScrollNav />
           <MobileNav />
           <PwaRegister />
         </AppProviders>

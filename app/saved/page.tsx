@@ -17,7 +17,9 @@ export default async function SavedPage() {
         title="Saved places, plans and pins"
         description="Everything here is stored in this browser. Nothing is sent to a server unless you sign in with a configured Supabase project."
       />
-      <SavedClient places={places} />
+      <section id="collection" data-scroll-section data-scroll-label="Collection">
+        <SavedClient places={places} />
+      </section>
     </>
   );
 }

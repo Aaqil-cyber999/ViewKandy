@@ -13,10 +13,8 @@ import {
   Check,
   ClipboardCopy,
   Clock,
-  Compass,
   Footprints,
   Info,
-  Map as MapIcon,
   Navigation,
   Pin,
   Route,
@@ -39,7 +37,6 @@ import {
   type PlannerFormValues,
 } from "@/lib/validation/schemas";
 import type { RouteResult } from "@/lib/maps/routes";
-import { CesiumScene } from "@/components/map/cesium/cesium-scene";
 import { FallbackMap } from "@/components/map/leaflet/fallback-map";
 import { PlaceArt } from "@/components/places/place-art";
 import { CategoryIcon } from "@/components/places/category-icon";
@@ -100,8 +97,6 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
   const [lastPrefs, setLastPrefs] = useState<PlannerPreferences | null>(null);
   const [liveRoute, setLiveRoute] = useState<RouteResult | null>(null);
   const [routeLoading, setRouteLoading] = useState(false);
-  const [mapError, setMapError] = useState(false);
-  const [view, setView] = useState<"3d" | "2d">("3d");
   const autoRan = useRef(false);
 
   const {
@@ -337,7 +332,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 <Sparkles className="h-4 w-4 text-mint" />
                 Shape your day
               </h2>
-              <p className="mt-1 text-[11px] leading-relaxed text-muted-2">
+              <p className="mt-1 text-[12px] leading-relaxed text-muted-2">
                 The planner fits real places into your window. Travel times are
                 estimates unless you request a live route.
               </p>
@@ -360,7 +355,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 <Label htmlFor="startTime">Start time</Label>
                 <Input id="startTime" type="time" {...register("startTime")} />
                 {errors.startTime && (
-                  <p className="mt-1 text-[10px] text-red-700">{errors.startTime.message}</p>
+                  <p className="mt-1 text-[11px] text-red-700">{errors.startTime.message}</p>
                 )}
               </div>
               <div>
@@ -412,7 +407,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                               )
                             }
                             className={cn(
-                              "kv-focus inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] transition",
+                              "kv-focus inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[12px] transition",
                               active
                                 ? "border-accent/40 bg-accent/10 text-accent"
                                 : "border-line text-muted hover:text-foreground",
@@ -427,7 +422,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 )}
               />
               {errors.interests && (
-                <p className="mt-1 text-[10px] text-red-700">{errors.interests.message}</p>
+                <p className="mt-1 text-[11px] text-red-700">{errors.interests.message}</p>
               )}
             </div>
 
@@ -442,7 +437,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                       onClick={() => setValue("travelMode", mode)}
                       aria-pressed={travelMode === mode}
                       className={cn(
-                        "kv-focus inline-flex flex-1 items-center justify-center gap-1 rounded-md px-2 py-1.5 text-[11px] capitalize",
+                        "kv-focus inline-flex flex-1 items-center justify-center gap-1 rounded-md px-2 py-1.5 text-[12px] capitalize",
                         travelMode === mode ? "bg-accent text-white" : "text-muted",
                       )}
                     >
@@ -524,7 +519,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
 
             {hydrated && pins.length > 0 && (
               <div className="rounded-lg border border-mint/20 bg-mint/[0.04] p-2.5">
-                <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-mint">
+                <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-mint">
                   <Pin className="h-3 w-3" />
                   Shortlisted places ({pins.length})
                 </p>
@@ -537,7 +532,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         key={slug}
                         type="button"
                         onClick={() => togglePin(slug)}
-                        className="kv-focus inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[10px] text-muted hover:border-red-300/60 hover:text-red-700"
+                        className="kv-focus inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[11px] text-muted hover:border-red-300/60 hover:text-red-700"
                         title="Remove from shortlist"
                       >
                         {place.name}
@@ -546,7 +541,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                     );
                   })}
                 </div>
-                <p className="mt-1.5 text-[10px] leading-relaxed text-muted-2">
+                <p className="mt-1.5 text-[11px] leading-relaxed text-muted-2">
                   Pinned places are included when they fit. Remove one here to
                   exclude it on the next calculation.
                 </p>
@@ -554,7 +549,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
             )}
 
             {weather && (
-              <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[11px] leading-relaxed text-muted">
+              <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[12px] leading-relaxed text-muted">
                 <span className={weather.rainLikely ? "text-amber" : "text-mint"}>
                   {weather.headline}
                 </span>{" "}
@@ -567,12 +562,12 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
               {itinerary ? "Recalculate plan" : "Build my plan"}
             </Button>
             {errors.root && (
-              <p className="text-[10px] text-red-700">{errors.root.message}</p>
+              <p className="text-[11px] text-red-700">{errors.root.message}</p>
             )}
           </CardContent>
         </Card>
 
-        <p className="px-1 text-[10px] leading-relaxed text-muted-2">
+        <p className="px-1 text-[11px] leading-relaxed text-muted-2">
           Estimates use straight-line distance, a street-detour factor and a
           conservative city speed. Opening hours are only respected when a
           machine-readable value is stored.
@@ -595,7 +590,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                     {itinerary.startTime}–{itinerary.endTime} · {itinerary.stops.length}{" "}
                     {itinerary.stops.length === 1 ? "stop" : "stops"}
                   </h2>
-                  <p className="mt-1 text-[11px] text-muted-2">
+                  <p className="mt-1 text-[12px] text-muted-2">
                     Starting at {itinerary.start.label} ·{" "}
                     {itinerary.mode === "walk" ? "walking" : "driving"} ·{" "}
                     {lastPrefs ? PACE_LABELS[lastPrefs.pace] : "balanced"} pace
@@ -644,7 +639,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 />
               </dl>
 
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-[12px]">
                 <Badge
                   variant={
                     itinerary.budgetStatus === "within"
@@ -671,7 +666,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   type="button"
                   onClick={requestLiveRoute}
                   disabled={routeLoading || itinerary.stops.length === 0}
-                  className="kv-focus ml-auto inline-flex h-8 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] text-muted transition hover:bg-surface-2 disabled:opacity-40"
+                  className="kv-focus ml-auto inline-flex h-8 items-center gap-1.5 rounded-full border border-line px-3 text-[12px] text-muted transition hover:bg-surface-2 disabled:opacity-40"
                 >
                   <Navigation className="h-3 w-3" />
                   {routeLoading ? "Routing…" : "Get live route"}
@@ -679,68 +674,29 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
               </div>
 
               {liveRoute?.warning && (
-                <p className="mt-2 text-[10px] leading-relaxed text-amber/90">
+                <p className="mt-2 text-[11px] leading-relaxed text-amber/90">
                   {liveRoute.warning}
                 </p>
               )}
             </div>
 
             <div className="relative h-[360px] overflow-hidden rounded-2xl border border-line/80 bg-surface">
-              {view === "3d" && !mapError ? (
-                <CesiumScene
-                  places={mapPlaces}
-                  route={routePoints}
-                  mode="explore"
-                  labels={false}
-                  onError={() => {
-                    setMapError(true);
-                    setView("2d");
-                  }}
-                  className="h-full w-full"
-                />
-              ) : (
-                <FallbackMap
-                  places={mapPlaces}
-                  route={routePoints}
-                  center={{ lat: itinerary.start.lat, lng: itinerary.start.lng }}
-                  zoom={14}
-                  className="h-full w-full"
-                />
-              )}
-              <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1 backdrop-blur">
-                <button
-                  type="button"
-                  onClick={() => setView("3d")}
-                  disabled={mapError}
-                  className={cn(
-                    "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] disabled:opacity-40",
-                    view === "3d" ? "bg-accent text-white" : "text-muted",
-                  )}
-                >
-                  <Compass className="h-3 w-3" />
-                  3D
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setView("2d")}
-                  className={cn(
-                    "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px]",
-                    view === "2d" ? "bg-accent text-white" : "text-muted",
-                  )}
-                >
-                  <MapIcon className="h-3 w-3" />
-                  2D
-                </button>
-              </div>
+              <FallbackMap
+                places={mapPlaces}
+                route={routePoints}
+                center={{ lat: itinerary.start.lat, lng: itinerary.start.lng }}
+                zoom={14}
+                className="h-full w-full"
+              />
             </div>
 
             {itinerary.warnings.length > 0 && (
               <div className="rounded-xl border border-amber/20 bg-amber/[0.05] p-3">
-                <p className="flex items-center gap-1.5 text-[11px] font-semibold text-amber">
+                <p className="flex items-center gap-1.5 text-[12px] font-semibold text-amber">
                   <AlertTriangle className="h-3.5 w-3.5" />
                   Things to check
                 </p>
-                <ul className="mt-1.5 space-y-1 text-[11px] leading-relaxed text-amber/90">
+                <ul className="mt-1.5 space-y-1 text-[12px] leading-relaxed text-amber/90">
                   {itinerary.warnings.map((warning) => (
                     <li key={warning}>· {warning}</li>
                   ))}
@@ -751,7 +707,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
             <div className="rounded-2xl border border-line/80 bg-surface/40">
               <div className="flex items-center justify-between border-b border-line/70 px-4 py-3">
                 <h3 className="text-sm font-semibold text-foreground">Timeline</h3>
-                <span className="text-[10px] text-muted-2">
+                <span className="text-[11px] text-muted-2">
                   Reorder or remove stops; times recalculate
                 </span>
               </div>
@@ -762,12 +718,12 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                       <p className="text-[12px] font-semibold text-foreground">
                         {formatMinutesAsTime(stop.arrivalMinutes)}
                       </p>
-                      <p className="text-[10px] text-muted-2">
+                      <p className="text-[11px] text-muted-2">
                         {formatMinutesAsTime(stop.departureMinutes)}
                       </p>
                     </div>
                     <div className="relative flex flex-col items-center">
-                      <span className="mt-1 grid h-5 w-5 place-items-center rounded-full border border-accent/40 bg-accent/10 text-[9px] font-bold text-accent">
+                      <span className="mt-1 grid h-5 w-5 place-items-center rounded-full border border-accent/40 bg-accent/10 text-[10px] font-bold text-accent">
                         {index + 1}
                       </span>
                       {index < itinerary.stops.length - 1 && (
@@ -779,11 +735,11 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         <div className="min-w-0">
                           <Link
                             href={`/places/${stop.place.slug}`}
-                            className="kv-focus text-[13px] font-semibold text-foreground hover:text-accent"
+                            className="kv-focus text-[14px] font-semibold text-foreground hover:text-accent"
                           >
                             {stop.place.name}
                           </Link>
-                          <p className="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-muted">
+                          <p className="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-muted">
                             {stop.place.summary}
                           </p>
                         </div>
@@ -817,7 +773,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         </div>
                       </div>
 
-                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-2">
+                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted-2">
                         <span className="inline-flex items-center gap-1">
                           <CategoryIcon
                             name={categories.find((c) => c.slug === stop.place.category)?.icon ?? "info"}
@@ -841,7 +797,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         {stop.hoursStatus !== "unknown" && (
                           <Badge
                             variant={stop.hoursStatus === "open" ? "mint" : "amber"}
-                            className="px-1.5 py-0 text-[9px]"
+                            className="px-1.5 py-0 text-[10px]"
                           >
                             {stop.hoursStatus === "open" ? "open" : "closed at arrival"}
                           </Badge>
@@ -849,7 +805,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                       </div>
 
                       {stop.warnings.length > 0 && (
-                        <ul className="mt-1.5 space-y-0.5 text-[10px] leading-relaxed text-amber/80">
+                        <ul className="mt-1.5 space-y-0.5 text-[11px] leading-relaxed text-amber/80">
                           {stop.warnings.map((warning) => (
                             <li key={warning}>· {warning}</li>
                           ))}
@@ -859,7 +815,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                       <div className="mt-2 flex gap-2">
                         <Link
                           href={`/places/${stop.place.slug}`}
-                          className="kv-focus inline-flex items-center gap-1 text-[10px] text-accent hover:text-emerald-700"
+                          className="kv-focus inline-flex items-center gap-1 text-[11px] text-accent hover:text-emerald-700"
                         >
                           Details
                           <ArrowRight className="h-3 w-3" />
@@ -867,7 +823,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         <button
                           type="button"
                           onClick={() => togglePin(stop.place.slug)}
-                          className="kv-focus inline-flex items-center gap-1 text-[10px] text-muted-2 hover:text-mint"
+                          className="kv-focus inline-flex items-center gap-1 text-[11px] text-muted-2 hover:text-mint"
                         >
                           <Pin className="h-3 w-3" />
                           {pins.includes(stop.place.slug) ? "Pinned" : "Pin for next time"}
@@ -882,7 +838,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
             <Card>
               <CardContent>
                 <h3 className="text-sm font-semibold text-foreground">Assumptions & method</h3>
-                <ul className="mt-2 space-y-1 text-[11px] leading-relaxed text-muted">
+                <ul className="mt-2 space-y-1 text-[12px] leading-relaxed text-muted">
                   {itinerary.assumptions.map((assumption) => (
                     <li key={assumption} className="flex items-start gap-1.5">
                       <Check className="mt-0.5 h-3 w-3 shrink-0 text-mint" />
@@ -892,7 +848,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                 </ul>
                 {itinerary.alternatives.length > 0 && (
                   <>
-                    <h4 className="mt-4 text-[11px] font-semibold text-foreground">
+                    <h4 className="mt-4 text-[12px] font-semibold text-foreground">
                       Alternatives if you have more time
                     </h4>
                     <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -900,7 +856,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                         <Link
                           key={place.slug}
                           href={`/places/${place.slug}`}
-                          className="kv-focus rounded-full border border-line px-2.5 py-1 text-[10px] text-muted hover:border-accent/40 hover:text-accent"
+                          className="kv-focus rounded-full border border-line px-2.5 py-1 text-[11px] text-muted hover:border-accent/40 hover:text-accent"
                         >
                           {place.name}
                         </Link>
@@ -928,7 +884,7 @@ function Stat({
 }) {
   return (
     <div className="rounded-lg border border-line/70 bg-surface/50 px-3 py-2">
-      <dt className="flex items-center gap-1 text-[9px] uppercase tracking-[0.12em] text-muted-2">
+      <dt className="flex items-center gap-1 text-[10px] uppercase tracking-[0.12em] text-muted-2">
         {icon}
         {label}
       </dt>

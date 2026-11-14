@@ -23,9 +23,9 @@ export function itineraryToIcs(itinerary: Itinerary, date = new Date()): string 
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//KandyVerse//Trip Planner//EN",
+    "PRODID:-//View Kandy//Trip Planner//EN",
     "CALSCALE:GREGORIAN",
-    `X-WR-CALNAME:${escape(`KandyVerse · ${itinerary.startTime} plan`)}`,
+    `X-WR-CALNAME:${escape(`View Kandy · ${itinerary.startTime} plan`)}`,
   ];
 
   itinerary.stops.forEach((stop, index) => {
@@ -33,7 +33,7 @@ export function itineraryToIcs(itinerary: Itinerary, date = new Date()): string 
     const endOffset = stop.departureMinutes - startMinutes;
     lines.push(
       "BEGIN:VEVENT",
-      `UID:${itinerary.id}-${index}@kandyverse.local`,
+      `UID:${itinerary.id}-${index}@viewkandy.local`,
       `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z`,
       `DTSTART:${stamp(startOffset)}`,
       `DTEND:${stamp(endOffset)}`,
@@ -57,7 +57,7 @@ export function downloadItineraryIcs(itinerary: Itinerary): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `kandyverse-${itinerary.startTime.replace(":", "")}.ics`;
+  link.download = `viewkandy-${itinerary.startTime.replace(":", "")}.ics`;
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -66,7 +66,7 @@ export function downloadItineraryIcs(itinerary: Itinerary): void {
 
 export function itineraryToMarkdown(itinerary: Itinerary): string {
   const lines = [
-    `# KandyVerse plan · ${itinerary.startTime}–${itinerary.endTime}`,
+    `# View Kandy plan · ${itinerary.startTime}–${itinerary.endTime}`,
     "",
     `Starting at **${itinerary.start.label}**. Mode: ${itinerary.mode}.`,
     "",

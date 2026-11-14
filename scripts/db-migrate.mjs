@@ -31,7 +31,7 @@ const pool = new Pool({
   connectionString: url,
   ssl: local ? undefined : { rejectUnauthorized: false },
   max: 1,
-  application_name: "kandyverse-migrate",
+  application_name: "viewkandy-migrate",
 });
 
 try {

@@ -20,7 +20,7 @@ const local = ["localhost", "127.0.0.1", "::1"].includes(hostname);
 const client = new Client({
   connectionString: url,
   ssl: local ? undefined : { rejectUnauthorized: false },
-  application_name: "kandyverse-check",
+  application_name: "viewkandy-check",
 });
 
 try {

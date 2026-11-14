@@ -43,7 +43,7 @@ export function makePlace(overrides: Partial<Place> & { slug: string }): Place {
     practicalNotes: null,
     verification: {
       status: "unverified",
-      source: "KandyVerse editorial seed",
+      source: "View Kandy editorial seed",
       sourceUrl: null,
       lastVerifiedAt: null,
     },

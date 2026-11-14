@@ -1,8 +1,8 @@
-# KandyVerse
+# View Kandy
 
 **Explore Kandy beyond the map.**
 
-KandyVerse is an immersive 3D digital-tourism and smart-city platform for Kandy, Sri Lanka. It combines a real-coordinate 3D explorer, an editorial place database, a realistic itinerary planner, a grounded AI guide and a mobile-first PWA.
+View Kandy is an immersive 3D digital-tourism and smart-city platform for Kandy, Sri Lanka. It combines a real-coordinate 3D explorer, an editorial place database, a realistic itinerary planner, a grounded AI guide and a mobile-first PWA.
 
 The project is built around one rule: **never invent a fact to make the screen look fuller.** Coordinates, places and tour routes are real. Opening hours, entry fees, phone numbers, ratings, reviews and photographs are only shown when an editor has recorded a source. Everything else is labelled as unknown.
 
@@ -324,7 +324,7 @@ The seed-honesty test fails the suite if anyone adds invented hours, fees, phone
 
 1. Push the repository to GitHub/GitLab and import it into Vercel.
 2. Set the environment variables from the table above in **Project → Settings → Environment Variables**. Keep `DATABASE_URL`, `GOOGLE_MAPS_SERVER_API_KEY`, `OPENAI_API_KEY`, `ADMIN_*` server-only.
-3. Set `NEXT_PUBLIC_APP_URL` to the production URL (for example `https://kandyverse.example`).
+3. Set `NEXT_PUBLIC_APP_URL` to the production URL (for example `https://viewkandy.example`).
 4. Provision Supabase Postgres/PostGIS and run the database setup **once against the production database** from your machine or CI:
    ```bash
    DATABASE_URL="postgresql://..." npm run db:setup

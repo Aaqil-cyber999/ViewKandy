@@ -67,7 +67,7 @@ export function SavedClient({ places }: { places: Place[] }) {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-foreground">On this device</h2>
-          <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-muted">
+          <p className="mt-1 max-w-2xl text-[14px] leading-relaxed text-muted">
             Favourites, plans and the trip shortlist are stored in this browser.
             When Supabase auth is configured, account sync is available from the
             account page.
@@ -104,7 +104,7 @@ export function SavedClient({ places }: { places: Place[] }) {
             {item.label}
             <span
               className={cn(
-                "rounded-full px-1.5 text-[9px] font-bold",
+                "rounded-full px-1.5 text-[10px] font-bold",
                 tab === item.id ? "bg-surface/20" : "bg-surface-2",
               )}
             >
@@ -124,7 +124,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                 action={
                   <Link
                     href="/places"
-                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white"
+                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[14px] font-semibold text-white"
                   >
                     Browse places
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -142,7 +142,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                         toggleFavorite(place.slug);
                         toast(`Removed ${place.name} from saved places.`, "info");
                       }}
-                      className="kv-focus absolute bottom-3 right-3 rounded-full border border-line bg-surface/90 px-2 py-1 text-[9px] text-muted hover:text-red-700"
+                      className="kv-focus absolute bottom-3 right-3 rounded-full border border-line bg-surface/90 px-2 py-1 text-[10px] text-muted hover:text-red-700"
                     >
                       Remove
                     </button>
@@ -152,7 +152,7 @@ export function SavedClient({ places }: { places: Place[] }) {
             )}
 
             {missingFavorites.length > 0 && (
-              <div className="mt-4 rounded-xl border border-amber/20 bg-amber/[0.04] p-3 text-[11px] text-amber/90">
+              <div className="mt-4 rounded-xl border border-amber/20 bg-amber/[0.04] p-3 text-[12px] text-amber/90">
                 {missingFavorites.length} saved{" "}
                 {missingFavorites.length === 1 ? "place is" : "places are"} no longer in
                 the database (the editor may have removed them).{" "}
@@ -177,7 +177,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                 action={
                   <Link
                     href="/planner"
-                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white"
+                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[14px] font-semibold text-white"
                   >
                     Open planner
                     <Route className="h-3.5 w-3.5" />
@@ -196,7 +196,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
                           <h2 className="text-sm font-semibold text-foreground">{item.title}</h2>
-                          <p className="mt-1 text-[11px] text-muted-2">
+                          <p className="mt-1 text-[12px] text-muted-2">
                             <CalendarDays className="mr-1 inline h-3 w-3" />
                             {new Date(item.createdAt).toLocaleDateString("en-GB", {
                               day: "numeric",
@@ -243,7 +243,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                           {item.itinerary.stops.map((stop) => (
                             <li
                               key={stop.place.slug}
-                              className="flex items-start gap-2 text-[11px]"
+                              className="flex items-start gap-2 text-[12px]"
                             >
                               <span className="w-10 shrink-0 font-mono text-muted-2">
                                 {formatMinutesAsTime(stop.arrivalMinutes)}
@@ -262,7 +262,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                         </ol>
                       )}
 
-                      <div className="mt-3 flex flex-wrap items-center gap-2 text-[10px] text-muted-2">
+                      <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-muted-2">
                         <Badge variant="neutral">
                           {item.itinerary.mode === "walk" ? "Walking" : "Driving"}
                         </Badge>
@@ -303,7 +303,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                 action={
                   <Link
                     href="/explore"
-                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white"
+                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[14px] font-semibold text-white"
                   >
                     Explore places
                     <Pin className="h-3.5 w-3.5" />
@@ -313,7 +313,7 @@ export function SavedClient({ places }: { places: Place[] }) {
             ) : (
               <>
                 <div className="mb-3 flex items-center justify-between">
-                  <p className="text-[11px] text-muted-2">
+                  <p className="text-[12px] text-muted-2">
                     {pinnedPlaces.length} pinned · the planner will try to include them
                   </p>
                   <Button size="sm" variant="ghost" onClick={clearPins}>
@@ -346,7 +346,7 @@ export function SavedClient({ places }: { places: Place[] }) {
                 </div>
                 <Link
                   href="/planner"
-                  className="kv-focus mt-4 inline-flex h-10 items-center gap-1.5 rounded-full bg-mint px-4 text-[13px] font-semibold text-white"
+                  className="kv-focus mt-4 inline-flex h-10 items-center gap-1.5 rounded-full bg-mint px-4 text-[14px] font-semibold text-white"
                 >
                   Plan with these places
                   <ArrowRight className="h-3.5 w-3.5" />

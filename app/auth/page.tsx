@@ -15,7 +15,9 @@ export default function AuthPage() {
         title="Keep your Kandy plans across devices"
         description="Sign in with Supabase Auth to sync favourites and itineraries. Without an account, everything still works locally in this browser."
       />
-      <AuthPanel />
+      <section id="account" data-scroll-section data-scroll-label="Account">
+        <AuthPanel />
+      </section>
     </>
   );
 }

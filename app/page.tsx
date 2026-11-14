@@ -1,353 +1,386 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  BadgeCheck,
-  Bot,
-  CloudSun,
-  Database,
+  CalendarDays,
+  Compass,
   MapPinned,
-  Route,
-  ShieldCheck,
   Sparkles,
+  Star,
+  Trees,
 } from "lucide-react";
-import { HeroScene } from "@/components/home/hero-scene";
-import { PlaceCard } from "@/components/places/place-card";
-import { TourCard, TourCta } from "@/components/tours/tour-card";
-import { WeatherIcon } from "@/components/weather/weather-icon";
-import { CategoryIcon } from "@/components/places/category-icon";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { SectionHeading } from "@/components/ui/section";
-import { listPlaces } from "@/lib/db";
-import { seedCategories, seedTours } from "@/lib/data";
-import { fetchWeather, weatherAdvice } from "@/lib/weather/open-meteo";
-import type { PlaceWithDistance } from "@/types/place";
 
-export const revalidate = 900;
-
-const STEPS = [
+// Unsplash royalty-free photography used for the editorial tourism aesthetic
+// (source links maintained in the project notes for reuse and attribution).
+const featuredSpots = [
   {
-    icon: MapPinned,
-    title: "Pick real places",
-    body: "Every location has real coordinates in Kandy. Filter by interest, distance and whether you need to stay indoors.",
+    title: "Temple of the Tooth",
+    tag: "Sacred heritage",
+    image:
+      "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80",
+    copy: "Walk the spiritual heart of the city at the Dalada Maligawa.",
   },
   {
-    icon: Route,
-    title: "Build a walkable plan",
-    body: "The planner respects your time window, budget, opening hours where verified, and how fast you actually move.",
+    title: "Kandy Lake",
+    tag: "Scenic stroll",
+    image:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+    copy: "A reflective circuit with views across misty hills and colonial-era charm.",
   },
   {
-    icon: Bot,
-    title: "Ask for a second opinion",
-    body: "The assistant is grounded in the same database. If a fact is not stored, it says so instead of guessing.",
+    title: "Royal Botanic Gardens",
+    tag: "Green escape",
+    image:
+      "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
+    copy: "A botanical wonder of orchids, palm avenues and cool mountain air.",
   },
 ];
 
-export default async function HomePage() {
-  const places = await listPlaces();
-  const withDistance: PlaceWithDistance[] = places.map((place) => ({
-    ...place,
-    distanceMeters: Number.POSITIVE_INFINITY,
-  }));
+const quickPicks = [
+  { title: "Cultural gems", icon: Sparkles, tone: "gold" },
+  { title: "Nature trails", icon: Trees, tone: "teal" },
+  { title: "Lakefront moments", icon: MapPinned, tone: "blue" },
+  { title: "Festivals & events", icon: CalendarDays, tone: "sand" },
+];
 
-  const featured = [...withDistance]
-    .filter((place) => place.featured)
-    .sort((a, b) => b.priority - a.priority)
-    .slice(0, 6);
+const experiences = [
+  "Temple & heritage walks",
+  "Sunrise viewpoints",
+  "Tea garden escapes",
+  "Night markets & street food",
+  "Wellness retreats",
+  "Adventure & hiking",
+];
 
-  const weather = await fetchWeather();
-  const advice = weather ? weatherAdvice(weather) : null;
-  const weatherLine = weather
-    ? `${Math.round(weather.current.temperatureC)}°C · ${weather.current.condition.label}`
-    : "Unavailable";
+const plannerSteps = [
+  { label: "Map your route", value: "01" },
+  { label: "Choose the mood", value: "02" },
+  { label: "Save what matters", value: "03" },
+];
 
-  const verifiedCount = places.filter((p) => p.verification.status === "verified").length;
-
+export default function HomePage() {
   return (
-    <>
-      <HeroScene
-        places={withDistance}
-        placeCount={places.length}
-        categoryCount={seedCategories.length}
-        weatherLine={weatherLine}
-      />
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <section className="py-16" aria-labelledby="categories-heading">
-          <SectionHeading
-            eyebrow="Start with an interest"
-            title="What kind of Kandy do you want?"
-            description="Twelve categories, from the sacred to the practical. Every filter maps to real coordinates and editorial notes."
-            href="/explore"
-            hrefLabel="Open the explorer"
+    <div className="travel-home-shell">
+      <section
+        id="hero"
+        data-scroll-section
+        data-scroll-label="Discover"
+        className="travel-hero"
+      >
+        <div className="travel-hero__image" aria-hidden="true">
+          <Image
+            src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1800&q=80"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
-          <div className="mt-7 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
-            {seedCategories.map((category) => {
-              const count = places.filter((p) => p.category === category.slug).length;
-              return (
-                <Link
-                  key={category.slug}
-                  href={`/explore?category=${category.slug}`}
-                  className="kv-focus group flex items-center gap-3 rounded-xl border border-line/80 bg-surface/60 px-3.5 py-3 transition hover:border-accent/50 hover:bg-surface"
-                >
-                  <span
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border"
-                    style={{
-                      borderColor: `${category.color}44`,
-                      backgroundColor: `${category.color}14`,
-                      color: category.color,
-                    }}
-                  >
-                    <CategoryIcon name={category.icon} className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[13px] font-medium text-foreground">
-                      {category.name}
-                    </span>
-                    <span className="block text-[10px] text-muted-2">{count} places</span>
-                  </span>
-                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-2 transition group-hover:text-accent" />
-                </Link>
-              );
-            })}
-          </div>
-        </section>
+        </div>
+        <div className="travel-hero__overlay" aria-hidden="true" />
 
-        <section className="border-t border-line/60 py-16" aria-labelledby="featured-heading">
-          <SectionHeading
-            eyebrow="Editor's shortlist"
-            title="The places that explain Kandy"
-            description="The lake, the temple, the ridge and the museums. Start here if you have one day."
-            href="/places"
-            hrefLabel="All places"
-          />
-          <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((place) => (
-              <PlaceCard key={place.slug} place={place} />
-            ))}
-          </div>
-        </section>
-
-        <section className="border-t border-line/60 py-16">
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <Card className="overflow-hidden">
-              <div className="flex flex-col gap-4 border-b border-line/70 p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="kv-label">Live conditions</p>
-                  <h2 className="mt-1 text-xl font-semibold text-foreground">
-                    Kandy right now
-                  </h2>
-                </div>
-                {weather ? (
-                  <div className="flex items-center gap-3">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
-                      <WeatherIcon icon={weather.current.condition.icon} className="h-6 w-6" />
-                    </span>
-                    <div>
-                      <p className="text-2xl font-semibold leading-none text-foreground">
-                        {Math.round(weather.current.temperatureC)}°C
-                      </p>
-                      <p className="mt-1 text-[11px] text-muted">
-                        {weather.current.condition.label} · feels{" "}
-                        {Math.round(weather.current.apparentC)}°
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <Badge variant="amber">Weather unavailable</Badge>
-                )}
-              </div>
-              <CardContent className="space-y-4">
-                {weather && advice ? (
-                  <>
-                    <p className="text-sm text-muted">{advice.headline}</p>
-                    <div className="grid gap-2 text-[12px] leading-relaxed text-muted sm:grid-cols-2">
-                      <p className="rounded-lg border border-line/70 bg-surface/50 p-3">
-                        <span className="mb-1 block font-medium text-foreground">If it rains</span>
-                        {advice.indoorAdvice}
-                      </p>
-                      <p className="rounded-lg border border-line/70 bg-surface/50 p-3">
-                        <span className="mb-1 block font-medium text-foreground">If it clears</span>
-                        {advice.outdoorAdvice}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-3 text-[11px] text-muted-2">
-                      {weather.daily.slice(0, 3).map((day) => (
-                        <span key={day.date} className="inline-flex items-center gap-1.5">
-                          <CloudSun className="h-3.5 w-3.5" />
-                          {new Date(`${day.date}T00:00:00`).toLocaleDateString("en-GB", {
-                            weekday: "short",
-                          })}{" "}
-                          {Math.round(day.minC)}–{Math.round(day.maxC)}° ·{" "}
-                          {day.precipitationProbability}% rain
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-[10px] text-muted-2">
-                      Source: Open-Meteo (CC BY 4.0), updated{" "}
-                      {new Date(weather.fetchedAt).toLocaleTimeString("en-GB", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                      . No cached values are shown when the service is down.
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-[13px] leading-relaxed text-muted">
-                    Open-Meteo could not be reached. KandyVerse does not invent
-                    weather values — the rest of the site still works, and the
-                    planner will avoid claiming rain conditions it cannot verify.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="flex h-full flex-col">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-mint" />
-                  <h2 className="text-lg font-semibold text-foreground">Plan around your day</h2>
-                </div>
-                <p className="mt-2 text-[13px] leading-relaxed text-muted">
-                  Tell the planner how long you have, where you are starting, and
-                  what you care about. It returns a timed itinerary with honest
-                  estimates, a route on the map, and warnings when something does
-                  not fit.
-                </p>
-                <ul className="mt-4 space-y-2 text-[12px] text-muted">
-                  <li className="flex items-start gap-2">
-                    <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-mint" />
-                    Time windows and travel time, not just a list of pins.
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-mint" />
-                    Budget shown as known cost plus unknown-entry count.
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-mint" />
-                    Live Google route on demand when a server key is configured.
-                  </li>
-                </ul>
-                <div className="mt-auto flex flex-wrap gap-2 pt-6">
-                  <Link
-                    href="/planner"
-                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-[13px] font-semibold text-white transition hover:bg-emerald-700"
-                  >
-                    Build an itinerary
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                  <Link
-                    href="/assistant"
-                    className="kv-focus inline-flex h-10 items-center gap-1.5 rounded-full border border-line px-4 text-[13px] text-foreground transition hover:bg-surface-2"
-                  >
-                    Ask a question
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <section className="border-t border-line/60 py-16" aria-labelledby="tours-heading">
-          <SectionHeading
-            eyebrow="Virtual tours"
-            title="See the city before you walk it"
-            description="Camera routes over real coordinates. Play the whole sequence, or stop wherever you want to read more."
-            href="/tours"
-            hrefLabel="All tours"
-          />
-          <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {seedTours.slice(0, 2).map((tour) => (
-              <TourCard key={tour.slug} tour={tour} />
-            ))}
-            <TourCta />
-          </div>
-        </section>
-
-        <section className="border-t border-line/60 py-16">
-          <SectionHeading
-            eyebrow="How it works"
-            title="A guide that would rather say “I don't know”"
-            description="The difference between a useful city guide and a hallucination is the data layer. Here is how KandyVerse is built."
-          />
-          <div className="mt-7 grid gap-4 md:grid-cols-3">
-            {STEPS.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <Card key={step.title}>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <span className="grid h-10 w-10 place-items-center rounded-xl border border-accent/20 bg-accent/10 text-accent">
-                        <Icon className="h-5 w-5" />
-                      </span>
-                      <span className="font-mono text-[11px] text-muted-2">
-                        0{index + 1}
-                      </span>
-                    </div>
-                    <h3 className="mt-4 text-sm font-semibold text-foreground">{step.title}</h3>
-                    <p className="mt-2 text-[12px] leading-relaxed text-muted">{step.body}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="border-t border-line/60 py-16">
-          <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="rounded-2xl border border-mint/20 bg-mint/[0.04] p-6">
-              <ShieldCheck className="h-6 w-6 text-mint" />
-              <h2 className="mt-3 text-xl font-semibold text-foreground">
-                Honest by default
-              </h2>
-              <p className="mt-2 text-[13px] leading-relaxed text-muted">
-                {verifiedCount === 0
-                  ? "None of the seeded places has a completed editorial verification yet. That is visible on every card instead of being hidden."
-                  : `${verifiedCount} of ${places.length} places have completed editorial verification. The rest are clearly marked.`}{" "}
-                Opening hours, entry fees, phone numbers and photos are only shown
-                when they have a source. Ratings and reviews are never generated.
-              </p>
-              <Link
-                href="/places"
-                className="kv-focus mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-mint hover:text-emerald-700"
-              >
-                See the data status
-                <ArrowRight className="h-3.5 w-3.5" />
+        <div className="travel-hero__content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <p className="travel-eyebrow">A slower, richer way to explore Kandy</p>
+            <h1 className="travel-display">Discover the soul of Sri Lanka in Kandy.</h1>
+            <p className="travel-lede">
+              Trace sacred temples, mist-wrapped hills, lakeside walks, and unforgettable
+              cultural evenings across one of the island’s most atmospheric cities.
+            </p>
+            <div className="travel-actions">
+              <Link href="/explore" className="travel-button travel-button--primary">
+                Start exploring
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/planner" className="travel-button travel-button--ghost">
+                Plan your trip
               </Link>
             </div>
+          </div>
 
-            <div className="rounded-2xl border border-line/80 bg-surface/50 p-6">
-              <Database className="h-6 w-6 text-accent" />
-              <h2 className="mt-3 text-xl font-semibold text-foreground">
-                One database, several front doors
-              </h2>
-              <p className="mt-2 text-[13px] leading-relaxed text-muted">
-                The 3D explorer, 2D fallback, planner and assistant all read the
-                same repository. That is why distances agree and why a place that
-                is unverified in one surface is unverified everywhere.
-              </p>
-              <div className="mt-4 grid gap-2 text-[11px] text-muted-2 sm:grid-cols-2">
-                <span className="rounded-lg border border-line/70 bg-surface/50 px-3 py-2">
-                  {places.length} places · {seedCategories.length} categories
+          <div className="travel-hero__stats" aria-label="Kandy highlights">
+            <div>
+              <span>Temple of the Tooth</span>
+              <strong>1 city, 1 heritage</strong>
+            </div>
+            <div>
+              <span>Lakefront</span>
+              <strong>6.5 km circuit</strong>
+            </div>
+            <div>
+              <span>Climate</span>
+              <strong>Cool hills, warm evenings</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="travel-main">
+        <section
+          id="overview"
+          data-scroll-section
+          data-scroll-label="Overview"
+          className="travel-shell travel-shell--light"
+        >
+          <div className="travel-section-head">
+            <div>
+              <p className="travel-eyebrow travel-eyebrow--dark">Everything you need</p>
+              <h2>One beautiful journey.</h2>
+            </div>
+            <Link href="/places" className="travel-link">
+              See all places
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="travel-quick-grid">
+            {quickPicks.map(({ title, icon: Icon, tone }) => (
+              <Link
+                key={title}
+                href="/explore"
+                className={`travel-mini-card travel-mini-card--${tone}`}
+                aria-label={`Explore ${title.toLowerCase()} on the map`}
+              >
+                <div className="travel-mini-card__icon">
+                  <Icon size={18} />
+                </div>
+                <div>
+                  <strong>{title}</strong>
+                  <span>Curated highlights</span>
+                </div>
+                <ArrowRight className="travel-mini-card__arrow" size={16} aria-hidden="true" />
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="stories"
+          data-scroll-section
+          data-scroll-label="Stories"
+          className="travel-shell travel-shell--dark"
+        >
+          <div className="travel-section-head travel-section-head--dark">
+            <div>
+              <p className="travel-eyebrow">What’s new</p>
+              <h2>Stories that guide your Kandy stay.</h2>
+            </div>
+            <Link href="/tours" className="travel-link travel-link--light">
+              Explore more
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="travel-story-grid">
+            {featuredSpots.map(({ title, tag, image, copy }) => (
+              <Link
+                key={title}
+                href="/places"
+                className="travel-story-card"
+                aria-label={`Browse places related to ${title}`}
+              >
+                <div className="travel-story-card__media">
+                  <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                </div>
+                <div className="travel-story-card__body">
+                  <span>{tag}</span>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </div>
+                <span className="travel-card-cta" aria-hidden="true">
+                  Discover places <ArrowRight size={14} />
                 </span>
-                <span className="rounded-lg border border-line/70 bg-surface/50 px-3 py-2">
-                  {seedTours.length} virtual tours
-                </span>
-                <span className="rounded-lg border border-line/70 bg-surface/50 px-3 py-2">
-                  Drizzle ORM + PostGIS
-                </span>
-                <span className="rounded-lg border border-line/70 bg-surface/50 px-3 py-2">
-                  Local fallback: zero config
-                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="places"
+          data-scroll-section
+          data-scroll-label="Places"
+          className="travel-shell travel-shell--light"
+        >
+          <div className="travel-section-head">
+            <div>
+              <p className="travel-eyebrow travel-eyebrow--dark">Best places</p>
+              <h2>Discover Kandy at its most memorable.</h2>
+            </div>
+            <Link href="/places" className="travel-link">
+              View all places
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="travel-feature-layout">
+            <Link
+              href="/places"
+              className="travel-feature-card travel-feature-card--large"
+              aria-label="Browse places in Kandy"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+                alt="Misty mountain landscape in the hills"
+                fill
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="object-cover"
+              />
+              <div className="travel-feature-card__content">
+                <span>Temple & heritage</span>
+                <h3>Ayubowan: a warm Kandy welcome</h3>
               </div>
-              <p className="mt-3 text-[10px] text-muted-2">
-                Place data is editorial seed content. Verify hours and fees with
-                the official source before travelling.
-              </p>
+            </Link>
+
+            <div className="travel-spot-stack">
+              {[
+                "Misty viewpoints",
+                "Tea country roads",
+                "Kandy Lake promenade",
+                "Hidden village stays",
+              ].map((item) => (
+                <div key={item} className="travel-spot-row">
+                  <span className="travel-dot" aria-hidden="true" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="experiences"
+          data-scroll-section
+          data-scroll-label="Experiences"
+          className="travel-shell travel-shell--dark travel-shell--experience"
+        >
+          <div className="travel-section-head travel-section-head--dark">
+            <div>
+              <p className="travel-eyebrow">Experiences for every explorer</p>
+              <h2>Find the rhythm that fits your trip.</h2>
+            </div>
+          </div>
+
+          <div className="travel-badge-grid">
+            {experiences.map((item) => (
+              <span key={item} className="travel-badge">
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="events"
+          data-scroll-section
+          data-scroll-label="Events"
+          className="travel-shell travel-shell--light"
+        >
+          <div className="travel-section-head">
+            <div>
+              <p className="travel-eyebrow travel-eyebrow--dark">Upcoming events</p>
+              <h2>Seasonal moments worth planning around.</h2>
+            </div>
+            <Link href="/planner" className="travel-link">
+              Build my route
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="travel-event-grid">
+            {[
+              {
+                title: "Esala Perahera",
+                detail: "Cultural pageantry, drumming and temple processions at night.",
+                image:
+                  "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1200&q=80",
+              },
+              {
+                title: "Tea trails & tastings",
+                detail: "A slower route across cool, green highlands and estate cafes.",
+                image:
+                  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+              },
+              {
+                title: "Lakefront sunrise walks",
+                detail: "Quiet, reflective mornings as the city wakes to soft golden light.",
+                image:
+                  "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1200&q=80",
+              },
+            ].map(({ title, detail, image }) => (
+              <Link
+                key={title}
+                href="/planner"
+                className="travel-event-card"
+                aria-label={`Plan a trip around ${title}`}
+              >
+                <div className="travel-event-card__media">
+                  <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                </div>
+                <div className="travel-event-card__body">
+                  <div className="travel-event-card__meta">
+                    <Star size={14} />
+                    <span>Seasonal highlight</span>
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{detail}</p>
+                </div>
+                <span className="travel-card-cta" aria-hidden="true">
+                  Plan around this <ArrowRight size={14} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="reviews"
+          data-scroll-section
+          data-scroll-label="Reviews"
+          className="travel-shell travel-shell--review"
+        >
+          <div className="travel-review">
+            <p className="travel-eyebrow travel-eyebrow--dark">What our guests say</p>
+            <h2>“Kandy feels intimate, cinematic and deeply alive.”</h2>
+            <div className="travel-review__meta">
+              <span>•</span>
+              <span>Curated by travellers for travellers</span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="plan"
+          data-scroll-section
+          data-scroll-label="Plan"
+          className="travel-shell travel-shell--cta"
+        >
+          <div className="travel-cta-panel">
+            <div>
+              <p className="travel-eyebrow travel-eyebrow--dark">Plan with ease</p>
+              <h2>Build a stay that moves with the city.</h2>
+            </div>
+
+            <div className="travel-cta-steps" aria-label="Planning steps">
+              {plannerSteps.map((step) => (
+                <div key={step.label} className="travel-cta-step">
+                  <span>{step.value}</span>
+                  <strong>{step.label}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className="travel-cta-actions">
+              <Link href="/planner" className="travel-button travel-button--primary">
+                Start planning
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/explore" className="travel-button travel-button--ghost-dark">
+                Explore the map
+              </Link>
             </div>
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }

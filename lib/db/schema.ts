@@ -18,7 +18,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 /**
- * Drizzle schema for the KandyVerse catalogue and per-user saves.
+ * Drizzle schema for the View Kandy catalogue and per-user saves.
  *
  * Supabase owns the `auth` schema; favorites and itineraries therefore keep
  * `user_id` without a declarative FK here (the reference is added by
@@ -84,7 +84,7 @@ export const places = pgTable(
     verificationStatus: text("verification_status").notNull().default("unverified"),
     verificationSource: text("verification_source")
       .notNull()
-      .default("KandyVerse editorial seed"),
+      .default("View Kandy editorial seed"),
     verificationSourceUrl: text("verification_source_url"),
     lastVerifiedAt: timestamp("last_verified_at", { withTimezone: true }),
     locationAccuracy: text("location_accuracy").notNull().default("approximate"),

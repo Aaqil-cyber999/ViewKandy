@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type * as Leaflet from "leaflet";
 import { getCategory } from "@/lib/data";
 import type { Place } from "@/types/place";
@@ -12,6 +12,8 @@ interface FallbackMapProps {
   onSelect?: (slug: string) => void;
   route?: RoutePoint[] | null;
   center?: { lat: number; lng: number };
+  /** Recentre the live map when this changes (used by the tour player). */
+  focus?: { lat: number; lng: number } | null;
   zoom?: number;
   className?: string;
   interactive?: boolean;
@@ -58,6 +60,7 @@ export function FallbackMap({
   onSelect,
   route,
   center = { lat: 7.2906, lng: 80.6337 },
+  focus = null,
   zoom = 14,
   className = "h-full w-full",
   interactive = true,
@@ -69,6 +72,7 @@ export function FallbackMap({
   const routeRef = useRef<Leaflet.Polyline | null>(null);
   const leafletRef = useRef<typeof Leaflet | null>(null);
   const onSelectRef = useRef(onSelect);
+  const [mapReady, setMapReady] = useState(false);
   onSelectRef.current = onSelect;
 
   useEffect(() => {
@@ -126,6 +130,7 @@ export function FallbackMap({
         map.invalidateSize();
         resizeObserver = new ResizeObserver(() => map.invalidateSize());
         resizeObserver.observe(containerRef.current);
+        setMapReady(true);
       } catch (error) {
         console.error("[leaflet] initialisation failed:", error);
         onError?.(
@@ -147,13 +152,21 @@ export function FallbackMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Recentre when a caller asks to follow a stop or a selected place.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !focus) return;
+    map.flyTo([focus.lat, focus.lng], Math.max(map.getZoom(), 15), {
+      duration: 1.1,
+    });
+  }, [focus]);
+
   // Markers
   useEffect(() => {
     const L = leafletRef.current;
     const map = mapRef.current;
     const group = layerRef.current;
-    if (!L || !map || !group) return;
-
+    if (!mapReady || !L || !map || !group) return;
     group.clearLayers();
     const markers: Leaflet.Marker[] = [];
     for (const place of places) {
@@ -185,23 +198,22 @@ export function FallbackMap({
       map.fitBounds(bounds.pad(0.18), { maxZoom: 14 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [places, selectedSlug]);
+  }, [mapReady, places, selectedSlug]);
 
   // Fly to selection
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !selectedSlug) return;
+    if (!mapReady || !map || !selectedSlug) return;
     const place = places.find((p) => p.slug === selectedSlug);
     if (!place) return;
     map.flyTo([place.lat, place.lng], Math.max(map.getZoom(), 15), { duration: 1.1 });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSlug]);
+  }, [mapReady, places, selectedSlug]);
 
   // Route line
   useEffect(() => {
     const L = leafletRef.current;
     const map = mapRef.current;
-    if (!L || !map) return;
+    if (!mapReady || !L || !map) return;
     if (routeRef.current) {
       routeRef.current.remove();
       routeRef.current = null;
@@ -219,7 +231,7 @@ export function FallbackMap({
       ).addTo(map);
       map.fitBounds(routeRef.current.getBounds().pad(0.2), { maxZoom: 15 });
     }
-  }, [route]);
+  }, [mapReady, route]);
 
   return (
     <div

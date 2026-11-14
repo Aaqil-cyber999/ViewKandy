@@ -39,7 +39,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
   return (
     <div className="rounded-xl border border-line/80 bg-surface/50 p-4">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
+        <h2 className="flex items-center gap-2 text-[14px] font-semibold text-foreground">
           <Route className="h-4 w-4 text-accent" />
           Route from Kandy city centre
         </h2>
@@ -53,7 +53,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
                 setResult(null);
               }}
               aria-pressed={mode === option}
-              className={`kv-focus rounded-full px-2.5 py-1 text-[10px] capitalize ${
+              className={`kv-focus rounded-full px-2.5 py-1 text-[11px] capitalize ${
                 mode === option ? "bg-accent text-white" : "text-muted"
               }`}
             >
@@ -63,7 +63,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
         </div>
       </div>
 
-      <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
+      <p className="mt-2 text-[12px] leading-relaxed text-muted-2">
         Uses the Google Routes API when a server key is configured; otherwise it
         shows a clearly labelled straight-line estimate.
       </p>
@@ -73,13 +73,13 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
           <p className="font-medium text-foreground">
             {result.distanceLabel} · {result.durationLabel}
           </p>
-          <p className="mt-0.5 text-[10px] text-muted-2">
+          <p className="mt-0.5 text-[11px] text-muted-2">
             {result.source === "google_routes"
               ? "Live route from Google Routes API"
               : "Estimate from straight-line distance"}
           </p>
           {result.warning && (
-            <p className="mt-1 text-[10px] leading-relaxed text-amber/90">{result.warning}</p>
+            <p className="mt-1 text-[11px] leading-relaxed text-amber/90">{result.warning}</p>
           )}
         </div>
       )}

@@ -1,5 +1,5 @@
 /*
- * KandyVerse service worker.
+ * View Kandy service worker.
  *
  * Strategy:
  *  - App shell + offline page are precached on install.
@@ -9,7 +9,7 @@
  *    admin writes must always be fresh and must not leak between users.
  */
 
-const VERSION = "kandyverse-v1";
+const VERSION = "viewkandy-v1";
 const SHELL_CACHE = `${VERSION}-shell`;
 const ASSET_CACHE = `${VERSION}-assets`;
 const OFFLINE_URL = "/offline";
@@ -43,7 +43,7 @@ self.addEventListener("activate", (event) => {
       const keys = await caches.keys();
       await Promise.all(
         keys
-          .filter((key) => key.startsWith("kandyverse-") && !key.startsWith(VERSION))
+          .filter((key) => key.startsWith("viewkandy-") && !key.startsWith(VERSION))
           .map((key) => caches.delete(key)),
       );
       await self.clients.claim();
@@ -85,7 +85,7 @@ async function networkFirst(request, fallbackUrl) {
       if (fallback) return fallback;
     }
     return new Response(
-      "<!doctype html><meta charset=utf-8><title>Offline</title><body style=\"background:#07111f;color:#f8fafc;font-family:system-ui;padding:2rem\"><h1>You are offline</h1><p>KandyVerse needs a connection for this page. Cached pages remain available from the menu.</p></body>",
+      "<!doctype html><meta charset=utf-8><title>Offline</title><body style=\"background:#07111f;color:#f8fafc;font-family:system-ui;padding:2rem\"><h1>You are offline</h1><p>View Kandy needs a connection for this page. Cached pages remain available from the menu.</p></body>",
       { status: 503, headers: { "Content-Type": "text/html; charset=utf-8" } },
     );
   }

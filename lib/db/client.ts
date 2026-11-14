@@ -13,8 +13,8 @@ import * as schema from "./schema";
 type Database = NodePgDatabase<typeof schema>;
 
 const globalForDb = globalThis as unknown as {
-  __kandyversePool?: Pool;
-  __kandyverseDb?: Database;
+  __viewkandyPool?: Pool;
+  __viewkandyDb?: Database;
 };
 
 export function databaseConfigured(): boolean {
@@ -26,7 +26,7 @@ function isLocalHost(hostname: string): boolean {
 }
 
 export function getDb(): Database {
-  if (globalForDb.__kandyverseDb) return globalForDb.__kandyverseDb;
+  if (globalForDb.__viewkandyDb) return globalForDb.__viewkandyDb;
 
   const url = process.env.DATABASE_URL;
   if (!url) {
@@ -41,13 +41,13 @@ export function getDb(): Database {
   }
 
   const pool =
-    globalForDb.__kandyversePool ??
+    globalForDb.__viewkandyPool ??
     new Pool({
       connectionString: url,
       max: 5,
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 10_000,
-      application_name: "kandyverse",
+      application_name: "viewkandy",
       // Supabase's pooler presents a certificate chain that node-postgres
       // cannot verify without the project CA; TLS is still enforced.
       ssl: isLocalHost(hostname) ? undefined : { rejectUnauthorized: false },
@@ -58,15 +58,15 @@ export function getDb(): Database {
   });
 
   const db = drizzle(pool, { schema });
-  globalForDb.__kandyversePool = pool;
-  globalForDb.__kandyverseDb = db;
+  globalForDb.__viewkandyPool = pool;
+  globalForDb.__viewkandyDb = db;
   return db;
 }
 
 export async function closeDb(): Promise<void> {
-  if (globalForDb.__kandyversePool) {
-    await globalForDb.__kandyversePool.end();
-    globalForDb.__kandyversePool = undefined;
-    globalForDb.__kandyverseDb = undefined;
+  if (globalForDb.__viewkandyPool) {
+    await globalForDb.__viewkandyPool.end();
+    globalForDb.__viewkandyPool = undefined;
+    globalForDb.__viewkandyDb = undefined;
   }
 }

@@ -57,10 +57,10 @@ test("the assistant answers without an API key using the grounded engine", async
 
   await waitForReactHydration(
     page,
-    'textarea[aria-label="Message the KandyVerse guide"]',
+    'textarea[aria-label="Message the View Kandy guide"]',
   );
 
-  const input = page.getByLabel("Message the KandyVerse guide");
+  const input = page.getByLabel("Message the View Kandy guide");
   const send = page.getByRole("button", { name: "Send message" });
 
   await input.fill("What can I see near Kandy Lake?");

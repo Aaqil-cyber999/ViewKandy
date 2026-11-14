@@ -35,7 +35,7 @@ const pool = new Pool({
   connectionString: url,
   ssl: local ? undefined : { rejectUnauthorized: false },
   max: 2,
-  application_name: "kandyverse-seed",
+  application_name: "viewkandy-seed",
 });
 
 const db = drizzle(pool);

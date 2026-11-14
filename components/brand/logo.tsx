@@ -5,43 +5,58 @@ export function Logo({
   className,
   showWordmark = true,
   href = "/",
+  tone = "dark",
 }: {
   className?: string;
   showWordmark?: boolean;
   href?: string;
+  tone?: "dark" | "light";
 }) {
   return (
     <Link
       href={href}
-      className={cn("kv-focus group flex items-center gap-2.5", className)}
-      aria-label="KandyVerse home"
+      className={cn("kv-focus group flex items-center gap-3", className)}
+      aria-label="View Kandy home"
     >
-      <span className="relative grid h-9 w-9 place-items-center rounded-xl border border-accent/30 bg-accent/10">
-        <svg viewBox="0 0 32 32" className="h-5 w-5" aria-hidden="true">
-          <path
-            d="M8 25V7l10 9-10 9Z"
+      <span
+        className={cn(
+          "relative grid h-9 w-9 place-items-center border",
+          tone === "light" ? "border-cream/30" : "border-accent/25",
+        )}
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 32 32" className="h-6 w-6">
+          <g
             fill="none"
-            stroke="#1f8a4c"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M18 7v18"
-            stroke="#15803d"
-            strokeWidth="1.8"
+            stroke={tone === "light" ? "#d8c29a" : "#1d5c46"}
+            strokeWidth="1.1"
             strokeLinecap="round"
-          />
-          <circle cx="23.5" cy="11.5" r="2.2" fill="#15803d" />
+          >
+            <path d="M4 23c4-1 6-4.6 8.6-4.6 2.6 0 3.6 2.2 6.2 2.2 3 0 4.4-3.4 9.2-3.4" />
+            <path d="M4 17.4c4-.9 6-3.4 8.6-3.4 2.6 0 3.6 1.7 6.2 1.7 3 0 4.4-2.4 9.2-2.4" />
+            <path d="M4 11.8c4-.7 6-2.2 8.6-2.2 2.6 0 3.6 1.2 6.2 1.2 3 0 4.4-1.5 9.2-1.5" opacity="0.55" />
+          </g>
+          <circle cx="24.5" cy="7" r="1.6" fill="#a97f45" />
         </svg>
-        <span className="absolute inset-0 rounded-xl ring-1 ring-inset ring-accent/10" />
       </span>
       {showWordmark && (
         <span className="flex flex-col leading-none">
-          <span className="text-[15px] font-semibold tracking-[0.16em] text-foreground">
-            KANDY<span className="text-accent">VERSE</span>
+          <span
+            className={cn(
+              "font-display text-[21px] tracking-[-0.02em]",
+              tone === "light" ? "text-cream" : "text-foreground",
+            )}
+          >
+            <em className="font-normal not-italic text-gold">View</em>{" "}
+            <span className="font-medium">Kandy</span>
           </span>
-          <span className="mt-1 text-[9px] uppercase tracking-[0.22em] text-muted-2">
-            Beyond the map
+          <span
+            className={cn(
+              "mt-1.5 text-[9px] uppercase leading-none tracking-[0.28em]",
+              tone === "light" ? "text-cream/55" : "text-muted-2",
+            )}
+          >
+            Sri Lanka · City guide
           </span>
         </span>
       )}

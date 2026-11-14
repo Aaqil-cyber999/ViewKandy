@@ -103,7 +103,7 @@ export function PlacesBrowser({
                 }
                 aria-pressed={selected}
                 className={cn(
-                  "kv-focus inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] transition",
+                  "kv-focus inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12px] transition",
                   selected
                     ? "border-accent/40 bg-accent/10 text-accent"
                     : "border-line text-muted hover:text-foreground",
@@ -122,7 +122,7 @@ export function PlacesBrowser({
                 setQuery("");
                 setOnlyVerified(false);
               }}
-              className="kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] text-muted-2 hover:text-foreground"
+              className="kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[12px] text-muted-2 hover:text-foreground"
             >
               <X className="h-3 w-3" />
               Clear
@@ -131,7 +131,7 @@ export function PlacesBrowser({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-2">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 text-[12px] text-muted-2">
         <span>
           Showing {results.length} of {places.length} places
         </span>

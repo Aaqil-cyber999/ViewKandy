@@ -63,15 +63,15 @@ export function LiveGooglePlaces({
   return (
     <div className="rounded-xl border border-line/80 bg-surface/50 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
+        <h2 className="flex items-center gap-2 text-[14px] font-semibold text-foreground">
           <MapPin className="h-4 w-4 text-accent" />
           Live places from Google
         </h2>
         <Badge variant="outline">External data</Badge>
       </div>
-      <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
+      <p className="mt-2 text-[12px] leading-relaxed text-muted-2">
         Optional live enrichment from Google Places. These listings are not
-        KandyVerse editorial records and are not verified by us.
+        View Kandy editorial records and are not verified by us.
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2">
@@ -89,13 +89,13 @@ export function LiveGooglePlaces({
 
       <div aria-live="polite">
         {result?.warning && (
-          <p className="mt-3 rounded-lg border border-amber/20 bg-amber/[0.05] p-2.5 text-[11px] leading-relaxed text-amber/90">
+          <p className="mt-3 rounded-lg border border-amber/20 bg-amber/[0.05] p-2.5 text-[12px] leading-relaxed text-amber/90">
             {result.warning}
           </p>
         )}
 
         {result && !result.warning && result.places.length === 0 && (
-          <p className="mt-3 text-[11px] text-muted-2">
+          <p className="mt-3 text-[12px] text-muted-2">
             Google returned no places within 1.2 km for the selected types.
           </p>
         )}
@@ -117,12 +117,12 @@ export function LiveGooglePlaces({
                     <span className="text-[12px] font-medium text-foreground">{item.name}</span>
                     <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 text-muted-2" />
                   </span>
-                  <span className="mt-0.5 block text-[10px] text-muted-2">
+                  <span className="mt-0.5 block text-[11px] text-muted-2">
                     {formatDistance(item.distanceMeters)}
                     {item.address ? ` · ${item.address}` : ""}
                   </span>
                   {(item.rating !== null || item.openNow !== null) && (
-                    <span className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-muted">
+                    <span className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] text-muted">
                       {item.rating !== null && (
                         <span className="inline-flex items-center gap-1">
                           <Star className="h-3 w-3 fill-amber text-amber" />
@@ -146,9 +146,9 @@ export function LiveGooglePlaces({
         )}
       </div>
 
-      <p className="mt-3 text-[9px] leading-relaxed text-muted-2">
+      <p className="mt-3 text-[10px] leading-relaxed text-muted-2">
         Data from Google Places, shown with attribution. Ratings and opening
-        states are live Google values, not KandyVerse verification.
+        states are live Google values, not View Kandy verification.
       </p>
     </div>
   );
@@ -189,15 +189,15 @@ export function OsmServices({ place }: { place: Place }) {
   return (
     <div className="rounded-xl border border-line/80 bg-surface/50 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
+        <h2 className="flex items-center gap-2 text-[14px] font-semibold text-foreground">
           <Store className="h-4 w-4 text-mint" />
           Live services from OpenStreetMap
         </h2>
         <Badge variant="outline">External data</Badge>
       </div>
-      <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
+      <p className="mt-2 text-[12px] leading-relaxed text-muted-2">
         Community-maintained ATMs, pharmacies, toilets and other practical
-        services within 1.2 km. Not verified by KandyVerse.
+        services within 1.2 km. Not verified by View Kandy.
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2">
@@ -215,13 +215,13 @@ export function OsmServices({ place }: { place: Place }) {
 
       <div aria-live="polite">
         {result?.warning && (
-          <p className="mt-3 rounded-lg border border-amber/20 bg-amber/[0.05] p-2.5 text-[11px] leading-relaxed text-amber/90">
+          <p className="mt-3 rounded-lg border border-amber/20 bg-amber/[0.05] p-2.5 text-[12px] leading-relaxed text-amber/90">
             {result.warning}
           </p>
         )}
 
         {result && !result.warning && result.services.length === 0 && (
-          <p className="mt-3 text-[11px] text-muted-2">
+          <p className="mt-3 text-[12px] text-muted-2">
             No matching OpenStreetMap services were returned within 1.2 km.
           </p>
         )}
@@ -244,17 +244,17 @@ export function OsmServices({ place }: { place: Place }) {
                       {item.name}
                       <ExternalLink className="h-3 w-3 text-muted-2" />
                     </a>
-                    <p className="mt-0.5 text-[10px] text-muted-2">
+                    <p className="mt-0.5 text-[11px] text-muted-2">
                       {item.category} · {formatDistance(item.distanceMeters)}
                       {item.address ? ` · ${item.address}` : ""}
                     </p>
                     {item.openingHours && (
-                      <p className="mt-0.5 text-[10px] text-muted-2">
+                      <p className="mt-0.5 text-[11px] text-muted-2">
                         OSM hours tag: <span className="text-muted">{item.openingHours}</span>
                       </p>
                     )}
                     {(item.phone || item.website) && (
-                      <p className="mt-0.5 flex flex-wrap gap-2 text-[10px]">
+                      <p className="mt-0.5 flex flex-wrap gap-2 text-[11px]">
                         {item.phone && (
                           <a href={`tel:${item.phone}`} className="text-accent hover:text-emerald-700">
                             {item.phone}
@@ -280,8 +280,8 @@ export function OsmServices({ place }: { place: Place }) {
         )}
       </div>
 
-      <p className="mt-3 text-[9px] leading-relaxed text-muted-2">
-        © OpenStreetMap contributors · ODbL. Live external data, not KandyVerse
+      <p className="mt-3 text-[10px] leading-relaxed text-muted-2">
+        © OpenStreetMap contributors · ODbL. Live external data, not View Kandy
         verification.
       </p>
     </div>

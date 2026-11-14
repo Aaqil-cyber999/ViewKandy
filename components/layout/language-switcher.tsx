@@ -6,7 +6,13 @@ import { useI18n } from "@/lib/i18n/provider";
 import { LOCALES } from "@/lib/i18n/dictionaries";
 import { cn } from "@/lib/utils/cn";
 
-export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+export function LanguageSwitcher({
+  compact = false,
+  tone = "dark",
+}: {
+  compact?: boolean;
+  tone?: "light" | "dark";
+}) {
   const { locale, setLocale, partial } = useI18n();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -27,7 +33,10 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "kv-focus inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-xs text-muted transition hover:bg-surface-2/60",
+          "kv-focus inline-flex items-center gap-2 border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition",
+          tone === "light"
+            ? "border-white/35 text-white/90 hover:border-gold hover:text-gold"
+            : "border-line text-muted hover:border-accent/50 hover:text-foreground",
           compact && "px-2.5",
         )}
         aria-haspopup="listbox"
@@ -41,7 +50,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
       {open && (
         <div
           role="listbox"
-          className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-line bg-surface p-1 shadow-2xl"
+          className="absolute right-0 z-50 mt-2 w-44 overflow-hidden border border-line bg-surface p-1 shadow-[0_24px_60px_-32px_rgba(11,40,33,0.55)]"
         >
           {LOCALES.map((option) => (
             <button
@@ -53,11 +62,11 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
                 setLocale(option.code);
                 setOpen(false);
               }}
-              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-foreground hover:bg-surface-2"
+              className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-foreground hover:bg-surface-2"
             >
               <span>
                 {option.native}
-                <span className="ml-2 text-[10px] uppercase tracking-wide text-muted-2">
+                <span className="ml-2 text-[11px] uppercase tracking-wide text-muted-2">
                   {option.code}
                 </span>
               </span>
@@ -65,7 +74,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
             </button>
           ))}
           {partial && (
-            <p className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-muted-2">
+            <p className="border-t border-line px-3 py-2 text-[11px] leading-relaxed text-muted-2">
               Partial translation — missing strings fall back to English.
             </p>
           )}

@@ -1,6 +1,6 @@
 # Database setup
 
-KandyVerse uses **Drizzle ORM** as the source of truth for the PostgreSQL
+View Kandy uses **Drizzle ORM** as the source of truth for the PostgreSQL
 schema. Supabase provides Postgres, Auth and Storage; the catalogue is read and
 written on the server through Drizzle.
 

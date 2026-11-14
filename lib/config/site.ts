@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "KandyVerse",
+  name: "View Kandy",
   tagline: "Explore Kandy Beyond the Map",
   description:
     "An immersive 3D tourism and smart-city exploration platform for Kandy, Sri Lanka. Discover verified places, plan a realistic itinerary, and navigate the city.",
@@ -11,6 +11,8 @@ export const siteConfig = {
     { href: "/planner", key: "nav.planner" },
     { href: "/assistant", key: "nav.assistant" },
     { href: "/tours", key: "nav.tours" },
+    { href: "/about", key: "nav.about" },
+    { href: "/contact", key: "nav.contact" },
   ],
   footer: {
     data: [

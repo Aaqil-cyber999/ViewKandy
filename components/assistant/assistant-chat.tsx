@@ -66,7 +66,7 @@ const QUICK_PROMPTS = [
 ];
 
 const GREETING =
-  "I'm the KandyVerse guide. I answer from the same editorial database as the explorer and planner — real coordinates, verified facts where they exist, and a clear “not verified” when they don't.\n\nTry asking for a short plan, a neighbourhood, a category, or a practical service.";
+  "I'm the View Kandy guide. I answer from the same editorial database as the explorer and planner — real coordinates, verified facts where they exist, and a clear “not verified” when they don't.\n\nTry asking for a short plan, a neighbourhood, a category, or a practical service.";
 
 export function AssistantChat() {
   const { toast } = useToast();
@@ -169,8 +169,8 @@ export function AssistantChat() {
               <Bot className="h-4 w-4" />
             </span>
             <div>
-              <h2 className="text-sm font-semibold text-foreground">KandyVerse guide</h2>
-              <p className="text-[10px] text-muted-2">
+              <h2 className="text-sm font-semibold text-foreground">View Kandy guide</h2>
+              <p className="text-[11px] text-muted-2">
                 Grounded in the city database · never invents hours or prices
               </p>
             </div>
@@ -180,7 +180,7 @@ export function AssistantChat() {
             onClick={locate}
             disabled={locating}
             className={cn(
-              "kv-focus inline-flex h-8 items-center gap-1.5 rounded-full border px-2.5 text-[10px] transition",
+              "kv-focus inline-flex h-8 items-center gap-1.5 rounded-full border px-2.5 text-[11px] transition",
               near
                 ? "border-mint/40 bg-mint/10 text-mint"
                 : "border-line text-muted hover:text-foreground",
@@ -226,7 +226,7 @@ export function AssistantChat() {
                 )}
               >
                 {message.role === "user" ? (
-                  <p className="whitespace-pre-line text-[13px] leading-6 text-foreground">
+                  <p className="whitespace-pre-line text-[14px] leading-6 text-foreground">
                     {message.content}
                   </p>
                 ) : (
@@ -256,7 +256,7 @@ export function AssistantChat() {
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
               </span>
               <span className="rounded-2xl border border-line/80 bg-surface/60 px-3.5 py-2.5 text-[12px] text-muted">
-                Searching the KandyVerse database…
+                Searching the View Kandy database…
               </span>
             </div>
           )}
@@ -270,7 +270,7 @@ export function AssistantChat() {
                 type="button"
                 onClick={() => send(prompt)}
                 disabled={pending}
-                className="kv-focus shrink-0 rounded-full border border-line px-2.5 py-1 text-[10px] text-muted transition hover:border-accent/40 hover:text-accent disabled:opacity-40"
+                className="kv-focus shrink-0 rounded-full border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-accent/40 hover:text-accent disabled:opacity-40"
               >
                 {prompt}
               </button>
@@ -290,7 +290,7 @@ export function AssistantChat() {
               placeholder="Ask about places, a plan, food, weather or practical services…"
               rows={2}
               className="min-h-[52px] resize-none"
-              aria-label="Message the KandyVerse guide"
+              aria-label="Message the View Kandy guide"
             />
             <Button
               type="button"
@@ -302,7 +302,7 @@ export function AssistantChat() {
               <Send className="h-4 w-4" />
             </Button>
           </div>
-          <p className="mt-1.5 text-[9px] leading-relaxed text-muted-2">
+          <p className="mt-1.5 text-[10px] leading-relaxed text-muted-2">
             Enter to send · Shift+Enter for a new line. Answers are generated from
             the editorial database; verify opening hours before travelling.
           </p>
@@ -311,11 +311,11 @@ export function AssistantChat() {
 
       <aside className="space-y-3">
         <div className="rounded-2xl border border-line/80 bg-surface/40 p-4">
-          <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
+          <h2 className="flex items-center gap-2 text-[14px] font-semibold text-foreground">
             <CircleAlert className="h-4 w-4 text-amber" />
             What it will not do
           </h2>
-          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-muted">
+          <ul className="mt-2 space-y-1.5 text-[12px] leading-relaxed text-muted">
             <li>· Invent opening hours, ticket prices or phone numbers.</li>
             <li>· Claim a restaurant is “the best” without reviews.</li>
             <li>· Promise a live route when the Routes API is not configured.</li>
@@ -324,11 +324,11 @@ export function AssistantChat() {
         </div>
 
         <div className="rounded-2xl border border-line/80 bg-surface/40 p-4">
-          <h2 className="flex items-center gap-2 text-[13px] font-semibold text-foreground">
+          <h2 className="flex items-center gap-2 text-[14px] font-semibold text-foreground">
             <MapPin className="h-4 w-4 text-accent" />
             Better questions
           </h2>
-          <ul className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-muted">
+          <ul className="mt-2 space-y-1.5 text-[12px] leading-relaxed text-muted">
             <li>· “2 hours near the railway station, indoors.”</li>
             <li>· “A temple and a viewpoint before lunch.”</li>
             <li>· “Where is the nearest pharmacy to the lake?”</li>
@@ -336,7 +336,7 @@ export function AssistantChat() {
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-line/80 bg-surface/40 p-4 text-[11px] leading-relaxed text-muted">
+        <div className="rounded-2xl border border-line/80 bg-surface/40 p-4 text-[12px] leading-relaxed text-muted">
           <p>
             Prefer a visual plan? The{" "}
             <Link href="/planner" className="text-accent hover:text-emerald-700">
@@ -364,7 +364,7 @@ function AssistantExtras({
           {data.mode === "openai" ? "OpenAI + tools" : "Grounded retrieval"}
         </Badge>
         {data.notice && (
-          <span className="text-[9px] leading-relaxed text-muted-2">{data.notice}</span>
+          <span className="text-[10px] leading-relaxed text-muted-2">{data.notice}</span>
         )}
       </div>
 
@@ -382,10 +382,10 @@ function AssistantExtras({
                 className="h-12 w-12 shrink-0 rounded-md"
               />
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[11px] font-medium text-foreground group-hover:text-accent">
+                <span className="block truncate text-[12px] font-medium text-foreground group-hover:text-accent">
                   {place.name}
                 </span>
-                <span className="mt-0.5 block text-[9px] text-muted-2">
+                <span className="mt-0.5 block text-[10px] text-muted-2">
                   {formatDuration(place.estimatedVisitMinutes)} ·{" "}
                   {place.entryFeeLkr !== null
                     ? `LKR ${place.entryFeeLkr.toLocaleString("en-LK")}`
@@ -401,17 +401,17 @@ function AssistantExtras({
       {data.itinerary && data.itinerary.stops.length > 0 && (
         <div className="rounded-xl border border-mint/25 bg-mint/[0.04] p-2.5">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-[11px] font-semibold text-foreground">
+            <p className="text-[12px] font-semibold text-foreground">
               {data.itinerary.startTime}–{data.itinerary.endTime} ·{" "}
               {data.itinerary.stops.length} stops
             </p>
-            <Button size="sm" variant="mint" className="h-7 px-2.5 text-[10px]" onClick={onSave}>
+            <Button size="sm" variant="mint" className="h-7 px-2.5 text-[11px]" onClick={onSave}>
               Save plan
             </Button>
           </div>
           <ol className="mt-1.5 space-y-1">
             {data.itinerary.stops.map((stop) => (
-              <li key={stop.place.slug} className="flex items-start gap-2 text-[10px]">
+              <li key={stop.place.slug} className="flex items-start gap-2 text-[11px]">
                 <span className="w-9 shrink-0 font-mono text-muted-2">
                   {formatMinutesAsTime(stop.arrivalMinutes)}
                 </span>
@@ -431,7 +431,7 @@ function AssistantExtras({
       )}
 
       {data.sources.length > 0 && (
-        <div className="text-[10px] text-muted-2">
+        <div className="text-[11px] text-muted-2">
           Sources:{" "}
           {data.sources.map((source, index) => (
             <span key={source.url}>

@@ -7,7 +7,7 @@ import type { LatLng } from "@/types/place";
  *
  * Live Google listings are deliberately kept separate from the editorial
  * catalogue: they are external, may change at any time, and are never treated
- * as KandyVerse verification. The UI labels them and links back to Google.
+ * as View Kandy verification. The UI labels them and links back to Google.
  */
 
 export interface ExternalPlace {

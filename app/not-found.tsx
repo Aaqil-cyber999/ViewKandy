@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Page not found",
-  description: "The KandyVerse page you asked for does not exist.",
+  description: "The View Kandy page you asked for does not exist.",
   robots: { index: false, follow: false },
 };
 
@@ -40,7 +40,7 @@ export default function NotFound() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="kv-focus flex items-center gap-3 rounded-xl border border-line/70 bg-surface/40 px-3.5 py-3 text-[13px] text-foreground transition hover:border-accent/50 hover:text-foreground"
+                className="kv-focus flex items-center gap-3 rounded-xl border border-line/70 bg-surface/40 px-3.5 py-3 text-[14px] text-foreground transition hover:border-accent/50 hover:text-foreground"
               >
                 <Icon className="h-4 w-4 text-accent" />
                 {item.label}

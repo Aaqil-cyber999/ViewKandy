@@ -21,7 +21,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
       );
     } else if (token.startsWith("`")) {
       nodes.push(
-        <code key={key} className="rounded bg-surface-2/80 px-1 py-0.5 font-mono text-[11px] text-accent">
+        <code key={key} className="rounded bg-surface-2/80 px-1 py-0.5 font-mono text-[12px] text-accent">
           {token.slice(1, -1)}
         </code>,
       );
@@ -70,7 +70,7 @@ export function SafeMarkdown({ text }: { text: string }) {
     if (paragraph.length === 0) return;
     const content = paragraph.join(" ");
     blocks.push(
-      <p key={`p-${blocks.length}`} className="text-[13px] leading-6 text-muted">
+      <p key={`p-${blocks.length}`} className="text-[14px] leading-6 text-muted">
         {renderInline(content, `p-${blocks.length}`)}
       </p>,
     );
@@ -86,11 +86,11 @@ export function SafeMarkdown({ text }: { text: string }) {
     ));
     blocks.push(
       list.ordered ? (
-        <ol key={`ol-${blocks.length}`} className="ml-4 list-decimal space-y-1 text-[13px] leading-6 text-muted">
+        <ol key={`ol-${blocks.length}`} className="ml-4 list-decimal space-y-1 text-[14px] leading-6 text-muted">
           {items}
         </ol>
       ) : (
-        <ul key={`ul-${blocks.length}`} className="ml-4 list-disc space-y-1 text-[13px] leading-6 text-muted">
+        <ul key={`ul-${blocks.length}`} className="ml-4 list-disc space-y-1 text-[14px] leading-6 text-muted">
           {items}
         </ul>
       ),
@@ -117,7 +117,7 @@ export function SafeMarkdown({ text }: { text: string }) {
           className={
             level === 1
               ? "pt-1 text-base font-semibold text-foreground"
-              : "pt-1 text-[13px] font-semibold text-foreground"
+              : "pt-1 text-[14px] font-semibold text-foreground"
           }
         >
           {renderInline(heading[2]!, `h-${blocks.length}`)}

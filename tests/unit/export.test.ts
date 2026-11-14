@@ -93,9 +93,9 @@ describe("itineraryToIcs", () => {
   });
 
   it("includes the calendar name and unique event ids", () => {
-    expect(ics).toContain("X-WR-CALNAME:KandyVerse · 09:00 plan");
-    expect(ics).toContain("UID:itin_test-0@kandyverse.local");
-    expect(ics).toContain("UID:itin_test-1@kandyverse.local");
+    expect(ics).toContain("X-WR-CALNAME:View Kandy · 09:00 plan");
+    expect(ics).toContain("UID:itin_test-0@viewkandy.local");
+    expect(ics).toContain("UID:itin_test-1@viewkandy.local");
   });
 });
 
@@ -114,7 +114,7 @@ describe("itineraryToMarkdown", () => {
   const markdown = itineraryToMarkdown(itinerary);
 
   it("writes a headed, numbered plan", () => {
-    expect(markdown).toContain("# KandyVerse plan · 09:00–11:00");
+    expect(markdown).toContain("# View Kandy plan · 09:00–11:00");
     expect(markdown).toContain("Starting at **Kandy city centre**. Mode: walk.");
     expect(markdown).toContain(
       "1. **09:18–10:18** · Temple, Tooth; Kandy (18 min travel, estimate)",

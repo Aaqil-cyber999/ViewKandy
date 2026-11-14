@@ -1,7 +1,7 @@
 /**
  * Read-only integration health check.
  *
- * Reports which parts of KandyVerse are connected without printing secrets.
+ * Reports which parts of View Kandy are connected without printing secrets.
  * Run with: npm run integrations:check
  */
 import { config } from "dotenv";
@@ -30,7 +30,7 @@ async function checkDatabase() {
   const client = new Client({
     connectionString: url,
     ssl: { rejectUnauthorized: false },
-    application_name: "kandyverse-integration-check",
+    application_name: "viewkandy-integration-check",
   });
 
   try {
@@ -143,7 +143,7 @@ async function checkOverpass() {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "User-Agent": "KandyVerse integration check",
+          "User-Agent": "View Kandy integration check",
         },
         body: new URLSearchParams({
           data: "[out:json][timeout:10];node(around:50,7.2907,80.6411);out 1;",
@@ -224,7 +224,7 @@ async function main() {
   checkAdmin();
 
   const icons = { ok: "[ok]  ", missing: "[warn]", fail: "[fail]" };
-  console.log("\nKandyVerse integration status\n");
+  console.log("\nView Kandy integration status\n");
   for (const result of results) {
     console.log(`${icons[result.status] ?? "[?]   "} ${result.name}: ${result.detail}`);
   }

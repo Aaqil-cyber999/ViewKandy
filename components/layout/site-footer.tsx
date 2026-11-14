@@ -25,23 +25,23 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo />
-            <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
               {siteConfig.description}
             </p>
-            <p className="mt-4 text-[11px] leading-relaxed text-muted-2">
+            <p className="mt-4 text-xs leading-relaxed text-muted-2">
               Built for Kandy. Coordinates are real; distances in the planner are
               estimates unless a live route is requested.
             </p>
           </div>
 
           <div>
-            <h2 className="kv-label">Explore</h2>
+            <h3 className="kv-label">Explore</h3>
             <ul className="mt-3 space-y-2">
               {EXPLORE_LINKS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="kv-focus text-[13px] text-muted transition hover:text-foreground"
+                    className="kv-focus text-sm text-muted transition hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -51,13 +51,13 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="kv-label">Plan</h2>
+            <h3 className="kv-label">Plan</h3>
             <ul className="mt-3 space-y-2">
               {PLAN_LINKS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="kv-focus text-[13px] text-muted transition hover:text-foreground"
+                    className="kv-focus text-sm text-muted transition hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -67,7 +67,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="kv-label">Data sources</h2>
+            <h3 className="kv-label">Data sources</h3>
             <ul className="mt-3 space-y-2">
               {siteConfig.footer.data.map((item) => (
                 <li key={item.href}>
@@ -75,7 +75,7 @@ export function SiteFooter() {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="kv-focus inline-flex items-center gap-1 text-[13px] text-muted transition hover:text-foreground"
+                    className="kv-focus inline-flex items-center gap-1 text-sm text-muted transition hover:text-foreground"
                   >
                     {item.label}
                     <ExternalLink className="h-3 w-3" />
@@ -83,15 +83,15 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-[11px] leading-relaxed text-muted-2">
+            <p className="mt-4 text-xs leading-relaxed text-muted-2">
               Verification status is shown on every place. We never invent hours,
               fees, ratings or photos.
             </p>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-line/70 pt-6 text-[11px] text-muted-2 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} KandyVerse. An independent city guide.</p>
+        <div className="mt-10 flex flex-col gap-3 border-t border-line/70 pt-6 text-xs text-muted-2 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} View Kandy. An independent city guide.</p>
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>Kandy, Sri Lanka · 7.2906° N, 80.6337° E</span>
             <span aria-hidden="true">·</span>

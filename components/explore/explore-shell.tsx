@@ -23,7 +23,6 @@ import type { Category, CategorySlug, Place, PlaceWithDistance } from "@/types/p
 import type { RouteResult } from "@/lib/maps/routes";
 import { searchPlaces } from "@/lib/db/search";
 import { KANDY_CENTER } from "@/lib/geo/distance";
-import { CesiumScene, type CesiumSceneHandle } from "@/components/map/cesium/cesium-scene";
 import { FallbackMap } from "@/components/map/leaflet/fallback-map";
 import { PlaceArt } from "@/components/places/place-art";
 import { CategoryIcon } from "@/components/places/category-icon";
@@ -61,14 +60,13 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
   );
   const [indoorOnly, setIndoorOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
-  const [view, setView] = useState<"3d" | "2d">("3d");
-  const [sceneError, setSceneError] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [near, setNear] = useState<{ lat: number; lng: number } | null>(null);
   const [radius, setRadius] = useState<number | null>(null);
   const [sort, setSort] = useState<SortMode>("recommended");
   const [route, setRoute] = useState<RouteResult | null>(null);
   const [routeLoading, setRouteLoading] = useState(false);
+  const [mapError, setMapError] = useState<string | null>(null);
 
   const deferredQuery = useDeferredValue(query);
 
@@ -178,8 +176,8 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
 
   return (
     <div className="mx-auto max-w-[1500px] px-3 pb-10 pt-4 sm:px-5 lg:px-6">
-      <div className="grid gap-4 lg:grid-cols-[400px_1fr] lg:items-start">
-        <div className="order-2 lg:order-1 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:pr-1">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[400px_minmax(0,1fr)] lg:items-start">
+        <div className="order-2 min-w-0 lg:order-1 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:pr-1">
           <div className="rounded-2xl border border-line/80 bg-surface/50 p-3">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-2" />
@@ -223,7 +221,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                 <Filter className="h-3.5 w-3.5" />
                 Filters
                 {activeFilterCount > 0 && (
-                  <span className="rounded-full bg-accent px-1.5 text-[10px] font-bold text-white">
+                  <span className="rounded-full bg-accent px-1.5 text-[11px] font-bold text-white">
                     {activeFilterCount}
                   </span>
                 )}
@@ -252,7 +250,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                           onClick={() => toggleCategory(category.slug)}
                           aria-pressed={active}
                           className={cn(
-                            "kv-focus inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] transition",
+                            "kv-focus inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[12px] transition",
                             active
                               ? "border-accent/40 bg-accent/10 text-accent"
                               : "border-line text-muted hover:text-foreground",
@@ -267,7 +265,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                  <label className="flex items-center gap-2 rounded-lg border border-line px-2.5 py-2 text-[11px] text-muted">
+                  <label className="flex items-center gap-2 rounded-lg border border-line px-2.5 py-2 text-[12px] text-muted">
                     <input
                       type="checkbox"
                       checked={indoorOnly}
@@ -276,7 +274,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                     />
                     Indoor only
                   </label>
-                  <label className="flex items-center gap-2 rounded-lg border border-line px-2.5 py-2 text-[11px] text-muted">
+                  <label className="flex items-center gap-2 rounded-lg border border-line px-2.5 py-2 text-[12px] text-muted">
                     <input
                       type="checkbox"
                       checked={featuredOnly}
@@ -333,7 +331,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                       setRadius(null);
                       syncUrl({ category: null });
                     }}
-                    className="kv-focus text-[11px] text-muted underline-offset-2 hover:text-foreground hover:underline"
+                    className="kv-focus text-[12px] text-muted underline-offset-2 hover:text-foreground hover:underline"
                   >
                     Clear all filters
                   </button>
@@ -342,7 +340,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
             )}
           </div>
 
-          <div className="mt-3 flex items-center justify-between px-1 text-[11px] text-muted-2">
+          <div className="mt-3 flex items-center justify-between px-1 text-[12px] text-muted-2">
             <span>
               {results.length} {results.length === 1 ? "place" : "places"}
               {near ? " near you" : " in Kandy"}
@@ -367,7 +365,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
             {results.length === 0 ? (
               <EmptyState
                 title="No places match those filters"
-                description="Try a broader search, remove a category, or clear the distance limit. The explorer only shows places in the KandyVerse database."
+                description="Try a broader search, remove a category, or clear the distance limit. The explorer only shows places in the View Kandy database."
                 action={
                   <Button
                     variant="secondary"
@@ -399,76 +397,44 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
           </div>
         </div>
 
-        <div className="order-1 lg:order-2">
+        <div className="order-1 min-w-0 lg:order-2">
           <div className="sticky top-16 overflow-hidden rounded-2xl border border-line/80 bg-surface">
             <div className="relative h-[48vh] min-h-[320px] lg:h-[calc(100dvh-6rem)]">
-              {view === "3d" && !sceneError ? (
-                <CesiumScene
-                  places={results}
-                  selectedSlug={selected}
-                  onSelect={selectPlace}
-                  mode="explore"
-                  labels
-                  route={route?.polyline ?? null}
-                  onError={(message) => {
-                    setSceneError(message);
-                    setView("2d");
-                  }}
-                  className="h-full w-full"
-                />
-              ) : (
-                <FallbackMap
-                  places={results}
-                  selectedSlug={selected}
-                  onSelect={selectPlace}
-                  route={route?.polyline ?? null}
-                  center={
-                    selectedPlace
-                      ? { lat: selectedPlace.lat, lng: selectedPlace.lng }
-                      : KANDY_CENTER
-                  }
-                  zoom={14}
-                  className="h-full w-full"
-                />
+              <FallbackMap
+                places={results}
+                selectedSlug={selected}
+                onSelect={selectPlace}
+                route={route?.polyline ?? null}
+                center={
+                  selectedPlace
+                    ? { lat: selectedPlace.lat, lng: selectedPlace.lng }
+                    : KANDY_CENTER
+                }
+                focus={
+                  selectedPlace
+                    ? { lat: selectedPlace.lat, lng: selectedPlace.lng }
+                    : null
+                }
+                zoom={14}
+                className="h-full w-full"
+                onError={setMapError}
+              />
+
+              {mapError && (
+                <p
+                  role="alert"
+                  className="absolute inset-x-3 top-14 z-10 rounded-xl border border-amber/30 bg-surface/95 px-3 py-2 text-sm text-foreground shadow-lg"
+                >
+                  The map could not load. You can still browse and select places from the list.
+                </p>
               )}
 
               <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-2 p-3">
-                <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1 backdrop-blur">
-                  <button
-                    type="button"
-                    onClick={() => setView("3d")}
-                    disabled={Boolean(sceneError)}
-                    className={cn(
-                      "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] transition disabled:opacity-40",
-                      view === "3d" ? "bg-accent text-white" : "text-muted",
-                    )}
-                  >
-                    <Compass className="h-3 w-3" />
-                    3D
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setView("2d")}
-                    className={cn(
-                      "kv-focus inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] transition",
-                      view === "2d" ? "bg-accent text-white" : "text-muted",
-                    )}
-                  >
-                    <MapIcon className="h-3 w-3" />
-                    2D
-                  </button>
-                </div>
-
                 <div className="pointer-events-auto flex items-center gap-1.5">
                   <Badge variant="neutral" className="border-line bg-surface/80 backdrop-blur">
                     <Layers className="h-3 w-3 text-accent" />
-                    {view === "3d" ? "Cesium" : "Leaflet"} · OSM
+                    OpenStreetMap · live
                   </Badge>
-                  {sceneError && (
-                    <Badge variant="amber" className="bg-surface/80 backdrop-blur">
-                      3D unavailable
-                    </Badge>
-                  )}
                 </div>
               </div>
 
@@ -495,10 +461,10 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                             <X className="h-3.5 w-3.5" />
                           </button>
                         </div>
-                        <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-muted">
+                        <p className="mt-1 line-clamp-2 text-[12px] leading-relaxed text-muted">
                           {selectedPlace.summary}
                         </p>
-                        <div className="mt-1.5 flex items-center gap-2 text-[10px] text-muted-2">
+                        <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-2">
                           <VerificationBadge status={selectedPlace.verification.status} />
                           {near && selectedDistanceMeters !== null && (
                             <span>{formatDistance(selectedDistanceMeters)} away</span>
@@ -508,7 +474,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                     </div>
 
                     {route && (
-                      <div className="mt-2.5 rounded-lg border border-accent/20 bg-accent/[0.06] px-2.5 py-2 text-[11px] text-muted">
+                      <div className="mt-2.5 rounded-lg border border-accent/20 bg-accent/[0.06] px-2.5 py-2 text-[12px] text-muted">
                         <span className="font-medium text-foreground">
                           {route.distanceLabel} · {route.durationLabel}
                         </span>{" "}
@@ -516,7 +482,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                           ({route.source === "google_routes" ? "live route" : "estimate"})
                         </span>
                         {route.warning && (
-                          <p className="mt-1 text-[10px] leading-relaxed text-amber/90">
+                          <p className="mt-1 text-[11px] leading-relaxed text-amber/90">
                             {route.warning}
                           </p>
                         )}
@@ -526,7 +492,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                     <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
                       <Link
                         href={`/places/${selectedPlace.slug}`}
-                        className="kv-focus inline-flex h-8 items-center gap-1 rounded-full bg-accent px-3 text-[11px] font-semibold text-white hover:bg-emerald-700"
+                        className="kv-focus inline-flex h-8 items-center gap-1 rounded-full bg-accent px-3 text-[12px] font-semibold text-white hover:bg-emerald-700"
                       >
                         Details
                         <ArrowRight className="h-3 w-3" />
@@ -534,7 +500,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-8 px-3 text-[11px]"
+                        className="h-8 px-3 text-[12px]"
                         onClick={requestRoute}
                         disabled={routeLoading}
                       >
@@ -545,7 +511,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                         href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.lat},${selectedPlace.lng}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="kv-focus inline-flex h-8 items-center gap-1 rounded-full border border-line px-3 text-[11px] text-muted hover:bg-surface-2"
+                        className="kv-focus inline-flex h-8 items-center gap-1 rounded-full border border-line px-3 text-[12px] text-muted hover:bg-surface-2"
                       >
                         <MapPin className="h-3 w-3" />
                         Maps
@@ -560,7 +526,7 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
 
               {!selectedPlace && (
                 <div className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center">
-                  <span className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-3 py-1.5 text-[10px] text-muted backdrop-blur">
+                  <span className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-3 py-1.5 text-[11px] text-muted backdrop-blur">
                     <Crosshair className="h-3 w-3 text-accent" />
                     Select a marker or a result to inspect it
                   </span>
@@ -603,12 +569,12 @@ function ResultRow({
       </button>
       <div className="min-w-0 flex-1">
         <button type="button" onClick={onSelect} className="kv-focus block w-full text-left">
-          <h3 className="truncate text-[13px] font-semibold text-foreground">{place.name}</h3>
-          <p className="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-muted">
+          <h3 className="truncate text-[14px] font-semibold text-foreground">{place.name}</h3>
+          <p className="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-muted">
             {place.summary}
           </p>
         </button>
-        <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-muted-2">
+        <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-2">
           <span className="inline-flex items-center gap-1">
             <CategoryIcon
               name={categoriesFor(place.category)}
@@ -627,7 +593,7 @@ function ResultRow({
         <SaveButton slug={place.slug} name={place.name} />
         <Link
           href={`/places/${place.slug}`}
-          className="kv-focus inline-flex items-center gap-1 text-[10px] text-muted-2 hover:text-accent"
+          className="kv-focus inline-flex items-center gap-1 text-[11px] text-muted-2 hover:text-accent"
         >
           Details
           <ArrowRight className="h-3 w-3" />
