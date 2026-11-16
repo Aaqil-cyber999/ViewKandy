@@ -59,6 +59,25 @@ test("POST /api/assistant validates input and answers in grounded mode", async (
   expect(["local", "openai"]).toContain(body.mode);
 });
 
+test("GET /api/reports returns a safe report envelope", async ({ request }) => {
+  const response = await request.get("/api/reports?place=kandy-lake");
+  expect(response.status()).toBe(200);
+  const body = await response.json();
+  expect(Array.isArray(body.reports)).toBe(true);
+  expect(typeof body.configured).toBe("boolean");
+  // Community reports must never be returned as unlabeled official data.
+  for (const report of body.reports) {
+    expect(typeof report.moderationStatus).toBe("string");
+    expect(typeof report.freshness).toBe("string");
+  }
+
+  const missing = await request.get("/api/reports");
+  expect(missing.status()).toBe(400);
+
+  const unauthenticatedModeration = await request.get("/api/admin/reports");
+  expect([401, 503]).toContain(unauthenticatedModeration.status());
+});
+
 test("PWA manifest, robots and sitemap are served", async ({ request }) => {
   const manifest = await request.get("/manifest.webmanifest");
   expect(manifest.status()).toBe(200);

@@ -2,9 +2,10 @@ import { expect, test } from "@playwright/test";
 import { waitForReactHydration } from "./helpers";
 
 const PAGES = [
-  { path: "/", heading: "Explore Kandy" },
+  { path: "/", heading: "Discover the soul of Sri Lanka in Kandy." },
   { path: "/explore", heading: "Every place, one map" },
   { path: "/places", heading: "Places that actually exist" },
+  { path: "/updates", heading: "Live visitor updates" },
   { path: "/planner", heading: "Turn a free afternoon into a walkable plan" },
   { path: "/assistant", heading: "Ask a guide that checks the database first" },
   { path: "/tours", heading: "See the shape of the city first" },

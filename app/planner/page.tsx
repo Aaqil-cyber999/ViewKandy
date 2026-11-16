@@ -14,8 +14,8 @@ export const revalidate = 900;
 
 export default async function PlannerPage() {
   const places = await listPlaces();
-  const weather = await fetchWeather();
-  const advice = weather ? weatherAdvice(weather) : null;
+  const weatherSnapshot = await fetchWeather();
+  const advice = weatherSnapshot ? weatherAdvice(weatherSnapshot) : null;
 
   return (
     <>
@@ -29,6 +29,7 @@ export default async function PlannerPage() {
           places={places}
           categories={seedCategories}
           weather={advice}
+          weatherSnapshot={weatherSnapshot}
         />
       </section>
     </>

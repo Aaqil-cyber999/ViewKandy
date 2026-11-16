@@ -68,6 +68,18 @@ npm run images:upload
 Places that have no matching photograph keep the generated topographic plate —
 never point an image at a destination it does not depict.
 
+## 5. Community report photos (private)
+
+Community-submitted photos are written through `POST /api/reports/upload` using
+the server-only service-role key. The bucket defaults to **`report-images`**
+(override with `SUPABASE_REPORT_BUCKET`) and is created as a **private** bucket
+with a 5 MB size limit and an image/jpeg, image/png, image/webp, image/avif
+allowlist. The database stores only the object path; the report API returns
+short-lived signed URLs. Do not make this bucket public.
+
+If you prefer to create the bucket manually, create it without public access
+and keep the same size/MIME restrictions.
+
 ## Changing the schema
 
 ```bash
@@ -99,7 +111,7 @@ verification date in `/admin`. Do not “fix” the seed data with invented fact
 | `lib/db/schema.ts` | Drizzle tables, checks, indexes and RLS policies |
 | `lib/db/client.ts` | Server-only pool + Drizzle client |
 | `lib/db/drizzle-store.ts` | Typed catalogue queries and verification audit |
-| `drizzle/` | Generated SQL migrations + metadata |
+| `drizzle/` | Generated SQL migrations + metadata (includes additive `0001_community_reports.sql` and `0002_report_actor_attribution.sql`) |
 | `data/seed/place-photos.json` | Slug → photograph file/alt manifest (shared by app and upload script) |
 | `scripts/upload-place-images.mjs` | Mirrors `public/places` to Storage and upserts `place_images` |
 | `supabase/seed.sql` | Optional SQL seed for the Supabase SQL editor |

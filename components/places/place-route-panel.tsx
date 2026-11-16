@@ -65,7 +65,9 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
 
       <p className="mt-2 text-[12px] leading-relaxed text-muted-2">
         Uses the Google Routes API when a server key is configured; otherwise it
-        shows a clearly labelled straight-line estimate.
+        shows a clearly labelled straight-line estimate. No live traffic, queue
+        or public-transport fare data is implied. Treat all times and costs as
+        planning estimates.
       </p>
 
       {result && (

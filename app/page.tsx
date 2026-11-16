@@ -10,6 +10,8 @@ import {
   Trees,
 } from "lucide-react";
 import { HeroSlideshow } from "@/components/home/hero-slideshow";
+import { WeatherPanel } from "@/components/weather/weather-panel";
+import { fetchWeather, weatherAdvice } from "@/lib/weather/open-meteo";
 
 // Real Kandy photography supplied with the project. Each image is tied to the
 // destination it actually depicts; no stock stand-ins are used here.
@@ -72,7 +74,12 @@ const heroImages = [
   { src: "/homepage/homepage8.jpg", alt: "Atmospheric scene in Kandy" },
 ];
 
-export default function HomePage() {
+export const revalidate = 900;
+
+export default async function HomePage() {
+  const weather = await fetchWeather();
+  const advice = weather ? weatherAdvice(weather) : null;
+
   return (
     <div className="travel-home-shell">
       <section
@@ -354,6 +361,47 @@ export default function HomePage() {
               <span>Curated by travellers for travellers</span>
             </div>
           </div>
+        </section>
+
+        <section
+          id="community"
+          data-scroll-section
+          data-scroll-label="Community"
+          className="travel-shell"
+        >
+          <header className="travel-section-head">
+            <div>
+              <p className="travel-eyebrow">From visitors</p>
+              <h2>Live community updates</h2>
+            </div>
+            <p>
+              Crowd levels, road conditions and temporary closures reported by
+              visitors. Timestamped, clearly labelled and separate from official
+              editorial data.
+            </p>
+          </header>
+          <Link href="/updates" className="travel-button travel-button--primary">
+            See recent updates
+            <ArrowRight size={16} />
+          </Link>
+        </section>
+
+        <section
+          id="weather"
+          data-scroll-section
+          data-scroll-label="Weather"
+          className="travel-shell"
+        >
+          <header className="travel-section-head">
+            <div>
+              <p className="travel-eyebrow">Live conditions</p>
+              <h2>Weather for Kandy, updated from Open-Meteo</h2>
+            </div>
+            <p>
+              Check current conditions and the forecast before lake walks, viewpoints, and temple visits. Data is Kandy-specific and refreshed periodically.
+            </p>
+          </header>
+          <WeatherPanel weather={weather} advice={advice} />
         </section>
 
         <section

@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/config/site";
 const EXPLORE_LINKS = [
   { href: "/explore", label: "3D explorer" },
   { href: "/places", label: "All places" },
+  { href: "/updates", label: "Live visitor updates" },
   { href: "/tours", label: "Virtual tours" },
   { href: "/saved", label: "Saved places" },
 ];

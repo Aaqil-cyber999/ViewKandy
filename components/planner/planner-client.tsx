@@ -25,6 +25,8 @@ import {
 } from "lucide-react";
 import type { Category, CategorySlug, Place } from "@/types/place";
 import type { Itinerary, ItineraryStop, PlannerPreferences } from "@/lib/planner/types";
+import type { WeatherAdvice, WeatherSnapshot } from "@/lib/weather/open-meteo";
+import { WeatherPanel } from "@/components/weather/weather-panel";
 import { generateItinerary } from "@/lib/planner/itinerary-generator";
 import { estimateTravel } from "@/lib/planner/route-optimizer";
 import { budgetStatus, summariseBudget } from "@/lib/planner/budget";
@@ -77,15 +79,11 @@ const GROUP_LABELS = {
 interface PlannerClientProps {
   places: Place[];
   categories: Category[];
-  weather: {
-    rainLikely: boolean;
-    headline: string;
-    indoorAdvice: string;
-    outdoorAdvice: string;
-  } | null;
+  weather: WeatherAdvice | null;
+  weatherSnapshot?: WeatherSnapshot | null;
 }
 
-export function PlannerClient({ places, categories, weather }: PlannerClientProps) {
+export function PlannerClient({ places, categories, weather, weatherSnapshot }: PlannerClientProps) {
   const { toast } = useToast();
   const hydrated = useHydrated();
   const pins = useSavedStore((state) => state.pins);
@@ -548,13 +546,8 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
               </div>
             )}
 
-            {weather && (
-              <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[12px] leading-relaxed text-muted">
-                <span className={weather.rainLikely ? "text-amber" : "text-mint"}>
-                  {weather.headline}
-                </span>{" "}
-                {weather.rainLikely ? weather.indoorAdvice : weather.outdoorAdvice}
-              </div>
+            {(weatherSnapshot || weather) && (
+              <WeatherPanel weather={weatherSnapshot ?? null} advice={weather} compact />
             )}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
@@ -631,8 +624,7 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   icon={<Wallet className="h-3.5 w-3.5" />}
                   label="Estimated cost"
                   value={`LKR ${itinerary.totals.estimatedTotalLkr.toLocaleString("en-LK")}`}
-                />
-                <Stat
+                />                <Stat
                   icon={<Info className="h-3.5 w-3.5" />}
                   label="Unknown fees"
                   value={`${itinerary.totals.unknownEntryCostCount} ${itinerary.totals.unknownEntryCostCount === 1 ? "place" : "places"}`}
@@ -671,6 +663,27 @@ export function PlannerClient({ places, categories, weather }: PlannerClientProp
                   <Navigation className="h-3 w-3" />
                   {routeLoading ? "Routing…" : "Get live route"}
                 </button>
+              </div>
+
+              <div className="mt-3 rounded-xl border border-line/70 bg-surface/40 p-3">
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-2">Cost breakdown (planning estimate)</p>
+                <dl className="mt-2 grid gap-1.5 text-[12px] sm:grid-cols-3">
+                  <div className="flex items-baseline justify-between gap-2 sm:block">
+                    <dt className="text-muted-2">Known entry fees</dt>
+                    <dd className="text-foreground">LKR {itinerary.totals.knownEntryCostLkr.toLocaleString("en-LK")}</dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 sm:block">
+                    <dt className="text-muted-2">Meals allowance</dt>
+                    <dd className="text-foreground">LKR {itinerary.totals.mealCostLkr.toLocaleString("en-LK")}</dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 sm:block">
+                    <dt className="text-muted-2">Transport estimate</dt>
+                    <dd className="text-foreground">LKR {itinerary.totals.transportCostLkr.toLocaleString("en-LK")}</dd>
+                  </div>
+                </dl>
+                <p className="mt-2 text-[11px] leading-relaxed text-muted-2">
+                  Estimates use documented assumptions (meals per person and a tuk-tuk rate per km), not live fares, meter readings or quotes. Unknown entry fees are excluded from the known total. Verify prices before travel.
+                </p>
               </div>
 
               {liveRoute?.warning && (

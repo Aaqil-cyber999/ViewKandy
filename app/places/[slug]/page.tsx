@@ -31,6 +31,8 @@ import { SaveButton, AddToTripButton } from "@/components/places/save-button";
 import { PlaceMap } from "@/components/places/place-map";
 import { PlaceRoutePanel } from "@/components/places/place-route-panel";
 import { LiveGooglePlaces, OsmServices } from "@/components/places/live-nearby";
+import { CommunityReports } from "@/components/places/community-reports";
+import { PlaceReportSummary } from "@/components/places/report-summary";
 import { ShareButton } from "@/components/places/share-button";
 import { Badge, VerificationBadge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -223,13 +225,13 @@ export default async function PlaceDetailPage({
                       label="Opening hours"
                       value={
                         place.openingHours ?? (
-                          <span className="text-muted">Not verified</span>
+                          <span className="text-muted">Information not confirmed</span>
                         )
                       }
                       hint={
                         place.openingHours
-                          ? `Source: ${place.verification.source}`
-                          : "Check the official source before travelling."
+                          ? `Editorial record. Source: ${place.verification.source}. Confirm on the official source before travelling.`
+                          : "No verified opening hours are recorded. Check the official source before travelling."
                       }
                     />
                     <Fact
@@ -239,13 +241,13 @@ export default async function PlaceDetailPage({
                         place.entryFeeLkr !== null ? (
                           `LKR ${place.entryFeeLkr.toLocaleString("en-LK")}`
                         ) : (
-                          <span className="text-muted">Not verified</span>
+                          <span className="text-muted">Information not confirmed</span>
                         )
                       }
                       hint={
                         place.entryFeeLkr !== null
-                          ? "Recorded by an editor; confirm on arrival."
-                          : "View Kandy does not estimate ticket prices."
+                          ? "Recorded by an editor. Local/foreign rates, inclusions and child prices may differ; confirm on arrival."
+                          : "No verified fee is recorded. View Kandy does not estimate ticket prices."
                       }
                     />
                     <Fact
@@ -259,7 +261,7 @@ export default async function PlaceDetailPage({
                       label="Accessibility"
                       value={
                         place.accessibility ?? (
-                          <span className="text-muted">No verified note</span>
+                          <span className="text-muted">Information not confirmed</span>
                         )
                       }
                     />
@@ -320,6 +322,16 @@ export default async function PlaceDetailPage({
                         place.verification.source
                       )}
                     </p>
+                    <div className="rounded-lg border border-line/70 bg-surface/50 p-2.5 text-[11px] leading-relaxed text-muted-2">
+                      <p className="font-medium text-foreground">How data is labelled</p>
+                      <p className="mt-1">
+                        <span className="text-foreground">Editorial/admin</span>: reviewed place records.
+                        {" "}<span className="text-foreground">External</span>: Google/OpenStreetMap/Open-Meteo,
+                        attributed separately. <span className="text-foreground">Community</span>: visitor
+                        reports below, timestamped and never treated as official confirmation.
+                        Unrecorded details show “Information not confirmed”.
+                      </p>
+                    </div>
                     <p>
                       Last verified:{" "}
                       {place.verification.lastVerifiedAt
@@ -363,6 +375,7 @@ export default async function PlaceDetailPage({
             </div>
 
             <div className="mt-6">
+              <PlaceReportSummary placeSlug={place.slug} />
               <PlaceMap place={place} nearby={nearby} />
             </div>
 
@@ -385,6 +398,8 @@ export default async function PlaceDetailPage({
                 <OsmServices place={place} />
               </div>
             </div>
+
+            <CommunityReports placeSlug={place.slug} />
           </div>
 
           <aside className="space-y-4">
@@ -408,7 +423,7 @@ export default async function PlaceDetailPage({
                   <div className="flex items-start justify-between gap-3">
                     <dt className="text-muted-2">Best time</dt>
                     <dd className="text-right text-foreground">
-                      {place.bestTime ?? "No verified note"}
+                      {place.bestTime ?? "Information not confirmed"}
                     </dd>
                   </div>
                   <div className="flex items-start justify-between gap-3">

@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FieldHint, Input, Label, Select, Textarea } from "@/components/ui/input";
 import { useToast } from "@/components/providers/toast-provider";
+import { AdminReportsPanel } from "@/components/admin/admin-reports-panel";
 import { cn } from "@/lib/utils/cn";
 
 interface SessionState {
@@ -1061,6 +1062,8 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
         coordinates are editorial data; the planner and assistant only use what is
         recorded here.
       </p>
+
+      <AdminReportsPanel />
     </div>
   );
 }

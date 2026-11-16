@@ -82,5 +82,47 @@ export const savedItinerarySchema = z.object({
 
 export const placeWriteSchema = placeSchema.omit({ images: true });
 
+export const reportCategorySchema = z.enum([
+  "crowd",
+  "road_transport",
+  "destination_condition",
+  "weather_environment",
+  "pricing_experience",
+  "general_update",
+]);
+
+/**
+ * Only object paths produced by `/api/reports/upload` are accepted. Clients
+ * cannot submit arbitrary remote URLs, which prevents hotlinking, tracking
+ * pixels and third-party content from entering moderation queues.
+ */
+export const reportImagePathSchema = z
+  .string()
+  .trim()
+  .max(300)
+  .regex(
+    /^reports\/\d{4}-\d{2}-\d{2}\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(jpg|png|webp|avif)$/i,
+    "Uploaded image path is invalid.",
+  );
+
+export const reportSubmissionSchema = z.object({
+  placeSlug: z.string().trim().min(1).max(140),
+  category: reportCategorySchema,
+  issue: z.string().trim().min(2).max(120),
+  severity: z.enum(["info", "low", "medium", "high", "critical"]).default("info"),
+  description: z.string().trim().min(10).max(1000),
+  imagePath: reportImagePathSchema.optional().nullable(),
+});
+
+export const reportConfirmSchema = z.object({
+  vote: z.enum(["still_happening", "no_longer_happening", "incorrect"]),
+});
+
+export const reportModerationSchema = z.object({
+  action: z.enum(["approve", "reject", "resolve", "flag"]),
+  reason: z.string().trim().min(3).max(500).optional(),
+});
+
 export type AssistantRequest = z.infer<typeof assistantRequestSchema>;
 export type RouteRequest = z.infer<typeof routeRequestSchema>;
+export type ReportSubmission = z.infer<typeof reportSubmissionSchema>;

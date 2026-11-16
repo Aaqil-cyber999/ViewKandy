@@ -14,6 +14,7 @@ import {
   primaryKey,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
@@ -231,6 +232,99 @@ export const itineraries = pgTable(
   ],
 ).enableRLS();
 
+export const communityReports = pgTable(
+  "community_reports",
+  {
+    id: text("id").primaryKey(),
+    placeSlug: text("place_slug").notNull().references(() => places.slug, { onDelete: "cascade" }),
+    category: text("category").notNull(),
+    issue: text("issue").notNull(),
+    severity: text("severity").notNull().default("info"),
+    description: text("description").notNull(),
+    imageUrl: text("image_url"),
+    status: text("status").notNull().default("pending"),
+    moderationStatus: text("moderation_status").notNull().default("pending"),
+    moderationReason: text("moderation_reason"),
+    moderatedBy: uuid("moderated_by"),
+    moderatedByEmail: text("moderated_by_email"),
+    moderatedAt: timestamp("moderated_at", { withTimezone: true }),
+    resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+    reporterUserId: uuid("reporter_user_id"),
+    reporterHash: text("reporter_hash"),
+    confirmationsStill: integer("confirmations_still").notNull().default(0),
+    confirmationsCleared: integer("confirmations_cleared").notNull().default(0),
+    confirmationsIncorrect: integer("confirmations_incorrect").notNull().default(0),
+    lastConfirmedAt: timestamp("last_confirmed_at", { withTimezone: true }),
+    expiresAt: timestamp("expires_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("community_reports_place_created_idx").on(table.placeSlug, table.createdAt),
+    index("community_reports_status_idx").on(table.status, table.moderationStatus, table.createdAt),
+    index("community_reports_expires_idx").on(table.expiresAt),
+    check(
+      "community_reports_category_check",
+      sql`category in ('crowd', 'road_transport', 'destination_condition', 'weather_environment', 'pricing_experience', 'general_update')`,
+    ),
+    check(
+      "community_reports_severity_check",
+      sql`severity in ('info', 'low', 'medium', 'high', 'critical')`,
+    ),
+    check(
+      "community_reports_status_check",
+      sql`status in ('active', 'resolved', 'expired', 'rejected', 'pending')`,
+    ),
+    check(
+      "community_reports_moderation_check",
+      sql`moderation_status in ('pending', 'approved', 'rejected', 'flagged')`,
+    ),
+    pgPolicy("public read visible community reports", {
+      for: "select",
+      to: ["anon", "authenticated"],
+      using: sql`moderation_status in ('approved', 'pending') and status in ('active', 'pending', 'resolved', 'expired')`,
+    }),
+  ],
+).enableRLS();
+
+export const reportConfirmations = pgTable(
+  "report_confirmations",
+  {
+    id: text("id").primaryKey(),
+    reportId: text("report_id").notNull().references(() => communityReports.id, { onDelete: "cascade" }),
+    voterHash: text("voter_hash").notNull(),
+    voterUserId: uuid("voter_user_id"),
+    vote: text("vote").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("report_confirmations_report_idx").on(table.reportId, table.createdAt),
+    uniqueIndex("report_confirmations_unique_vote_idx").on(table.reportId, table.voterHash),
+    check("report_confirmations_vote_check", sql`vote in ('still_happening', 'no_longer_happening', 'incorrect')`),
+    pgPolicy("public read report confirmations", {
+      for: "select",
+      to: ["anon", "authenticated"],
+      using: sql`true`,
+    }),
+  ],
+).enableRLS();
+
+export const reportModerationEvents = pgTable(
+  "report_moderation_events",
+  {
+    id: text("id").primaryKey(),
+    reportId: text("report_id").notNull().references(() => communityReports.id, { onDelete: "cascade" }),
+    action: text("action").notNull(),
+    reason: text("reason"),
+    actorUserId: uuid("actor_user_id"),
+    actorEmail: text("actor_email"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("report_moderation_events_report_idx").on(table.reportId, table.createdAt),
+  ],
+).enableRLS();
+
 export type CategoryRow = typeof categories.$inferSelect;
 export type PlaceRow = typeof places.$inferSelect;
 export type PlaceInsert = typeof places.$inferInsert;
@@ -238,3 +332,7 @@ export type PlaceImageRow = typeof placeImages.$inferSelect;
 export type VerificationLogRow = typeof verificationLogs.$inferSelect;
 export type FavoriteRow = typeof favorites.$inferSelect;
 export type ItineraryRow = typeof itineraries.$inferSelect;
+export type CommunityReportRow = typeof communityReports.$inferSelect;
+export type CommunityReportInsert = typeof communityReports.$inferInsert;
+export type ReportConfirmationRow = typeof reportConfirmations.$inferSelect;
+export type ReportModerationEventRow = typeof reportModerationEvents.$inferSelect;

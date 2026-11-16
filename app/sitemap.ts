@@ -7,6 +7,7 @@ const STATIC_ROUTES: Array<{ path: string; priority: number; changeFrequency: Me
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/explore", priority: 0.9, changeFrequency: "weekly" },
   { path: "/places", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/updates", priority: 0.7, changeFrequency: "daily" },
   { path: "/planner", priority: 0.8, changeFrequency: "monthly" },
   { path: "/assistant", priority: 0.7, changeFrequency: "monthly" },
   { path: "/tours", priority: 0.8, changeFrequency: "monthly" },

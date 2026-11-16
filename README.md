@@ -198,7 +198,7 @@ npm run db:check
 What each step does:
 
 - `db:bootstrap` — idempotently creates the `extensions` schema, enables PostGIS, puts `extensions` on the connection role's `search_path` (needed by the generated `geography` column), and prepares the storage bucket.
-- `db:migrate` — applies `drizzle/0000_open_hiroim.sql` (six tables, checks, indexes, RLS policies, GIST index and the generated PostGIS `location` column) through Drizzle's programmatic migrator. `db:generate` still uses `drizzle-kit`.
+- `db:migrate` - applies SQL migrations in `drizzle/` (catalogue schema, checks/indexes/RLS/PostGIS columns, and additive feature migrations such as `0001_community_reports.sql` and `0002_report_actor_attribution.sql`) through Drizzle's programmatic migrator. `db:generate` still uses `drizzle-kit`.
 - `db:seed` — upserts `data/seed/*.json` through Drizzle. Seeding is safe to re-run.
 
 Schema changes:
@@ -219,6 +219,7 @@ Tables:
 | `verification_logs` | Audit trail for verification changes |
 | `favorites` | Per-user saved places, RLS-protected |
 | `itineraries` | Per-user saved plans (JSONB), RLS-protected |
+| `community_reports` / `report_confirmations` / `report_moderation_events` | Additive community visitor-reporting tables (timestamps, moderation/status/freshness, confirmations, audit events with actor email). Created by `drizzle/0001_community_reports.sql` and `drizzle/0002_report_actor_attribution.sql` via `npm run db:migrate`. |
 
 RLS is enabled on every table. Public catalogue tables allow `SELECT`; per-user tables restrict reads/writes to `auth.uid() = user_id`. `supabase/auth-fk.sql` optionally adds database-level FKs to `auth.users`.
 
@@ -281,6 +282,13 @@ The assistant can search places, fetch details, find nearby places/services, est
 | `GET` | `/api/nearby` | Live Google Places nearby results; `503` with a warning when not configured/unavailable |
 | `GET` | `/api/osm-services` | Live OpenStreetMap services via Overpass; `503` with a warning when unavailable |
 | `POST` | `/api/assistant` | Grounded assistant answer, place cards, optional itinerary, sources |
+| `GET` | `/api/reports` | Visible community reports for a place (`?place=`) or recent updates (`?recent=1`) |
+| `POST` | `/api/reports` | Submit a validated, rate-limited community report; `409` for recent duplicates |
+| `POST` | `/api/reports/[id]/confirm` | Confirm still happening / cleared / incorrect (one vote per device hash) |
+| `POST` | `/api/reports/upload` | Validate and upload a report photo to private Supabase Storage; returns an object path |
+| `GET` | `/api/admin/reports` | Moderation queue (admin only) |
+| `PATCH` | `/api/admin/reports/[id]` | Approve/reject/flag/resolve with optional reason (admin only) |
+| `GET` | `/api/admin/reports/[id]/history` | Moderation audit trail (admin only) |
 | `POST` | `/api/admin/login` | Admin login; sets the signed HttpOnly cookie |
 | `POST` | `/api/admin/logout` | Clears the admin cookie |
 | `GET` | `/api/admin/session` | Current admin session state |
@@ -318,7 +326,7 @@ $env:PLAYWRIGHT_CHANNEL="chrome"; npm run test:e2e
 
 Coverage includes:
 
-- **Unit:** distance/bearing/formatting, opening-hours parsing, budget estimates, route optimiser, itinerary generator, ICS/Markdown export, search ranking/filters, Zod validation, admin HMAC auth, weather codes/advice, seed-data honesty, Google Places normalisation/fallback, Overpass parsing/fallback and Street View URL generation.
+- **Unit:** distance/bearing/formatting, opening-hours parsing, budget estimates, route optimiser, itinerary generator, ICS/Markdown export, search ranking/filters, Zod validation, admin HMAC auth, weather codes/advice, report validation/freshness, seed-data honesty, Google Places normalisation/fallback, Overpass parsing/fallback and Street View URL generation.
 - **Component:** save/shortlist buttons with Zustand + toasts, safe Markdown renderer (no raw HTML), verification badges.
 - **E2E:** every public page, a place detail, the branded 404, grounded assistant answer, catalogue/filter/detail APIs, assistant API, manifest/robots/sitemap, security headers and a mobile viewport/navigation flow.
 
@@ -433,6 +441,7 @@ types/                    Shared TypeScript types
 - **Account saves require Supabase Auth + RLS.** Local favourites, pins and itineraries work without an account.
 - **The planner is a deterministic estimate**, not live traffic. It uses straight-line distance, a detour factor and conservative speeds; it does not know road closures, events or queues.
 - **Editorial content is English-only.** UI chrome is translated to Sinhala and Tamil; place descriptions and verification notes are not.
+- **Community visitor reporting is implemented as an additive surface, with operational limits.** Tables and migration `0001_community_reports.sql`, validated submit/list/confirm APIs, expiry/freshness labels, recent-duplicate suppression, one-vote-per-device-hash confirmations, private-bucket photo uploads served through short-lived signed URLs, a `/updates` feed, destination-page reporting UI and admin moderation with reasons/history all exist. It still relies on in-process rate limiting, has no full background job sweeping expired rows, no email/notification workflow, and moderation remains a single editorial role rather than a full multi-user RBAC system.
 - **In-memory rate limiting** resets on restart and is per instance.
 - **Destination photography is project-supplied**, not stock. The 31 Kandy photographs in `public/places/` depict the places they are mapped to, but their licence and credit metadata still need confirming before a public launch.
 

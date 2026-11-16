@@ -13,6 +13,7 @@ import { siteConfig } from "@/lib/config/site";
 import { cn } from "@/lib/utils/cn";
 
 const EXTRA_LINKS = [
+  { href: "/updates", label: "Live updates" },
   { href: "/saved", label: "Saved places" },
   { href: "/auth", label: "Account" },
   { href: "/admin", label: "Editorial admin" },

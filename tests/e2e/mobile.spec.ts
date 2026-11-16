@@ -5,12 +5,12 @@ test.describe("mobile shell", () => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Explore Kandy",
+      "Discover the soul of Sri Lanka in Kandy.",
     );
     await expect(
       page.getByRole("navigation", { name: /quick navigation/i }).first(),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: /explore in 3d/i }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /start exploring/i }).first()).toBeVisible();
   });
 
   test("mobile navigation reaches the planner", async ({ page }) => {

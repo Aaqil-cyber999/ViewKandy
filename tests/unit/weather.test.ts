@@ -14,6 +14,8 @@ function snapshot(overrides: {
     time: `2026-11-11T0${index}:00`,
     temperatureC: 24,
     precipitationProbability: overrides.rainProbability,
+    precipitationMm: 0,
+    uvIndex: 5,
     code: overrides.code,
     condition,
   }));

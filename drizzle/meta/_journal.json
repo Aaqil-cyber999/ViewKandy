@@ -8,6 +8,20 @@
       "when": 1794420032012,
       "tag": "0000_open_hiroim",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794810449329,
+      "tag": "0001_community_reports",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794811204273,
+      "tag": "0002_report_actor_attribution",
+      "breakpoints": true
     }
   ]
 }
