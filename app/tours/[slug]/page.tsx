@@ -121,6 +121,8 @@ export default async function TourDetailPage({
                 <PlaceArt
                   slug={item.place.slug}
                   category={item.place.category}
+                  images={item.place.images}
+                  sizes="(max-width: 640px) 112px, 144px"
                   className="h-20 w-28 rounded-xl sm:h-24 sm:w-36"
                 />
                 <span className="absolute left-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-surface/80 text-[10px] font-bold text-accent backdrop-blur">

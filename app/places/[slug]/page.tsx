@@ -22,6 +22,7 @@ import {
 import { getPlaceBySlug, listPlaces } from "@/lib/db";
 import { findNearby } from "@/lib/db/search";
 import { getCategory } from "@/lib/data";
+import { resolvePlacePhoto } from "@/lib/data/place-photos";
 import { formatDistance, formatDuration } from "@/lib/geo/distance";
 import { PlaceArt } from "@/components/places/place-art";
 import { CategoryIcon } from "@/components/places/category-icon";
@@ -99,6 +100,7 @@ export default async function PlaceDetailPage({
   );
   const category = getCategory(place.category);
   const verified = place.verification.status === "verified";
+  const photo = resolvePlacePhoto(place.slug, place.images);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -154,6 +156,9 @@ export default async function PlaceDetailPage({
               <PlaceArt
                 slug={place.slug}
                 category={place.category}
+                images={place.images}
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                priority
                 className="h-[260px] w-full sm:h-[340px]"
                 showLabel
               />
@@ -169,8 +174,10 @@ export default async function PlaceDetailPage({
                 <VerificationBadge status={place.verification.status} />
                 {place.featured && <Badge variant="accent">Editor&apos;s pick</Badge>}
               </div>
-              <p className="absolute bottom-3 right-4 text-[10px] text-muted">
-                Category identity artwork — not a photograph of this place.
+              <p className="absolute bottom-3 right-4 border border-cream/25 bg-forest/55 px-2 py-1 text-[10px] text-cream backdrop-blur-sm">
+                {photo
+                  ? `Photograph of ${place.name}.`
+                  : "Category identity artwork — not a photograph of this place."}
               </p>
             </div>
 
@@ -466,6 +473,8 @@ export default async function PlaceDetailPage({
                       <PlaceArt
                         slug={item.slug}
                         category={item.category}
+                        images={item.images}
+                        sizes="64px"
                         className="h-12 w-12 shrink-0 rounded-lg"
                       />
                       <span className="min-w-0 flex-1">

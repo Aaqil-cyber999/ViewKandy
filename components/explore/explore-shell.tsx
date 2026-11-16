@@ -445,6 +445,8 @@ export function ExploreShell({ places, categories }: ExploreShellProps) {
                       <PlaceArt
                         slug={selectedPlace.slug}
                         category={selectedPlace.category}
+                        images={selectedPlace.images}
+                        sizes="64px"
                         className="h-16 w-16 shrink-0 rounded-lg"
                       />
                       <div className="min-w-0 flex-1">
@@ -564,6 +566,8 @@ function ResultRow({
         <PlaceArt
           slug={place.slug}
           category={place.category}
+          images={place.images}
+          sizes="80px"
           className="h-20 w-20 rounded-lg"
         />
       </button>

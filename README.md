@@ -131,6 +131,8 @@ npm run check            # typecheck + unit/component tests
 npm run icons            # regenerate PWA PNG icons (dependency-free)
 npm run db:check         # read-only database diagnostics
 npm run integrations:check # read-only live status of every external integration
+npm run images:upload    # mirror public/places to Supabase Storage + place_images
+npm run images:upload -- --dry-run # validate the photo manifest without network calls
 ```
 
 ---
@@ -145,6 +147,7 @@ Copy `.env.example` to `.env.local`. Secrets are server-only unless prefixed wit
 | `DATABASE_URL` | Optional | PostgreSQL/PostGIS connection string (Supabase pooler or any Postgres). Server-only |
 | `NEXT_PUBLIC_SUPABASE_URL` | Optional | Supabase project URL for Auth/Storage |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Optional | Supabase anon key (safe for the browser) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Upload only | Server-only key for `npm run images:upload` (Storage upload + `place_images` rows). Never prefix with `NEXT_PUBLIC_` |
 | `ADMIN_EMAIL` | Admin only | Editorial admin login email |
 | `ADMIN_PASSWORD` | Admin only | Plain password for local development |
 | `ADMIN_PASSWORD_SHA256` | Admin only | SHA-256 hex digest for production (`printf '%s' 'pw' \| sha256sum`) |
@@ -212,14 +215,29 @@ Tables:
 | --- | --- |
 | `categories` | 12 public editorial categories |
 | `places` | Catalogue with coordinates, verification fields, generated `geography(Point,4326)` location, checks and GIST index |
-| `place_images` | Credited/licensed photography; empty in the seed |
+| `place_images` | Photography per place, ordered by `sort_order`; the app falls back to the bundled local photographs when empty |
 | `verification_logs` | Audit trail for verification changes |
 | `favorites` | Per-user saved places, RLS-protected |
 | `itineraries` | Per-user saved plans (JSONB), RLS-protected |
 
 RLS is enabled on every table. Public catalogue tables allow `SELECT`; per-user tables restrict reads/writes to `auth.uid() = user_id`. `supabase/auth-fk.sql` optionally adds database-level FKs to `auth.users`.
 
-See [`supabase/README.md`](supabase/README.md) for the full database workflow and troubleshooting notes.
+### Place photography
+
+The 31 destination photographs supplied with the project live in `public/places/` and are mapped to place slugs in `data/seed/place-photos.json`. `lib/data/place-photos.ts` resolves them for cards, detail heroes, explore rows, tours and the admin console. Places without a matching photograph keep the generated topographic artwork, so a photo is never shown for the wrong destination. Database images in `place_images` take precedence over the bundled files.
+
+To mirror the same files to Supabase Storage and register them in `place_images`:
+
+```bash
+# Requires NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
+# Optional DATABASE_URL to write place_images rows
+npm run images:upload -- --dry-run   # validates paths, MIME types and duplicate slugs
+npm run images:upload
+```
+
+The script creates the public `place-images` bucket when missing, uploads destination photos to `places/<file>` with long-lived cache headers and upserts one row per place. It also mirrors homepage hero backgrounds from `public/homepage/` to `homepage/<file>` (no database rows). The service-role key stays on the server; `next.config.ts` allows `**.supabase.co/storage/v1/object/public/**` through `next/image`.
+
+See [`supabase/README.md`](supabase/README.md) for the full database and storage workflow and troubleshooting notes.
 
 ---
 
@@ -369,7 +387,7 @@ Use a persistent Node runtime (not Edge) for the route handlers and `node-postgr
 ## Performance, PWA, SEO and i18n
 
 - **PWA:** web manifest, install shortcuts, generated PNG/maskable/apple icons, service worker with network-first navigations, cache-first static assets and an offline page. API responses are never cached.
-- **Performance:** server components for catalogue reads, dynamic Cesium import, Leaflet fallback, long-cache headers for `/cesium/*`, image-friendly Next config, no stock photography payloads.
+- **Performance:** server components for catalogue reads, dynamic Cesium import, Leaflet fallback, long-cache headers for `/cesium/*`, image-friendly Next config, `next/image` sizing for the bundled destination photography (no remote stock images).
 - **SEO:** metadata templates, canonical place URLs, JSON-LD (`WebSite`, `TouristAttraction`), `robots.txt`, dynamic sitemap, Open Graph image route.
 - **i18n:** English, Sinhala and Tamil UI dictionaries with a persisted language switcher. Editorial content remains in English.
 - **Accessibility:** skip link, semantic headings, focus-visible styles, labelled icon buttons, `aria-pressed` toggles, reduced-motion support and text alternatives for decorative artwork.
@@ -416,14 +434,14 @@ types/                    Shared TypeScript types
 - **The planner is a deterministic estimate**, not live traffic. It uses straight-line distance, a detour factor and conservative speeds; it does not know road closures, events or queues.
 - **Editorial content is English-only.** UI chrome is translated to Sinhala and Tamil; place descriptions and verification notes are not.
 - **In-memory rate limiting** resets on restart and is per instance.
-- **No stock photos** are shipped. Real, credited photography must be added by an editor with a licence and attribution.
+- **Destination photography is project-supplied**, not stock. The 31 Kandy photographs in `public/places/` depict the places they are mapped to, but their licence and credit metadata still need confirming before a public launch.
 
 ---
 
 ## Next phase
 
 1. **Validate live integrations** with restricted Google Places/Routes keys and a production Overpass endpoint; add contract tests for upstream error shapes.
-2. **Real editorial media:** credited, licensed photography through Supabase Storage with alt text and licence metadata.
+2. **Photography licensing + delivery:** confirm credits/licences for the supplied Kandy photographs, mirror them through Supabase Storage (`npm run images:upload`) and keep alt text and licence metadata in `place_images`.
 3. **Multi-user editorial RBAC** with invite-only accounts, per-action audit trails and review queues.
 4. **Offline itinerary packs:** cache a selected plan and its place records for genuine offline use.
 5. **Observability:** structured request logs, error tracking, rate-limit metrics and uptime checks for weather/routes/Overpass.

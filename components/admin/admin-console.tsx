@@ -1000,6 +1000,8 @@ export function AdminConsole({ categories }: { categories: Category[] }) {
                       <PlaceArt
                         slug={place.slug}
                         category={place.category}
+                        images={place.images}
+                        sizes="40px"
                         className="h-10 w-10 shrink-0 rounded-lg"
                       />
                       <div className="min-w-0">

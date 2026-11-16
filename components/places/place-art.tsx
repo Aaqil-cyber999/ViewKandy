@@ -1,5 +1,8 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { getCategory } from "@/lib/data";
+import { resolvePlacePhoto } from "@/lib/data/place-photos";
+import type { PlaceImage } from "@/types/place";
 import { CategoryIcon } from "./category-icon";
 
 function hash(input: string): number {
@@ -12,26 +15,31 @@ function hash(input: string): number {
 }
 
 /**
- * Generative topographic plate. View Kandy deliberately does not ship stock
- * photos pretending to be specific places; place photography is added by
- * admins with credit + licence, otherwise this identity artwork is used.
- *
- * The composition is drawn from the Kandy basin: layered ridges, contour lines,
- * a low sun and survey ticks. It is deterministic per slug, so every place keeps
- * a stable visual identity across the site.
+ * Place artwork. Uses a real photograph when the project has one for the slug;
+ * otherwise it draws the deterministic topographic plate from the Kandy basin
+ * (layered ridges, contour lines, survey ticks). Photography is only shown for
+ * the place it actually depicts — unknown destinations keep the generated art.
  */
 export function PlaceArt({
   slug,
   category,
   className,
   showLabel = false,
+  images = null,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  priority = false,
 }: {
   slug: string;
   category: string;
   className?: string;
   showLabel?: boolean;
+  /** Database images take precedence over the bundled local photograph. */
+  images?: PlaceImage[] | null;
+  sizes?: string;
+  priority?: boolean;
 }) {
   const meta = getCategory(category as Parameters<typeof getCategory>[0]);
+  const photo = resolvePlacePhoto(slug, images);
   const seed = hash(slug);
   const phase = ((seed % 1000) / 1000) * Math.PI * 2;
   const sunX = 102 + (seed % 180);
@@ -67,10 +75,21 @@ export function PlaceArt({
   return (
     <div
       className={cn("relative overflow-hidden bg-surface-2", className)}
-      role="img"
-      aria-label={`${meta.name} illustration`}
+      {...(photo
+        ? {}
+        : { role: "img" as const, "aria-label": `${meta.name} illustration` })}
     >
-      <svg
+      {photo ? (
+        <Image
+          src={photo.url}
+          alt={photo.alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+        />
+      ) : (
+        <svg
         viewBox="0 0 400 300"
         className="absolute inset-0 h-full w-full"
         preserveAspectRatio="xMidYMid slice"
@@ -155,7 +174,8 @@ export function PlaceArt({
           <circle r="22" opacity="0.55" />
           <path d="M-30 0H30M0 -30V30" opacity="0.3" />
         </g>
-      </svg>
+        </svg>
+      )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-forest/35 via-transparent to-transparent" />
 

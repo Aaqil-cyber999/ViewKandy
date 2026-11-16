@@ -3,26 +3,26 @@ import Link from "next/link";
 import { ArrowRight, Compass, MapPin, Mountain, Sparkles } from "lucide-react";
 import { PageIntro } from "@/components/ui/section";
 
-// Royalty-free Unsplash photography adds Kandy-inspired landscape texture to
-// the editorial cards; replace these with locally licensed Kandy imagery later.
+// Real Kandy photography supplied with the project adds local texture to the
+// editorial cards without pretending to be a different destination.
 const values = [
   {
     title: "Cultural depth",
     copy: "Kandy reveals itself in layers: temple rituals, heritage lanes, tea estates and intimate local evenings.",
     icon: Sparkles,
-    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
+    image: "/places/temple-of-the-sacred-tooth-relic.jpg",
   },
   {
     title: "Slow travel design",
     copy: "Every route is built for pacing, not pressure — immersive enough to linger and practical enough to navigate.",
     icon: Compass,
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+    image: "/places/kandy-lake.jpg",
   },
   {
     title: "Natural rhythm",
     copy: "Mist, lakes, ridgelines and seasonal weather all shape the way Kandy feels from one hour to the next.",
     icon: Mountain,
-    image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1200&q=80",
+    image: "/places/hantana-viewpoint.jpg",
   },
 ];
 
@@ -57,9 +57,10 @@ export default function AboutPage() {
           <div className="overflow-hidden rounded-[2rem] border border-line bg-surface shadow-[0_18px_50px_-30px_rgba(7,29,45,0.45)]">
             <div className="relative h-[420px] w-full">
               <Image
-                src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80"
-                alt="Kandy hillside landscape"
+                src="/places/udawattakele-forest-reserve.jpg"
+                alt="Forest in the Udawattakele Reserve above Kandy"
                 fill
+                sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-[#081d2c]/65 via-[#081d2c]/10 to-transparent" />

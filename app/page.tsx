@@ -9,29 +9,30 @@ import {
   Star,
   Trees,
 } from "lucide-react";
+import { HeroSlideshow } from "@/components/home/hero-slideshow";
 
-// Unsplash royalty-free photography used for the editorial tourism aesthetic
-// (source links maintained in the project notes for reuse and attribution).
+// Real Kandy photography supplied with the project. Each image is tied to the
+// destination it actually depicts; no stock stand-ins are used here.
 const featuredSpots = [
   {
     title: "Temple of the Tooth",
     tag: "Sacred heritage",
-    image:
-      "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80",
+    image: "/places/temple-of-the-sacred-tooth-relic.jpg",
+    href: "/places/temple-of-the-sacred-tooth-relic",
     copy: "Walk the spiritual heart of the city at the Dalada Maligawa.",
   },
   {
     title: "Kandy Lake",
     tag: "Scenic stroll",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+    image: "/places/kandy-lake.jpg",
+    href: "/places/kandy-lake",
     copy: "A reflective circuit with views across misty hills and colonial-era charm.",
   },
   {
     title: "Royal Botanic Gardens",
     tag: "Green escape",
-    image:
-      "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
+    image: "/places/royal-botanic-gardens-peradeniya.webp",
+    href: "/places/royal-botanic-gardens-peradeniya",
     copy: "A botanical wonder of orchids, palm avenues and cool mountain air.",
   },
 ];
@@ -58,6 +59,19 @@ const plannerSteps = [
   { label: "Save what matters", value: "03" },
 ];
 
+// Homepage hero backgrounds supplied in places pics/homepage; rotated with a
+// smooth crossfade. Order is deliberate for a gentle progression.
+const heroImages = [
+  { src: "/homepage/homepage.jpg", alt: "Kandy hillside scenery" },
+  { src: "/homepage/homepage1.jpg", alt: "Scenic view in Kandy" },
+  { src: "/homepage/homepage2.jpg", alt: "Kandy landscape" },
+  { src: "/homepage/homepage3.jpg", alt: "View around Kandy" },
+  { src: "/homepage/homepage4.jpg", alt: "Kandy surroundings" },
+  { src: "/homepage/homepage6.jpg", alt: "Green hills near Kandy" },
+  { src: "/homepage/homepage7.jpg", alt: "Kandy cityscape view" },
+  { src: "/homepage/homepage8.jpg", alt: "Atmospheric scene in Kandy" },
+];
+
 export default function HomePage() {
   return (
     <div className="travel-home-shell">
@@ -67,16 +81,10 @@ export default function HomePage() {
         data-scroll-label="Discover"
         className="travel-hero"
       >
-        <div className="travel-hero__image" aria-hidden="true">
-          <Image
-            src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1800&q=80"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
+        <HeroSlideshow
+          images={heroImages}
+          className="travel-hero__image"
+        />
         <div className="travel-hero__overlay" aria-hidden="true" />
 
         <div className="travel-hero__content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -172,12 +180,12 @@ export default function HomePage() {
           </div>
 
           <div className="travel-story-grid">
-            {featuredSpots.map(({ title, tag, image, copy }) => (
+            {featuredSpots.map(({ title, tag, image, href, copy }) => (
               <Link
                 key={title}
-                href="/places"
+                href={href}
                 className="travel-story-card"
-                aria-label={`Browse places related to ${title}`}
+                aria-label={`Read about ${title}`}
               >
                 <div className="travel-story-card__media">
                   <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
@@ -188,7 +196,7 @@ export default function HomePage() {
                   <p>{copy}</p>
                 </div>
                 <span className="travel-card-cta" aria-hidden="true">
-                  Discover places <ArrowRight size={14} />
+                  Open the guide <ArrowRight size={14} />
                 </span>
               </Link>
             ))}
@@ -214,13 +222,13 @@ export default function HomePage() {
 
           <div className="travel-feature-layout">
             <Link
-              href="/places"
+              href="/places/temple-of-the-sacred-tooth-relic"
               className="travel-feature-card travel-feature-card--large"
-              aria-label="Browse places in Kandy"
+              aria-label="Read about the Temple of the Sacred Tooth Relic"
             >
               <Image
-                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
-                alt="Misty mountain landscape in the hills"
+                src="/places/temple-of-the-sacred-tooth-relic.jpg"
+                alt="The Temple of the Sacred Tooth Relic in Kandy"
                 fill
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover"
@@ -291,27 +299,27 @@ export default function HomePage() {
               {
                 title: "Esala Perahera",
                 detail: "Cultural pageantry, drumming and temple processions at night.",
-                image:
-                  "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1200&q=80",
+                image: "/places/temple-of-the-sacred-tooth-relic.jpg",
+                href: "/places/temple-of-the-sacred-tooth-relic",
               },
               {
                 title: "Tea trails & tastings",
                 detail: "A slower route across cool, green highlands and estate cafes.",
-                image:
-                  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+                image: "/places/ceylon-tea-museum.jpg",
+                href: "/places/ceylon-tea-museum",
               },
               {
                 title: "Lakefront sunrise walks",
                 detail: "Quiet, reflective mornings as the city wakes to soft golden light.",
-                image:
-                  "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1200&q=80",
+                image: "/places/kandy-lake.jpg",
+                href: "/places/kandy-lake",
               },
-            ].map(({ title, detail, image }) => (
+            ].map(({ title, detail, image, href }) => (
               <Link
                 key={title}
-                href="/planner"
+                href={href}
                 className="travel-event-card"
-                aria-label={`Plan a trip around ${title}`}
+                aria-label={`Read about ${title}`}
               >
                 <div className="travel-event-card__media">
                   <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />

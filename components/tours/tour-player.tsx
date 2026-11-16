@@ -259,6 +259,8 @@ export function TourPlayer({ tour, stops }: { tour: Tour; stops: ResolvedStop[] 
               <PlaceArt
                 slug={item.place.slug}
                 category={item.place.category}
+                images={item.place.images}
+                sizes="28px"
                 className="h-7 w-7 rounded"
               />
               <span className="max-w-[120px] truncate text-[11px] text-muted">

@@ -37,6 +37,37 @@ connection role's `search_path`, which the generated `geography` column needs.
 npm run db:check       # prints server version, search_path, extensions, tables
 ```
 
+## 4. Mirror place photography (optional)
+
+The destination photographs are committed under `public/places/` and mapped to
+place slugs in `data/seed/place-photos.json`. Homepage hero backgrounds live in
+`public/homepage/`. The app serves them locally by default. To mirror them into
+Supabase Storage (and register `place_images` rows for destination photos):
+
+```bash
+# Add to .env.local:
+#   NEXT_PUBLIC_SUPABASE_URL=...
+#   SUPABASE_SERVICE_ROLE_KEY=...   (server-only)
+npm run images:upload -- --dry-run   # validates files, MIME types, duplicate slugs
+npm run images:upload
+```
+
+- The bucket defaults to `place-images` and is created as a **public** bucket
+  when it does not exist (override with `SUPABASE_PLACE_BUCKET`).
+- Destination objects are written to `places/<file>` with
+  `cache-control: 31536000` (override the prefix with `SUPABASE_PLACE_PREFIX`).
+  Homepage hero images are written to `homepage/<file>`. Re-running replaces them.
+- With `DATABASE_URL` set, each destination photo is upserted into
+  `place_images` as `img-<slug>` and linked to the place of the same slug.
+  Homepage images have no database rows. Without `DATABASE_URL`, files are still
+  uploaded and the metadata step is skipped with a warning.
+- `SUPABASE_SERVICE_ROLE_KEY` must never be exposed to the browser or prefixed
+  with `NEXT_PUBLIC_`. `next.config.ts` already allowlists
+  `**.supabase.co/storage/v1/object/public/**` for `next/image`.
+
+Places that have no matching photograph keep the generated topographic plate —
+never point an image at a destination it does not depict.
+
 ## Changing the schema
 
 ```bash
@@ -69,5 +100,7 @@ verification date in `/admin`. Do not “fix” the seed data with invented fact
 | `lib/db/client.ts` | Server-only pool + Drizzle client |
 | `lib/db/drizzle-store.ts` | Typed catalogue queries and verification audit |
 | `drizzle/` | Generated SQL migrations + metadata |
+| `data/seed/place-photos.json` | Slug → photograph file/alt manifest (shared by app and upload script) |
+| `scripts/upload-place-images.mjs` | Mirrors `public/places` to Storage and upserts `place_images` |
 | `supabase/seed.sql` | Optional SQL seed for the Supabase SQL editor |
 | `supabase/auth-fk.sql` | Optional FK to `auth.users` |

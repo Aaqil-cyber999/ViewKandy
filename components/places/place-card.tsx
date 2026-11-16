@@ -41,6 +41,8 @@ export function PlaceCard({
           <PlaceArt
             slug={place.slug}
             category={place.category}
+            images={place.images}
+            sizes="128px"
             className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]"
           />
         </div>
@@ -92,6 +94,12 @@ export function PlaceCard({
         <PlaceArt
           slug={place.slug}
           category={place.category}
+          images={place.images}
+          sizes={
+            feature
+              ? "(max-width: 1024px) 100vw, 50vw"
+              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          }
           className="h-full w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.035]"
         />
 

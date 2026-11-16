@@ -3,26 +3,26 @@ import Image from "next/image";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { PageIntro } from "@/components/ui/section";
 
-// Royalty-free Unsplash photography gives each contact card its own landscape
-// accent while keeping the information readable over a tinted overlay.
+// Real Kandy photography supplied with the project gives each contact card its
+// own local accent while keeping the information readable over a tinted overlay.
 const cards = [
   {
     title: "Visit",
     copy: "Kandy, Central Province, Sri Lanka",
     icon: MapPin,
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
+    image: "/places/kandy-city-centre.jpg",
   },
   {
     title: "Call",
     copy: "+94 76 200 4125",
     icon: Phone,
-    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=80",
+    image: "/places/kandy-railway-station.jpg",
   },
   {
     title: "Email",
     copy: "hello@viewkandy.lk",
     icon: Mail,
-    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=80",
+    image: "/places/national-museum-kandy.jpg",
   },
 ];
 

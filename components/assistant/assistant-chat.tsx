@@ -379,6 +379,7 @@ function AssistantExtras({
               <PlaceArt
                 slug={place.slug}
                 category={place.category}
+                sizes="48px"
                 className="h-12 w-12 shrink-0 rounded-md"
               />
               <span className="min-w-0 flex-1">

@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "upload.wikimedia.org" },
+      // Public objects from the project's own Supabase Storage bucket, used
+      // after `npm run images:upload` registers place photographs in the DB.
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
   async headers() {
