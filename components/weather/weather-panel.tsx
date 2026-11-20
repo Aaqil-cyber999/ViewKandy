@@ -78,19 +78,19 @@ export function WeatherPanel({
             <div className="flex items-center gap-1.5 text-muted-2"><CloudRain className="h-3.5 w-3.5" />Precip now</div>
             <div className="mt-0.5 font-medium text-foreground">{weather.current.precipitationMm.toFixed(1)} mm</div>
           </div>
-          {today?.uvIndexMax != null && (
+          {!compact && today?.uvIndexMax != null && (
             <div className="rounded-lg border border-line/70 bg-surface/60 px-2.5 py-2">
               <div className="flex items-center gap-1.5 text-muted-2"><Sun className="h-3.5 w-3.5" />UV max (today)</div>
               <div className="mt-0.5 font-medium text-foreground">{today.uvIndexMax.toFixed(1)}</div>
             </div>
           )}
-          {today?.precipitationSumMm != null && (
+          {!compact && today?.precipitationSumMm != null && (
             <div className="rounded-lg border border-line/70 bg-surface/60 px-2.5 py-2">
               <div className="flex items-center gap-1.5 text-muted-2"><Thermometer className="h-3.5 w-3.5" />Rain (today est.)</div>
               <div className="mt-0.5 font-medium text-foreground">{today.precipitationSumMm.toFixed(1)} mm</div>
             </div>
           )}
-          {today && (
+          {!compact && today && (
             <div className="rounded-lg border border-line/70 bg-surface/60 px-2.5 py-2 col-span-2 sm:col-span-1">
               <div className="flex items-center gap-3 text-muted-2"><span className="inline-flex items-center gap-1"><Sunrise className="h-3.5 w-3.5" />{fmtTime(today.sunrise)}</span><span className="inline-flex items-center gap-1"><Sunset className="h-3.5 w-3.5" />{fmtTime(today.sunset)}</span></div>
               <div className="mt-0.5 text-[11px] text-muted-2">Sunrise / sunset (forecast)</div>
@@ -103,8 +103,8 @@ export function WeatherPanel({
         <div className="mt-4 rounded-xl border border-accent/15 bg-accent/[0.05] p-3 text-[13px] leading-relaxed text-muted">
           <p className="font-medium text-foreground">{advice.headline}</p>
           <p className="mt-1">{advice.rainLikely ? advice.indoorAdvice : advice.outdoorAdvice}</p>
-          {advice.bestWindow && <p className="mt-1 text-muted-2">{advice.bestWindow}</p>}
-          {advice.cautions && advice.cautions.length > 0 && (
+          {!compact && advice.bestWindow && <p className="mt-1 text-muted-2">{advice.bestWindow}</p>}
+          {!compact && advice.cautions && advice.cautions.length > 0 && (
             <ul className="mt-2 list-disc space-y-0.5 pl-4 text-[12px] text-muted-2">
               {advice.cautions.map((c) => <li key={c}>{c}</li>)}
             </ul>
@@ -113,36 +113,40 @@ export function WeatherPanel({
         </div>
       )}
 
-      <div className="mt-4">
-        <p className="text-[12px] font-medium text-foreground">Next hours</p>
-        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-          {nextHours.map((hour) => (
-            <div key={hour.time} className="min-w-[84px] rounded-lg border border-line/70 bg-surface/60 px-2 py-2 text-center text-[11px]">
-              <div className="text-muted-2">{fmtTime(hour.time)}</div>
-              <div className="mt-1 flex justify-center"><WeatherIcon icon={hour.condition.icon} className="h-4 w-4 text-accent" /></div>
-              <div className="mt-1 font-medium text-foreground">{Math.round(hour.temperatureC)}°</div>
-              <div className="text-muted-2">{hour.precipitationProbability}% rain</div>
+      {!compact && (
+        <>
+          <div className="mt-4">
+            <p className="text-[12px] font-medium text-foreground">Next hours</p>
+            <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+              {nextHours.map((hour) => (
+                <div key={hour.time} className="min-w-[84px] rounded-lg border border-line/70 bg-surface/60 px-2 py-2 text-center text-[11px]">
+                  <div className="text-muted-2">{fmtTime(hour.time)}</div>
+                  <div className="mt-1 flex justify-center"><WeatherIcon icon={hour.condition.icon} className="h-4 w-4 text-accent" /></div>
+                  <div className="mt-1 font-medium text-foreground">{Math.round(hour.temperatureC)}°</div>
+                  <div className="text-muted-2">{hour.precipitationProbability}% rain</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div className="mt-4">
-        <p className="text-[12px] font-medium text-foreground">{days.length}-day forecast</p>
-        <div className="mt-2 space-y-1.5">
-          {days.map((day) => (
-            <div key={day.date} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 rounded-lg border border-line/60 bg-surface/40 px-2.5 py-2 text-[12px]">
-              <div className="min-w-0">
-                <div className="font-medium text-foreground">{fmtDay(day.date)}</div>
-                <div className="truncate text-[11px] text-muted-2">{day.condition.label}</div>
-              </div>
-              <div className="flex justify-center"><WeatherIcon icon={day.condition.icon} className="h-4 w-4 text-accent" /></div>
-              <div className="text-right text-muted">{Math.round(day.minC)}° / {Math.round(day.maxC)}°</div>
-              <div className="text-right text-muted-2">{day.precipitationProbability}%</div>
+          <div className="mt-4">
+            <p className="text-[12px] font-medium text-foreground">{days.length}-day forecast</p>
+            <div className="mt-2 space-y-1.5">
+              {days.map((day) => (
+                <div key={day.date} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 rounded-lg border border-line/60 bg-surface/40 px-2.5 py-2 text-[12px]">
+                  <div className="min-w-0">
+                    <div className="font-medium text-foreground">{fmtDay(day.date)}</div>
+                    <div className="truncate text-[11px] text-muted-2">{day.condition.label}</div>
+                  </div>
+                  <div className="flex justify-center"><WeatherIcon icon={day.condition.icon} className="h-4 w-4 text-accent" /></div>
+                  <div className="text-right text-muted">{Math.round(day.minC)}° / {Math.round(day.maxC)}°</div>
+                  <div className="text-right text-muted-2">{day.precipitationProbability}%</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </>
+      )}
 
       <p className="mt-3 text-[11px] text-muted-2">
         Source: <a className="underline underline-offset-2" href={weather.source.url} target="_blank" rel="noreferrer">{weather.source.name}</a> ({weather.source.license}). Forecast values may change; check conditions again before travel.
