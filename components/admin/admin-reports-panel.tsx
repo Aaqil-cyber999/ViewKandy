@@ -195,7 +195,7 @@ export function AdminReportsPanel() {
                     {label}
                   </Button>
                 ))}
-                <Button size="sm" variant="ghost" disabled={history[r.id]?.loading} onClick={() => void loadHistory(r.id)}>
+                <Button size="sm" variant="ghost" aria-label={`View moderation history for ${r.id}`} disabled={history[r.id]?.loading} onClick={() => void loadHistory(r.id)}>
                   {history[r.id]?.loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
                   History
                 </Button>
