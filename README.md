@@ -46,6 +46,7 @@ The seed data is validated at module load and again by tests. If a field would b
 | `/auth` | Supabase Auth sign-in/sign-up when configured; local mode otherwise |
 | `/admin` | HMAC-cookie protected editorial console: stats, search, create/edit/delete, verification guard, audit log |
 | `/updates` | Community visitor-update feed with category/recency filters and 60-second refresh |
+| `/security` | Public trust center with a searchable OWASP web/API risk audit and deployment checklist |
 | `/offline` | PWA offline fallback page |
 | `/api/*` | Catalogue, weather, routes, live nearby places/services, assistant, admin and account-save APIs |
 
@@ -103,6 +104,14 @@ Browser
 3. **The AI never receives SQL or a database connection.** It can call nine validated, read-only tools: search places, place details, nearby places, route estimate, itinerary generation, budget estimate, weather, opening hours and nearby services.
 4. **Missing facts stay missing.** Tool results and UI components distinguish `unknown`, `estimate`, `live route`, `verified` and `unverified`.
 5. **External live data is isolated.** Google Places and Overpass results are rendered only in their own labelled panels, with source attribution and links back to Google/OSM. They never overwrite or validate the editorial catalogue.
+
+---
+
+## Security and trust
+
+The public [trust center](/security) exposes a searchable audit of all ten OWASP Top 10:2025 web risks and all ten OWASP API Security Top 10:2023 risks, plus Next.js, Supabase, Google Maps and operational checks. The full register, sources, known limitations and production checklist live in [SECURITY.md](./SECURITY.md).
+
+Code-level controls include server-only secrets, independent admin authorization, Zod-validated and bounded JSON bodies, same-origin checks on mutations, MIME-sniffed private report uploads, short-lived signed report photos, security response headers and redacted structured security events. Deployment-dependent items (RLS, key restrictions, shared rate limiting, alerts and MFA) are called out honestly rather than hidden.
 
 ---
 

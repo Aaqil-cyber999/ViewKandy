@@ -105,4 +105,10 @@ test("security headers are applied", async ({ request }) => {
   expect(headers["x-content-type-options"]).toBe("nosniff");
   expect(headers["x-frame-options"]).toBe("SAMEORIGIN");
   expect(headers["referrer-policy"]).toBeTruthy();
+  expect(headers["strict-transport-security"]).toContain("max-age=31536000");
+  expect(headers["content-security-policy"]).toContain("default-src 'self'");
+  expect(headers["content-security-policy"]).toContain("object-src 'none'");
+
+  const apiResponse = await request.get("/api/places");
+  expect(apiResponse.headers()["cache-control"]).toContain("no-store");
 });
