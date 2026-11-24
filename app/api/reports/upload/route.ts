@@ -3,6 +3,13 @@ import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { clientKey, rateLimit } from "@/lib/utils/rate-limit";
 import {
+  bodyTooLargeResponse,
+  forbiddenOriginResponse,
+  isCrossOriginRequest,
+  requestExceedsBodyLimit,
+} from "@/lib/security/http";
+import { logSecurityEvent, SECURITY_EVENTS } from "@/lib/security/events";
+import {
   REPORT_IMAGE_BUCKET,
   REPORT_IMAGE_MAX_BYTES,
   REPORT_IMAGE_TYPES,
@@ -31,9 +38,36 @@ function sniffMime(bytes: Uint8Array): string | null {
 }
 
 export async function POST(request: NextRequest) {
+  if (isCrossOriginRequest(request)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.crossOriginMutation,
+      request,
+      outcome: "blocked",
+      reason: "report-upload-origin",
+    });
+    return forbiddenOriginResponse();
+  }
+
   const rl = rateLimit(clientKey(request, "reports:upload"), 10, 10 * 60 * 1000);
   if (!rl.allowed) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.rateLimited,
+      request,
+      outcome: "blocked",
+      reason: "report-upload",
+    });
     return Response.json({ error: "Too many upload attempts. Please try again later." }, { status: 429, headers: { "Retry-After": String(Math.max(1, Math.ceil((rl.resetAt - Date.now()) / 1000))) } });
+  }
+
+  // Multipart framing adds a small amount of overhead to the 5 MB image cap.
+  if (requestExceedsBodyLimit(request, REPORT_IMAGE_MAX_BYTES + 64 * 1024)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.bodyTooLarge,
+      request,
+      outcome: "blocked",
+      reason: "report-upload-body",
+    });
+    return bodyTooLargeResponse(REPORT_IMAGE_MAX_BYTES);
   }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -53,16 +87,34 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "Missing image file." }, { status: 400 });
   }
   if (file.size <= 0 || file.size > REPORT_IMAGE_MAX_BYTES) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.uploadRejected,
+      request,
+      outcome: "blocked",
+      reason: "report-upload-size",
+    });
     return Response.json({ error: `Image must be between 1 byte and ${REPORT_IMAGE_MAX_BYTES / (1024 * 1024)} MB.` }, { status: 400 });
   }
   const declared = (file.type || "").toLowerCase();
   if (!ALLOWED.has(declared)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.uploadRejected,
+      request,
+      outcome: "blocked",
+      reason: "report-upload-type",
+    });
     return Response.json({ error: "Unsupported image type. Use JPEG, PNG, WebP, or AVIF." }, { status: 400 });
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer());
   const sniffed = sniffMime(bytes);
   if (!sniffed || sniffed !== declared) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.uploadRejected,
+      request,
+      outcome: "blocked",
+      reason: "report-upload-mime-mismatch",
+    });
     return Response.json({ error: "Image content does not match its declared type." }, { status: 400 });
   }
 
