@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { CloudRain, Droplets, RefreshCw, Sun, Sunrise, Sunset, Thermometer, Wind } from "lucide-react";
 import { WeatherIcon } from "@/components/weather/weather-icon";
 import type { WeatherAdvice, WeatherSnapshot } from "@/lib/weather/open-meteo";
@@ -111,6 +112,12 @@ export function WeatherPanel({
           )}
           <p className="mt-2 text-[11px] text-muted-2">Travel suggestions are based on forecast data and transparent rules, not safety guarantees.</p>
         </div>
+      )}
+
+      {compact && (
+        <p className="mt-3 text-[11px] text-muted-2">
+          Full hourly and 7-day forecast: <Link href="/#weather" className="text-accent hover:underline">weather overview</Link>.
+        </p>
       )}
 
       {!compact && (
