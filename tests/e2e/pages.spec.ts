@@ -12,6 +12,7 @@ const PAGES = [
   { path: "/saved", heading: "Saved places, plans and pins" },
   { path: "/admin", heading: "Editorial console" },
   { path: "/auth", heading: "Keep your Kandy plans across devices" },
+  { path: "/security", heading: "Security and trust" },
   { path: "/offline", heading: "You are offline" },
 ];
 
@@ -28,6 +29,22 @@ test.describe("public pages", () => {
       ).toContainText(page.heading);
     });
   }
+});
+
+test("the trust center risk explorer filters the security register", async ({ page }) => {
+  await page.goto("/security", { waitUntil: "domcontentloaded" });
+  await waitForReactHydration(page, 'input[type="search"]');
+
+  const search = page.getByLabel("Search the audit");
+  await search.fill("RLS");
+
+  await expect(page.getByText(/of 20 risks/)).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /API1: Broken object-level authorization/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /A05: Injection/ }),
+  ).toHaveCount(0);
 });
 
 test("a place detail page shows real coordinates and an honest verification state", async ({
