@@ -184,6 +184,7 @@ export function AdminReportsPanel() {
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Input
+                  aria-label={`Moderation reason for ${r.id}`}
                   value={reasons[r.id] ?? ""}
                   onChange={(e) => setReasons((prev) => ({ ...prev, [r.id]: e.target.value }))}
                   placeholder="Moderation reason (required for reject/flag)"
