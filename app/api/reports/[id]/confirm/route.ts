@@ -1,22 +1,54 @@
 import { NextRequest } from "next/server";
 import { headers } from "next/headers";
 import { clientKey, rateLimit } from "@/lib/utils/rate-limit";
+import {
+  forbiddenOriginResponse,
+  isCrossOriginRequest,
+  readJsonBody,
+} from "@/lib/security/http";
+import { logSecurityEvent, SECURITY_EVENTS } from "@/lib/security/events";
 import { reportConfirmSchema } from "@/lib/validation/schemas";
 import { confirmReport, voterHashFromRequest } from "@/lib/reports/service";
 import { databaseConfigured } from "@/lib/db/client";
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  if (isCrossOriginRequest(request)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.crossOriginMutation,
+      request,
+      outcome: "blocked",
+      reason: "report-confirm-origin",
+    });
+    return forbiddenOriginResponse();
+  }
+
   const rl = rateLimit(clientKey(request, `reports:confirm:${id}`), 12, 10 * 60 * 1000);
   if (!rl.allowed) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.rateLimited,
+      request,
+      outcome: "blocked",
+      reason: "report-confirm",
+    });
     return Response.json({ error: "Too many confirmation attempts. Please try again later." }, { status: 429, headers: { "Retry-After": String(Math.max(1, Math.ceil((rl.resetAt - Date.now()) / 1000))) } });
   }
   if (!databaseConfigured()) {
     return Response.json({ error: "Community reporting is not configured." }, { status: 503 });
   }
-  let json: unknown;
-  try { json = await request.json(); } catch { return Response.json({ error: "Invalid JSON body." }, { status: 400 }); }
-  const parsed = reportConfirmSchema.safeParse(json);
+  const body = await readJsonBody(request);
+  if (!body.ok) {
+    if (body.response.status === 413) {
+      logSecurityEvent({
+        event: SECURITY_EVENTS.bodyTooLarge,
+        request,
+        outcome: "blocked",
+        reason: "report-confirm-body",
+      });
+    }
+    return body.response;
+  }
+  const parsed = reportConfirmSchema.safeParse(body.value);
   if (!parsed.success) return Response.json({ error: "Invalid payload." }, { status: 400 });
 
   try {
