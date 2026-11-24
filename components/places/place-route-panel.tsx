@@ -92,6 +92,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
           {loading ? "Building route…" : "Build route"}
         </Button>
         <a
+          aria-label={`Open route to ${place.name} in Google Maps`}
           href={`https://www.google.com/maps/dir/?api=1&origin=7.2906,80.6337&destination=${place.lat},${place.lng}&travelmode=${mode === "walk" ? "walking" : "driving"}`}
           target="_blank"
           rel="noreferrer"
