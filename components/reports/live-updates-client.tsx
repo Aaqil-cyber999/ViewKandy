@@ -115,7 +115,7 @@ export function LiveUpdatesClient() {
 
       {configured === false && (
         <div className="rounded-xl border border-amber/20 bg-amber/[0.05] p-3 text-[13px] text-muted">
-          Community reporting database/migration is not configured. Apply <code>drizzle/0001_community_reports.sql</code> with a configured <code>DATABASE_URL</code>.
+          Community reporting database is not configured. Apply the reporting migrations in <code>drizzle/</code> with a configured <code>DATABASE_URL</code>.
         </div>
       )}
       {error && <p className="text-[13px] text-red-700">{error}</p>}
