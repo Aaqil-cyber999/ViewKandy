@@ -65,6 +65,12 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // API responses may contain report state, session-dependent data or
+        // provider-backed enrichment. Never let a shared cache store them.
+        source: "/api/:path*",
+        headers: [{ key: "Cache-Control", value: "no-store, max-age=0" }],
+      },
+      {
         // Cesium's static runtime is large and immutable; cache it hard.
         source: "/cesium/:path*",
         headers: [
