@@ -45,6 +45,7 @@ The seed data is validated at module load and again by tests. If a field would b
 | `/saved` | Local-first favourites, pinned places and saved itineraries; optional Supabase account sync |
 | `/auth` | Supabase Auth sign-in/sign-up when configured; local mode otherwise |
 | `/admin` | HMAC-cookie protected editorial console: stats, search, create/edit/delete, verification guard, audit log |
+| `/updates` | Community visitor-update feed with category/recency filters and 60-second refresh |
 | `/offline` | PWA offline fallback page |
 | `/api/*` | Catalogue, weather, routes, live nearby places/services, assistant, admin and account-save APIs |
 
