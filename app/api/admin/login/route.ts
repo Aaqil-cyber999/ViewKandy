@@ -8,6 +8,12 @@ import {
 } from "@/lib/auth/admin";
 import { adminLoginSchema } from "@/lib/validation/schemas";
 import { clientKey, rateLimit, tooManyRequests } from "@/lib/utils/rate-limit";
+import {
+  forbiddenOriginResponse,
+  isCrossOriginRequest,
+  readJsonBody,
+} from "@/lib/security/http";
+import { logSecurityEvent, SECURITY_EVENTS } from "@/lib/security/events";
 
 export async function POST(request: NextRequest) {
   if (!adminConfigured()) {
@@ -21,22 +27,52 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const limited = rateLimit(clientKey(request, "admin-login"), 6, 60_000);
-  if (!limited.allowed) return tooManyRequests(limited);
-
-  let json: unknown;
-  try {
-    json = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+  if (isCrossOriginRequest(request)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.crossOriginMutation,
+      request,
+      outcome: "blocked",
+      reason: "admin-login-origin",
+    });
+    return forbiddenOriginResponse();
   }
 
-  const parsed = adminLoginSchema.safeParse(json);
+  const limited = rateLimit(clientKey(request, "admin-login"), 6, 60_000);
+  if (!limited.allowed) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.rateLimited,
+      request,
+      outcome: "blocked",
+      reason: "admin-login",
+    });
+    return tooManyRequests(limited);
+  }
+
+  const body = await readJsonBody(request);
+  if (!body.ok) {
+    if (body.response.status === 413) {
+      logSecurityEvent({
+        event: SECURITY_EVENTS.bodyTooLarge,
+        request,
+        outcome: "blocked",
+        reason: "admin-login-body",
+      });
+    }
+    return body.response;
+  }
+
+  const parsed = adminLoginSchema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Enter a valid email and password." }, { status: 400 });
   }
 
   if (!checkAdminCredentials(parsed.data.email, parsed.data.password)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.loginFailed,
+      request,
+      outcome: "failure",
+      reason: "admin-credentials",
+    });
     return NextResponse.json({ error: "Invalid credentials." }, { status: 401 });
   }
 

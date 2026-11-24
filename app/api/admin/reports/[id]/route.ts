@@ -3,15 +3,37 @@ import { AdminAuthError, requireAdmin } from "@/lib/auth/admin";
 import { databaseConfigured } from "@/lib/db/client";
 import { reportModerationSchema } from "@/lib/validation/schemas";
 import { moderateReport } from "@/lib/reports/service";
+import {
+  forbiddenOriginResponse,
+  isCrossOriginRequest,
+  readJsonBody,
+} from "@/lib/security/http";
+import { logSecurityEvent, SECURITY_EVENTS } from "@/lib/security/events";
 
 export const dynamic = "force-dynamic";
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (isCrossOriginRequest(request)) {
+    logSecurityEvent({
+      event: SECURITY_EVENTS.crossOriginMutation,
+      request,
+      outcome: "blocked",
+      reason: "admin-moderation-origin",
+    });
+    return forbiddenOriginResponse();
+  }
+
   let session;
   try {
     session = await requireAdmin();
   } catch (error) {
     if (error instanceof AdminAuthError) {
+      logSecurityEvent({
+        event: SECURITY_EVENTS.adminDenied,
+        request,
+        outcome: "blocked",
+        reason: "admin-moderation-session",
+      });
       return Response.json({ error: error.message }, { status: 401 });
     }
     throw error;
@@ -20,9 +42,19 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     return Response.json({ error: "Database not configured." }, { status: 503 });
   }
   const { id } = await params;
-  let json: unknown;
-  try { json = await request.json(); } catch { return Response.json({ error: "Invalid JSON body." }, { status: 400 }); }
-  const parsed = reportModerationSchema.safeParse(json);
+  const body = await readJsonBody(request);
+  if (!body.ok) {
+    if (body.response.status === 413) {
+      logSecurityEvent({
+        event: SECURITY_EVENTS.bodyTooLarge,
+        request,
+        outcome: "blocked",
+        reason: "admin-moderation-body",
+      });
+    }
+    return body.response;
+  }
+  const parsed = reportModerationSchema.safeParse(body.value);
   if (!parsed.success) {
     return Response.json({ error: "Invalid moderation payload.", issues: parsed.error.flatten() }, { status: 400 });
   }
