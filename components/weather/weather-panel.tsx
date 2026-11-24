@@ -51,7 +51,7 @@ export function WeatherPanel({
     <div className="rounded-2xl border border-line/80 bg-surface/50 p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="kv-label">Kandy weather (live forecast)</p>
+          <p className="kv-label">{compact ? "Kandy weather" : "Kandy weather (live forecast)"}</p>
           <div className="mt-2 flex items-center gap-3">
             <WeatherIcon icon={weather.current.condition.icon} className="h-8 w-8 text-accent" />
             <div>
