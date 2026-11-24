@@ -16,6 +16,7 @@ const EXTRA_LINKS = [
   { href: "/updates", label: "Live updates" },
   { href: "/saved", label: "Saved places" },
   { href: "/auth", label: "Account" },
+  { href: "/security", label: "Security & trust" },
   { href: "/admin", label: "Editorial admin" },
   { href: "/offline", label: "Offline mode" },
 ];
