@@ -68,6 +68,7 @@ export function PlaceReportSummary({ placeSlug }: { placeSlug: string }) {
           ? "No recent visitor reports for this place."
           : `${current.length} current · ${visible.length} total`}
       </span>
+      <span className="text-muted-2">Community reports are not official confirmations.</span>
       {latest && (
         <span className="text-muted-2">
           Latest: {latest.issue} ({latest.freshness.replaceAll("_", " ")})
