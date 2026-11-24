@@ -102,6 +102,7 @@ export function PlaceRoutePanel({ place }: { place: Place }) {
           Open in Google Maps
         </a>
         <a
+          aria-label={`Open Street View for ${place.name}`}
           href={streetViewUrl(place)}
           target="_blank"
           rel="noreferrer"
