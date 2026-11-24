@@ -121,11 +121,16 @@ export function LiveUpdatesClient() {
       {error && <p className="text-[13px] text-red-700">{error}</p>}
 
       {loading ? (
-        <p className="text-[14px] text-muted">Loading updates…</p>
+        <p className="text-[14px] text-muted" role="status">Loading updates…</p>
       ) : filtered.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-line p-6 text-center text-[14px] text-muted-2">No updates match the current filters.</div>
+        <div className="rounded-xl border border-dashed border-line p-6 text-center text-[14px] text-muted-2">
+          <p>No updates match the current filters.</p>
+          <p className="mt-1 text-[12px]">
+            New reports appear after a visitor submits one from a destination page and an editor reviews it.
+          </p>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-3" aria-live="polite">
           {filtered.map((r) => (
             <article key={r.id} className="rounded-xl border border-line/70 bg-surface/50 p-4">
               <div className="flex flex-wrap items-center gap-2">
