@@ -184,9 +184,11 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
                     "kv-focus text-[13px] transition",
                     isLightHeader ? "text-white/75 hover:text-white" : "text-muted hover:text-foreground",
+                    isActive(item.href) && (isLightHeader ? "text-gold" : "text-accent"),
                   )}
                 >
                   {item.label}
