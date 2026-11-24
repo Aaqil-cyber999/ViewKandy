@@ -54,7 +54,7 @@ function freshnessBadge(r: Report) {
   if (r.moderationStatus === "approved") return <Badge variant="accent">Verified by admin</Badge>;
   if (r.freshness === "potentially_outdated" || r.status === "expired") return <Badge variant="neutral">Potentially outdated</Badge>;
   if (r.freshness === "recent") return <Badge variant="accent">Recently reported</Badge>;
-  return <Badge variant="neutral">Receiving confirmations</Badge>;
+  return <Badge variant="neutral">Awaiting confirmation</Badge>;
 }
 
 export function LiveUpdatesClient() {
