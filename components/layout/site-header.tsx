@@ -151,6 +151,7 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
                     "kv-focus flex items-baseline gap-4 border-b py-4",
                     isLightHeader
