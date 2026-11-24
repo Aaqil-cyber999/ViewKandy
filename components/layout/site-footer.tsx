@@ -15,6 +15,7 @@ const PLAN_LINKS = [
   { href: "/planner", label: "Trip planner" },
   { href: "/assistant", label: "AI assistant" },
   { href: "/auth", label: "Account" },
+  { href: "/security", label: "Security & trust" },
   { href: "/admin", label: "Editorial admin" },
 ];
 
