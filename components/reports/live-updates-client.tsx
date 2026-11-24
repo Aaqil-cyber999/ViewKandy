@@ -101,11 +101,11 @@ export function LiveUpdatesClient() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2 rounded-xl border border-line/70 bg-surface/40 p-3">
         <Filter className="h-4 w-4 text-muted-2" />
-        <Select value={category} onChange={(e) => setCategory(e.target.value)} className="w-auto min-w-[180px]">
+        <Select aria-label="Filter updates by category" value={category} onChange={(e) => setCategory(e.target.value)} className="w-auto min-w-[180px]">
           <option value="all">All categories</option>
           {Object.entries(CATEGORY_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
         </Select>
-        <Select value={recency} onChange={(e) => setRecency(e.target.value)} className="w-auto min-w-[180px]">
+        <Select aria-label="Filter updates by recency" value={recency} onChange={(e) => setRecency(e.target.value)} className="w-auto min-w-[180px]">
           <option value="all">All recency</option>
           <option value="recent">Recently reported</option>
           <option value="active">Active / not outdated</option>
