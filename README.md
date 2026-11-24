@@ -21,7 +21,7 @@ The project is built around one rule: **never invent a fact to make the screen l
 | Verification | Every seeded place is `unverified`; the admin console requires a source URL **and** a verification date before it can be marked verified |
 | 3D | Real Cesium globe + real coordinates + illustrative landmark massing. Google Photorealistic 3D Tiles are used only when a browser key is configured |
 | Routing | Geometric walking/driving estimates by default; live Google Routes geometry only when a server key is configured |
-| Weather | Live Open-Meteo data, or an explicit unavailable state. No cached or invented values |
+| Weather | Live Open-Meteo data with a full forecast on the homepage and a compact card in the planner; explicit unavailable state, no cached or invented values |
 | Google Places | Optional live nearby enrichment. Shown only when `GOOGLE_MAPS_SERVER_API_KEY` is configured; always labelled external and never treated as editorial verification |
 | OpenStreetMap services | Optional live Overpass query for ATMs, pharmacies, toilets and similar services. Attributed to © OpenStreetMap contributors (ODbL) |
 | Street View | Official Google Maps Street View deep links. No embedded image and no billed key exposed in the browser |
